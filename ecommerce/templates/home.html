@@ -1,0 +1,384 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}Bakeora | Freshly Baked Happiness{% endblock %}
+{% block content %}
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+  <div class="container">
+
+    <!-- LEFT: LOGO -->
+    <a class="navbar-brand d-flex flex-column">
+      <img src="{% static 'images/bakeora_logo.png' %}" alt="Bakeora Logo" class="logo-img">
+      <small class="tagline text-muted">Freshly Baked Happiness</small>
+    </a>
+
+    <!-- TOGGLER -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- CENTER + RIGHT -->
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <!-- CENTER MENU -->
+      <ul class="navbar-nav mx-auto gap-lg-4 mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#">Shop</a>
+          <ul class="dropdown-menu">
+
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#">Cakes</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Chocolate Cakes</a></li>
+                <li><a class="dropdown-item" href="#">Fruit Cakes</a></li>
+                <li><a class="dropdown-item" href="#">Custom Cakes</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#">Desserts</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Brownies</a></li>
+                <li><a class="dropdown-item" href="#">Jar Desserts</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" href="#">Puddings</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Caramel</a></li>
+                <li><a class="dropdown-item" href="#">Bread Pudding</a></li>
+              </ul>
+            </li>
+
+            <li><a class="dropdown-item" href="#">Sugar-Free</a></li>
+            <li><a class="dropdown-item" href="#">Dry Fruits</a></li>
+            <li><a class="dropdown-item" href="#">Gift</a></li>
+
+          </ul>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="#popular">Signature</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- RIGHT ICONS -->
+      <div class="d-flex gap-3">
+        <a href="#" class="text-dark">🔍</a>
+        <a href="#" class="text-dark">👤</a>
+        <a href="#" class="text-dark position-relative">
+          🛒
+          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"></span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section id="home" class="hero d-flex align-items-center text-center">
+  <div class="container">
+    <h1 class="fw-bold">Celebrate Every Moment with Bakeora</h1>
+    <p class="lead mt-3">Cakes, Desserts, Puddings & Sugar-Free Delights</p>
+    <a href="" class="btn btn-lg mt-3 order-btn">Order Now</a>
+  </div>
+</section>
+
+
+<!-- ================= WHY BAKEORA ================= -->
+<section id="about" class="py-5 why-bakeora">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <!-- LEFT: CONTENT -->
+      <div class="col-md-6">
+        <h2 class="mb-4 why-title">Why Bakeora</h2>
+
+        <p class="why-text">
+          Bakeora is a premium dessert brand that brings freshly baked happiness to every celebration.
+          We offer a wide range of freshly baked cakes, handcrafted desserts, puddings, dry fruits,
+          and sugar-free options, all made using high-quality ingredients.
+        </p>
+
+        <p class="why-text">
+          Every dessert at Bakeora is prepared with care, love, and attention to detail. Our skilled
+          bakers use rich cocoa, fresh milk, fruits, and nuts to create desserts that are not only
+          delicious but also fresh and satisfying in every bite.
+        </p>
+
+        <p class="why-text">
+          We believe that desserts are more than just food — they are part of special moments.
+          Whether it’s a birthday, a celebration, a thoughtful gift, or a small sweet break for
+          yourself, Bakeora adds warmth and joy to every occasion.With a strong focus on quality, taste, and customer
+          happiness, Bakeora is committed to
+          delivering desserts you can trust and truly enjoy, every single time.
+        </p>
+
+      </div>
+
+      <!-- RIGHT: IMAGE -->
+      <div class="col-md-6 text-center">
+        <img src="{% static 'images/about.png' %}" alt="Why Bakeora" class="img-fluid why-img">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= SHOP ================= -->
+<section id="shop" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Explore Our Delights</h2>
+
+    <div class="row g-4">
+
+      <!-- Cakes -->
+      <div class="col-6 col-md-4">
+        <a href="/cakes/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/cakes.jpg' %}" alt="Cakes">
+            <div class="shop-overlay">
+              <h5>Cakes</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Puddings -->
+      <div class="col-6 col-md-4">
+        <a href="/puddings/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/puddings.jpg' %}" alt="Puddings">
+            <div class="shop-overlay">
+              <h5>Puddings</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desserts -->
+      <div class="col-6 col-md-4">
+        <a href="/desserts/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/desserts.jpg' %}" alt="Desserts">
+            <div class="shop-overlay">
+              <h5>Desserts</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Dry Fruits -->
+      <div class="col-6 col-md-4">
+        <a href="/dry-fruits/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/dryfruits.jpg' %}" alt="Dry Fruits">
+            <div class="shop-overlay">
+              <h5>Dry Fruits</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Sugar-Free -->
+      <div class="col-6 col-md-4">
+        <a href="/sugar-free/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/sugarfree.jpg' %}" alt="Sugar Free">
+            <div class="shop-overlay">
+              <h5>Sugar-Free</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Gift Boxes -->
+      <div class="col-6 col-md-4">
+        <a href="/gift-boxes/" class="shop-link">
+          <div class="shop-card">
+            <img src="{% static 'images/giftboxes.jpg' %}" alt="Gift Boxes">
+            <div class="shop-overlay">
+              <h5>Gift Boxes</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= POPULAR ================= -->
+<section id="popular" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold">Popular Picks</h2>
+
+    <div class="row g-4">
+
+      <!-- Card 1 -->
+      <div class="col-md-3 col-6">
+        <div class="card popular-card h-100 text-center">
+          <img src="{% static 'images/choclate.jpg' %}" class="card-img-top" alt="Chocolate Truffle Cake">
+          <div class="card-body">
+  <div class="popular-content">
+    <h6 class="card-title">Chocolate Truffle Cake</h6>
+    <p class="card-text">
+      Rich chocolate layers with smooth truffle frosting
+    </p>
+  </div>
+</div>
+
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-3 col-6">
+        <div class="card popular-card h-100 text-center">
+          <img src="{% static 'images/RedVelvet.jpg' %}" class="card-img-top" alt="Red Velvet Jar Cake">
+          <div class="card-body">
+            <div class="popular-content">
+            <h6 class="card-title">Red Velvet Jar Cake</h6>
+             <p class="card-text">
+            Soft red velvet cake layered with creamy frosting
+          </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-3 col-6">
+        <div class="card popular-card h-100 text-center">
+          <img src="{% static 'images/LotusBiscoff.jpg' %}" class="card-img-top" alt="Caramel Pudding">
+          <div class="card-body">
+            <div class="popular-content">
+            <h6 class="card-title">Caramel Biscoff Pudding</h6>
+             <p class="card-text">
+            Creamy caramel pudding with crunchy Biscoff layers
+          </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="col-md-3 col-6">
+        <div class="card popular-card h-100 text-center">
+          <img src="{% static 'images/gift.jpg' %}" class="card-img-top" alt="Dessert Gift Box">
+          <div class="card-body">
+            <div class="popular-content">
+            <h6 class="card-title">Dessert Gift Box</h6>
+            <p class="card-text">
+            A delightful box of assorted desserts, perfect for gifting loved ones
+          </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section id="reviews" class="py-5 bg-light text-center">
+  <div class="container">
+    <h2>Customer Reviews</h2>
+    <p class="mt-3">⭐⭐⭐⭐⭐ Trusted by dessert lovers</p>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact-section py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-4 contact-title">Contact Us</h2>
+    <p class="text-center text-muted mb-5">
+      Have a question or want to place a custom order? We’d love to hear from you.
+    </p>
+
+    <div class="contact-card mx-auto">
+      <form>
+
+        <!-- Name -->
+        <div class="mb-4">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control contact-input" placeholder="Your name">
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control contact-input" placeholder="your.email@example.com">
+        </div>
+
+        <!-- Message -->
+        <div class="mb-4">
+          <label class="form-label">Message</label>
+          <textarea rows="4" class="form-control contact-input"
+            placeholder="Tell us about your order, customization, or inquiry..."></textarea>
+        </div>
+
+        <!-- Button -->
+        <button type="submit" class="btn contact-btn w-100">
+          Send Message
+        </button>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="bakeora-footer">
+  <div class="container py-5">
+    <div class="row gy-4">
+
+      <!-- Quick Links -->
+      <div class="col-md-4">
+        <h5 class="footer-title">Quick Links</h5>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#popular">Signature</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-md-4">
+        <h5 class="footer-title">Contact</h5>
+        <p class="footer-text">
+          📞 +91 98765 43210 <br>
+          📍 Calicut, Kerala <br>
+          ✉️ bakeora@gmail.com
+        </p>
+      </div>
+
+      <!-- Follow Us -->
+      <div class="col-md-4">
+        <h5 class="footer-title">Follow Us</h5>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="footer-line">
+
+    <p class="text-center footer-copy">
+      © 2026 Bakeora | Freshly Baked Happiness
+    </p>
+  </div>
+</footer>
+
+
+{% endblock %}

@@ -1,0 +1,434 @@
+/* ================= GLOBAL ================= */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 80px; /* EXACT navbar height */
+  margin: 0;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  height: 80px;              /* LOCKED height */
+  padding: 0;
+}
+
+.navbar .container {
+  height: 100%;
+  display: flex;
+  align-items: center;       /* vertical centering */
+}
+
+/* ================= LOGO ================= */
+.navbar-brand {
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  text-align: center;
+}
+
+/* LOGO — bigger but navbar-safe */
+.logo-img {
+  max-height: 156px;          /* ✔ increase logo safely */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin-top: -47px;
+}
+
+/* Tagline under logo */
+.tagline {
+  font-size: 13px;
+  margin-top: -50px;
+  letter-spacing: 0.4px;
+  line-height: 1.1;
+}
+
+/* ================= MENU ================= */
+.navbar-nav {
+  align-items: center;
+}
+
+.navbar-nav .nav-link {
+  padding: 0;
+  font-weight: 500;
+}
+
+/* ================= DROPDOWN (HOVER) ================= */
+.navbar .dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+/* Submenu */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+  display: none;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
+/* Dropdown arrow alignment */
+.dropdown-toggle::after {
+  float: right;
+  margin-top: 6px;
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 992px) {
+  .navbar {
+    height: auto;
+    padding: 8px 0;
+  }
+
+  .logo-img {
+    max-height: 48px;
+  }
+
+  .dropdown-submenu > .dropdown-menu {
+    left: 0;
+  }
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;   /* REQUIRED */
+  min-height: 100vh;
+  background-image: url('/static/images/homebanner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  overflow: hidden;     /* KEY FIX */
+}
+
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;             /* replaces width/height issues */
+  background-color: rgba(145, 143, 143, 0.35);
+  z-index: 1;
+}
+
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ================= CARDS ================= */
+.card {
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ================= RIGHT ICONS ================= */
+.navbar .d-flex {
+  align-items: center;
+}
+.order-btn {
+  background-color: #d4b18c;  /* slightly darker beige */
+  color: #ffffff;
+  border: none;
+  padding: 12px 32px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 30px;         /* soft rounded look */
+  transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+  background-color: #e6c9a8;   /* nude beige */
+  color: #ffffff;             /* white text */
+  transform: translateY(-2px);
+}
+/* ================= WHY BAKEORA ================= */
+.why-bakeora {
+  background-color: #fffaf5; /* soft bakery nude background */
+}
+
+.why-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.why-text {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #6c757d; /* Bootstrap muted tone */
+}
+
+/* Image styling */
+.why-img {
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  max-width: 90%;
+}
+
+/* Mobile spacing */
+@media (max-width: 768px) {
+  .why-img {
+    margin-top: 20px;
+  }
+}
+/* ================= POPULAR PICKS ================= */
+
+/* Card base */
+.popular-card {
+  border: 1px solid #dbdada;   /* soft visible border */
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: all 0.35s ease;
+}
+
+/* Hover effect */
+.popular-card:hover {
+  transform: translateY(-8px);
+  border-color: #d6c3a3;       /* nude / beige highlight */
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+
+
+/* Image wrapper */
+.popular-card img {
+  height: 280px;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Image zoom on hover */
+.popular-card:hover img {
+  transform: scale(1.08);
+}
+
+/* Card body */
+.popular-card .card-body {
+  padding: 20px 16px 24px;
+}
+
+/* Title */
+.popular-card .card-title {
+  font-weight: 600;
+  font-size: 17px;
+  margin-top: 18px;
+  color: #222;
+}
+
+/* Description */
+.popular-card .card-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+/* Inner content width for clean look */
+.popular-content {
+  max-width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Soft divider between image & content */
+.popular-card img {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+/* Extra breathing space */
+.popular-card .card-body {
+  background-color: #fff;
+}
+/* ================= CONTACT ================= */
+
+.contact-section {
+  background: linear-gradient(180deg, #f8f5f2, #f4ede5);
+}
+
+.contact-title {
+  color: #3a2e2a;              
+  letter-spacing: 0.5px;
+}
+
+
+/* Contact card */
+.contact-card {
+  max-width: 700px;
+  background: #fcfcfc;
+  border-radius: 24px;
+  padding: 40px 36px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
+
+
+/* Labels */
+.contact-card .form-label {
+  color: #3a2e2a;
+  font-weight: 500;
+}
+
+
+/* Inputs */
+.contact-input {
+  background: #fff;
+  border: 1px solid #e2d6c3;
+  border-radius: 14px;
+  padding: 14px 18px;
+  color: #333;
+}
+
+.contact-input::placeholder {
+  color: #9a8f86;
+}
+
+.contact-input:focus {
+  border-color: #d6c3a3;
+  box-shadow: 0 0 0 0.2rem rgba(214,195,163,0.35);
+}
+
+
+/* Button */
+.contact-btn {
+  background: #d6c3a3;
+  color: #2a1f1a;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: #cbb48d;
+  transform: translateY(-2px);
+}
+/* ================= FOOTER ================= */
+.bakeora-footer {
+  background: linear-gradient(180deg, #1c1c1c, #0f0f0f);
+  color: #ddd;
+}
+
+.footer-title {
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #d6c3a3; /* Bakeora beige */
+}
+
+.footer-text {
+  line-height: 1.8;
+  color: #bbb;
+}
+
+.footer-social {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  background: #d6c3a3;
+  color: #1c1c1c;
+  transform: translateY(-3px);
+}
+
+.footer-line {
+  border-color: rgba(255,255,255,0.08);
+  margin: 30px 0;
+}
+
+.footer-copy {
+  font-size: 14px;
+  color: #aaa;
+}
+.shop-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  height: 330px;        /* height > width */
+}
+
+.shop-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* keeps image clean */
+  transition: transform 0.4s ease;
+}
+
+.shop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.shop-overlay h5 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Hover effect (optional but premium) */
+.shop-card:hover img {
+  transform: scale(1.08);
+}
+
+.shop-card:hover .shop-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+.shop-link {
+  text-decoration: none;
+  display: block;
+}
+
