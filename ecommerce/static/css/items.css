@@ -1,0 +1,349 @@
+/* ================= HERO ================= */
+.cakes-hero {
+  height: 100vh;
+  background-image: url("../images/cake_banner.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.cakes-hero-overlay {
+  background: rgba(0, 0, 0, 0.35); /* dark overlay for text */
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.cakes-hero-text {
+  color: #ffffff;
+  max-width: 520px;
+}
+
+.cakes-hero-text h1 {
+  font-size: 46px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cakes-hero-text p {
+  font-size: 16px;
+  margin-bottom: 18px;
+  opacity: 0.95;
+}
+
+.cakes-order-btn {
+  background: #f4efe9;
+  color: #333;
+  padding: 12px 34px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ================= CAKE CATEGORIES ================= */
+.cakes-categories {
+  padding: 40px 0;
+}
+
+.cakes-category-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.cakes-category {
+  width: 85px;
+  min-height: 85px;
+  border: 1.5px solid #e7d3b1;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cakes-category i {
+  font-size: 26px;
+  color: #c8a97e;
+}
+
+.cakes-category span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.cakes-category:hover {
+  background: #c8a97e;
+}
+
+.cakes-category:hover i,
+.cakes-category:hover span {
+  color: #fff;
+}
+
+/* ================= CAKES FILTER BAR ================= */
+.cakes-filter-bar {
+  position: sticky;
+  top: 80px; /* below navbar */
+  z-index: 50;
+  background: #fffaf5;
+  padding: 18px 0;
+  border-bottom: 1px solid #eee2d2;
+}
+.cakes-filter-bar .container {
+  max-width: 1100px;
+}
+
+
+/* Inner alignment */
+.cakes-filter-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+
+
+/* Dropdown base */
+.cakes-filter {
+  min-width: 170px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #e2d6c3;
+  background-color: #ffffff;
+  color: #6b5b4b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none; /* removes default arrow */
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 14px;
+  padding-right: 42px;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.cakes-filter:hover {
+  border-color: #d6c3a3;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Focus */
+.cakes-filter:focus {
+  outline: none;
+  border-color: #cbb48d;
+  box-shadow: 0 0 0 3px rgba(214,195,163,0.35);
+}
+
+/* Placeholder color */
+.cakes-filter option[disabled] {
+  color: #9a8f86;
+}
+
+/* Dropdown options */
+.cakes-filter option {
+  color: #2f2a25;
+  font-weight: 500;
+}
+
+/* Mobile friendly */
+@media (max-width: 576px) {
+  .cakes-filter-inner {
+    grid-template-columns: 1fr;
+  }
+}
+  .cakes-filter {
+    width: 100%;
+  }
+
+
+
+/* ================= GRID ================= */
+.cakes-section {
+  padding: 50px 0;
+}
+
+.cakes-section-title {
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.cakes-grid {
+  column-count: 4;
+  column-gap: 20px;
+}
+
+.cakes-card {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.cakes-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.cakes-card h6 {
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* ================= HOVER ================= */
+.cakes-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s;
+  border-radius: 10px;
+}
+
+.cakes-hover span {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.cakes-hover button {
+  background: #f4efe9;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.cakes-card:hover .cakes-hover {
+  opacity: 1;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 992px) {
+  .cakes-grid { column-count: 2; }
+}
+
+@media (max-width: 576px) {
+  .cakes-grid { column-count: 1; }
+  .cakes-hover button { width: 80%; }
+}
+
+/* ================= PUDDINGS PAGE ================= */
+
+.puddings-hero {
+  height: 90vh;
+  background: url("/static/images/pudding_banner.png") center/cover no-repeat;
+  position: relative;
+}
+
+.puddings-hero-overlay {
+  background: rgba(0,0,0,0.35);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.puddings-hero h1 {
+  color: #fff;
+  font-size: 44px;
+  font-weight: 600;
+}
+
+.puddings-hero p {
+  color: #f4efe9;
+}
+
+/* Filter bar */
+.puddings-filter-bar {
+  position: sticky;
+  top: 80px;
+  background: #fffaf5;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee2d2;
+  z-index: 40;
+}
+
+.puddings-filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pudding-filter {
+  border: 1px solid #e2d6c3;
+  background: #fff;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pudding-filter.active,
+.pudding-filter:hover {
+  background: #c8a97e;
+  color: #fff;
+}
+
+/* Grid */
+.puddings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  padding: 40px 0;
+}
+
+.pudding-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.pudding-card:hover {
+  transform: translateY(-6px);
+}
+
+.pudding-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.pudding-card h6 {
+  margin: 12px;
+  font-weight: 500;
+}
+
+.pudding-price {
+  margin: 0 12px 16px;
+  font-weight: 600;
+  color: #c8a97e;
+}
+
+/* Tags */
+.pudding-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #c8a97e;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.pudding-tag.green { background: #2e8b57; }
+.pudding-tag.vegan { background: #5f8d4e; }

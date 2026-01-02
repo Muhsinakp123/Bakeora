@@ -1,6 +1,137 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load static %}
-{% block title %}Bakeora | Freshly Baked Happiness{% endblock %}
+
+{% block title %}Cakes | Bakeora{% endblock %}
+
 {% block content %}
-<h1>cakes</h1>
+
+<!-- ================= HERO HEADER ================= -->
+<section class="cakes-hero">
+  <div class="cakes-hero-overlay">
+    <div class="container">
+      <div class="cakes-hero-text">
+        <h1>Signature Creations</h1>
+        <p>Handcrafted cakes for every celebration</p>
+        <a href="#" class="cakes-order-btn">Custom Order</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATEGORY BUBBLES ================= -->
+<section class="cakes-categories">
+  <div class="container">
+    <div class="cakes-category-row">
+
+      <div class="cakes-category">
+        <i class="bi bi-heart"></i>
+        <span>Wedding</span>
+      </div>
+
+      <div class="cakes-category">
+        <i class="bi bi-cake2"></i>
+        <span>Birthday</span>
+      </div>
+
+      <div class="cakes-category">
+        <i class="bi bi-box"></i>
+        <span>Bento</span>
+      </div>
+
+      <div class="cakes-category">
+        <i class="bi bi-leaf"></i>
+        <span>Vegan</span>
+      </div>
+
+      <div class="cakes-category">
+        <i class="bi bi-emoji-smile"></i>
+        <span>Kids</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= STICKY FILTER BAR ================= -->
+<section class="cakes-filter-bar">
+  <div class="container cakes-filter-inner">
+
+    <select class="cakes-filter">
+      <option value="" disabled selected hidden>Flavor</option>
+      <option value="chocolate">Chocolate</option>
+      <option value="vanilla">Vanilla</option>
+      <option value="red-velvet">Red Velvet</option>
+    </select>
+
+    <select class="cakes-filter">
+      <option value="" disabled selected hidden>Presentation</option>
+      <option value="classic">Classic</option>
+      <option value="designer">Designer</option>
+      <option value="photo">Photo Cake</option>
+    </select>
+
+    <select class="cakes-filter">
+      <option value="" disabled selected hidden>Structure</option>
+      <option value="single">Single Tier</option>
+      <option value="double">Double Tier</option>
+      <option value="bento">Bento</option>
+    </select>
+
+    <select class="cakes-filter">
+      <option value="" disabled selected hidden>Price</option>
+      <option value="low-high">Low → High</option>
+      <option value="high-low">High → Low</option>
+    </select>
+
+  </div>
+</section>
+
+
+<!-- ================= BEST SELLERS ================= -->
+<section class="cakes-section">
+  <div class="container">
+    <div class="cakes-grid">
+
+      <!-- Cake Card -->
+      <div class="cakes-card">
+        <img src="{% static 'images/ctc.jpg' %}">
+        <div class="cakes-hover">
+          <span>₹650</span>
+          <button>Add to Cart</button>
+        </div>
+        <h6>Chocolate Truffle Cake</h6>
+      </div>
+
+      <div class="cakes-card tall">
+        <img src="{% static 'images/rvc.jpg' %}">
+        <div class="cakes-hover">
+          <span>₹580</span>
+          <button>Add to Cart</button>
+        </div>
+        <h6>Red Velvet Cake</h6>
+      </div>
+
+      <div class="cakes-card">
+        <img src="{% static 'images/floral.jpg' %}">
+        <div class="cakes-hover">
+          <span>₹720</span>
+          <button>Add to Cart</button>
+        </div>
+        <h6>Premium Floral Cake</h6>
+      </div>
+
+      <div class="cakes-card tall">
+        <img src="{% static 'images/lbc.jpg' %}">
+        <div class="cakes-hover">
+          <span>₹680</span>
+          <button>Add to Cart</button>
+        </div>
+        <h6>Lemon Blueberry Cake</h6>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 {% endblock %}

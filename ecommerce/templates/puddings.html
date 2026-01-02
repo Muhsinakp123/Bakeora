@@ -1,6 +1,69 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load static %}
-{% block title %}Bakeora | Freshly Baked Happiness{% endblock %}
+
+{% block title %}Cakes | Bakeora{% endblock %}
+
 {% block content %}
-<h1>puddings</h1>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="puddings-hero">
+  <div class="puddings-hero-overlay">
+    <div class="container">
+      <h1>Pure Indulgence in Every Spoonful</h1>
+      <p>Warm, chilled & vegan puddings crafted with love</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTER TABS ===== -->
+<section class="puddings-filter-bar">
+  <div class="container">
+    <div class="puddings-filters">
+      <button class="pudding-filter active" data-filter="all">All</button>
+      <button class="pudding-filter" data-filter="warm">Warm</button>
+      <button class="pudding-filter" data-filter="chilled">Chilled</button>
+      <button class="pudding-filter" data-filter="vegan">Vegan</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== PRODUCTS GRID ===== -->
+<section class="puddings-section">
+  <div class="container">
+    <div class="puddings-grid">
+
+      <!-- Card -->
+      <div class="pudding-card warm">
+        <span class="pudding-tag">Staff Favorite</span>
+        <img src="/static/images/pudding1.jpg" alt="Chocolate Pudding">
+        <h6>Chocolate Lava Pudding</h6>
+        <p class="pudding-price">₹120</p>
+      </div>
+
+      <div class="pudding-card chilled">
+        <span class="pudding-tag green">Gluten-Free</span>
+        <img src="/static/images/pudding2.jpg" alt="Vanilla Pudding">
+        <h6>Classic Vanilla Pudding</h6>
+        <p class="pudding-price">₹100</p>
+      </div>
+
+      <div class="pudding-card vegan chilled">
+        <span class="pudding-tag vegan">Vegan</span>
+        <img src="/static/images/pudding3.jpg" alt="Coconut Pudding">
+        <h6>Coconut Milk Pudding</h6>
+        <p class="pudding-price">₹130</p>
+      </div>
+
+      <div class="pudding-card warm">
+        <span class="pudding-tag">Hot</span>
+        <img src="/static/images/pudding4.jpg" alt="Caramel Pudding">
+        <h6>Warm Caramel Pudding</h6>
+        <p class="pudding-price">₹140</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 {% endblock %}

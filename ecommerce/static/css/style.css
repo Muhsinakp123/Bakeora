@@ -30,19 +30,10 @@ body {
 
 /* LOGO — bigger but navbar-safe */
 .logo-img {
-  max-height: 156px;          /* ✔ increase logo safely */
+  max-height: 156px;          
   width: auto;
   object-fit: contain;
   display: block;
-  margin-top: -47px;
-}
-
-/* Tagline under logo */
-.tagline {
-  font-size: 13px;
-  margin-top: -50px;
-  letter-spacing: 0.4px;
-  line-height: 1.1;
 }
 
 /* ================= MENU ================= */

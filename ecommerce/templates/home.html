@@ -3,82 +3,6 @@
 {% block title %}Bakeora | Freshly Baked Happiness{% endblock %}
 {% block content %}
 
-<!-- ================= NAVBAR ================= -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
-  <div class="container">
-
-    <!-- LEFT: LOGO -->
-    <a class="navbar-brand d-flex flex-column">
-      <img src="{% static 'images/bakeora_logo.png' %}" alt="Bakeora Logo" class="logo-img">
-      <small class="tagline text-muted">Freshly Baked Happiness</small>
-    </a>
-
-    <!-- TOGGLER -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- CENTER + RIGHT -->
-    <div class="collapse navbar-collapse" id="mainNav">
-
-      <!-- CENTER MENU -->
-      <ul class="navbar-nav mx-auto gap-lg-4 mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#">Shop</a>
-          <ul class="dropdown-menu">
-
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#">Cakes</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Chocolate Cakes</a></li>
-                <li><a class="dropdown-item" href="#">Fruit Cakes</a></li>
-                <li><a class="dropdown-item" href="#">Custom Cakes</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#">Desserts</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Brownies</a></li>
-                <li><a class="dropdown-item" href="#">Jar Desserts</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#">Puddings</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Caramel</a></li>
-                <li><a class="dropdown-item" href="#">Bread Pudding</a></li>
-              </ul>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Sugar-Free</a></li>
-            <li><a class="dropdown-item" href="#">Dry Fruits</a></li>
-            <li><a class="dropdown-item" href="#">Gift</a></li>
-
-          </ul>
-        </li>
-
-        <li class="nav-item"><a class="nav-link" href="#popular">Signature</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-      </ul>
-
-      <!-- RIGHT ICONS -->
-      <div class="d-flex gap-3">
-        <a href="#" class="text-dark">🔍</a>
-        <a href="#" class="text-dark">👤</a>
-        <a href="#" class="text-dark position-relative">
-          🛒
-          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"></span>
-        </a>
-      </div>
-
-    </div>
-  </div>
-</nav>
 
 <!-- ================= HERO ================= -->
 <section id="home" class="hero d-flex align-items-center text-center">
@@ -140,7 +64,7 @@
 
       <!-- Cakes -->
       <div class="col-6 col-md-4">
-        <a href="/cakes/" class="shop-link">
+        <a href="{% url 'cakes' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/cakes.jpg' %}" alt="Cakes">
             <div class="shop-overlay">
@@ -152,7 +76,7 @@
 
       <!-- Puddings -->
       <div class="col-6 col-md-4">
-        <a href="/puddings/" class="shop-link">
+        <a href="{% url 'puddings' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/puddings.jpg' %}" alt="Puddings">
             <div class="shop-overlay">
@@ -164,7 +88,7 @@
 
       <!-- Desserts -->
       <div class="col-6 col-md-4">
-        <a href="/desserts/" class="shop-link">
+        <a href="{% url 'desserts' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/desserts.jpg' %}" alt="Desserts">
             <div class="shop-overlay">
@@ -176,7 +100,7 @@
 
       <!-- Dry Fruits -->
       <div class="col-6 col-md-4">
-        <a href="/dry-fruits/" class="shop-link">
+        <a href="{% url 'dryfruits' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/dryfruits.jpg' %}" alt="Dry Fruits">
             <div class="shop-overlay">
@@ -188,11 +112,11 @@
 
       <!-- Sugar-Free -->
       <div class="col-6 col-md-4">
-        <a href="/sugar-free/" class="shop-link">
+        <a href="{% url 'sugarfree' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/sugarfree.jpg' %}" alt="Sugar Free">
             <div class="shop-overlay">
-              <h5>Sugar-Free</h5>
+              <h5>Sugar-Free Items</h5>
             </div>
           </div>
         </a>
@@ -200,7 +124,7 @@
 
       <!-- Gift Boxes -->
       <div class="col-6 col-md-4">
-        <a href="/gift-boxes/" class="shop-link">
+        <a href="{% url 'gift' %}" class="shop-link">
           <div class="shop-card">
             <img src="{% static 'images/giftboxes.jpg' %}" alt="Gift Boxes">
             <div class="shop-overlay">
