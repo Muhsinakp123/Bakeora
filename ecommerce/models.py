@@ -1,3 +1,118 @@
 from django.db import models
 
 # Create your models here.
+
+class Cake(models.Model):
+    name = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='cakes/')
+    price = models.IntegerField()
+
+    category = models.CharField(
+        max_length=50,
+        choices=[
+            ('wedding', 'Wedding'),
+            ('birthday', 'Birthday'),
+            ('bento', 'Bento'),
+            ('vegan', 'Vegan'),
+            ('kids', 'Kids'),
+        ]
+    )
+
+    flavor = models.CharField(max_length=50)
+    structure = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Dessert(models.Model):
+    CATEGORY_CHOICES = [
+        ('pastries', 'Pastries'),
+        ('cookies_biscuits', 'Cookies & Biscuits'),
+        ('brownie', 'Brownie'),
+        ('frozen', 'Frozen'),
+        ('crepes_pancakes', 'Crepes & Pancakes'),
+        ('fruit', 'Fruit'),
+        ('fried', 'Fried'),
+        ('gelatin', 'Gelatin'),
+    ]
+
+    FLAVOR_CHOICES = [
+        ('chocolate', 'Chocolate'),
+        ('vanilla', 'Vanilla'),
+        ('fruit', 'Fruit'),
+        ('pistachio', 'Pistachio'),
+        ('strawberry', 'Strawberry'),
+        ('mango', 'Mango'),
+    ]
+
+    name = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='desserts/')
+    price = models.IntegerField()
+
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES
+    )
+
+    flavor = models.CharField(
+        max_length=50,
+        choices=FLAVOR_CHOICES
+    )
+
+    def __str__(self):
+        return self.name
+    
+class Pudding(models.Model):
+
+    STYLE_CHOICES = [
+        ('warm', 'Warm'),
+        ('chilled', 'Chilled'),
+        ('vegan', 'Vegan'),
+    ]
+
+    TAG_COLOR_CHOICES = [
+        ('default', 'Default'),
+        ('green', 'Green'),
+        ('vegan', 'Vegan'),
+    ]
+
+    FLAVOR_CHOICES = [
+        ('chocolate', 'Chocolate'),
+        ('vanilla', 'Vanilla'),
+        ('fruit', 'Fruit'),
+        ('pistachio', 'Pistachio'),
+        ('strawberry', 'Strawberry'),
+        ('mango', 'Mango'),
+    ]
+
+    name = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='puddings/')
+    price = models.IntegerField()
+
+    flavor = models.CharField(
+        max_length=50,
+        choices=FLAVOR_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    style = models.CharField(
+        max_length=20,
+        choices=STYLE_CHOICES,
+        default='chilled'
+    )
+
+    tag_text = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    tag_color = models.CharField(
+        max_length=20,
+        choices=TAG_COLOR_CHOICES,
+        default='default'
+    )
+
+    def __str__(self):
+        return self.name

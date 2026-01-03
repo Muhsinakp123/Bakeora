@@ -18,120 +18,221 @@
   </div>
 </section>
 
+<!-- ================= BEST SELLERS ================= -->
+<section class="cakes-best-sellers">
+  <div class="container">
+    <h2 class="cakes-section-title">Best Sellers</h2>
+    <p class="cakes-section-subtitle">
+      Our most loved cakes, chosen by customers
+    </p>
+
+    <div class="row g-4 mt-4">
+
+      <!-- Cake 1 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/ctc.jpg' %}" alt="Chocolate Truffle Cake">
+          <div class="best-seller-info">
+            <h5>Chocolate Truffle</h5>
+            <span>₹1,250</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 2 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/rvc.jpg' %}" alt="Red Velvet Cake">
+          <div class="best-seller-info">
+            <h5>Red Velvet</h5>
+            <span>₹1,150</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 3 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/floral.jpg' %}" alt="Floral Wedding Cake">
+          <div class="best-seller-info">
+            <h5>Floral Wedding Cake</h5>
+            <span>₹3,500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 4 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/lbc.jpg' %}" alt="Lemon Blueberry Cake">
+          <div class="best-seller-info">
+            <h5>Lemon Blueberry</h5>
+            <span>₹1,300</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- ================= CATEGORY BUBBLES ================= -->
 <section class="cakes-categories">
   <div class="container">
     <div class="cakes-category-row">
 
-      <div class="cakes-category">
+      <a href="?category=wedding" class="cakes-category">
         <i class="bi bi-heart"></i>
         <span>Wedding</span>
-      </div>
+      </a>
 
-      <div class="cakes-category">
+      <a href="?category=birthday" class="cakes-category">
         <i class="bi bi-cake2"></i>
         <span>Birthday</span>
-      </div>
+      </a>
 
-      <div class="cakes-category">
+      <a href="?category=bento" class="cakes-category">
         <i class="bi bi-box"></i>
         <span>Bento</span>
-      </div>
+      </a>
 
-      <div class="cakes-category">
+      <a href="?category=vegan" class="cakes-category">
         <i class="bi bi-leaf"></i>
         <span>Vegan</span>
-      </div>
+      </a>
 
-      <div class="cakes-category">
+      <a href="?category=kids" class="cakes-category">
         <i class="bi bi-emoji-smile"></i>
         <span>Kids</span>
-      </div>
+      </a>
 
     </div>
   </div>
 </section>
+
 
 
 <!-- ================= STICKY FILTER BAR ================= -->
 <section class="cakes-filter-bar">
-  <div class="container cakes-filter-inner">
+  <div class="container">
+    <form method="get" class="cakes-filter-inner">
 
-    <select class="cakes-filter">
-      <option value="" disabled selected hidden>Flavor</option>
-      <option value="chocolate">Chocolate</option>
-      <option value="vanilla">Vanilla</option>
-      <option value="red-velvet">Red Velvet</option>
-    </select>
+      <!-- keep selected category -->
+      {% if request.GET.category %}
+        <input type="hidden" name="category" value="{{ request.GET.category }}">
+      {% endif %}
 
-    <select class="cakes-filter">
-      <option value="" disabled selected hidden>Presentation</option>
-      <option value="classic">Classic</option>
-      <option value="designer">Designer</option>
-      <option value="photo">Photo Cake</option>
-    </select>
+      <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
+        <option value="" hidden>Flavor</option>
+        <option value="chocolate" {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>Chocolate</option>
+        <option value="vanilla" {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>Vanilla</option>
+        <option value="red-velvet" {% if request.GET.flavor == 'red-velvet' %}selected{% endif %}>Red Velvet</option>
+        <option value="Butterschoch" {% if request.GET.flavor == 'Butterschoch' %}selected{% endif %}>Butterschoch</option>
+        <option value="fruit-cakes" {% if request.GET.flavor == 'fruit-cakes' %}selected{% endif %}>Fruit Cakes</option>
+        <option value="cheese_cakes" {% if request.GET.flavor == 'cheese_cakes' %}selected{% endif %}>Cheese Cakes</option>
+      </select>
 
-    <select class="cakes-filter">
-      <option value="" disabled selected hidden>Structure</option>
-      <option value="single">Single Tier</option>
-      <option value="double">Double Tier</option>
-      <option value="bento">Bento</option>
-    </select>
+      <select name="structure" class="cakes-filter" onchange="this.form.submit()">
+        <option value="" hidden>Structure</option>
+        <option value="single" {% if request.GET.structure == 'single' %}selected{% endif %}>Single Tier</option>
+        <option value="double" {% if request.GET.structure == 'double' %}selected{% endif %}>Double Tier</option>
+        <option value="cupcakes" {% if request.GET.structure == 'cupcakes' %}selected{% endif %}>Cup Cakes</option>
+        <option value="sheetcakes" {% if request.GET.structure == 'sheetcakes' %}selected{% endif %}>Sheet Cakes</option>
+        <option value="spongecakes" {% if request.GET.structure == 'spongecakes' %}selected{% endif %}>Sponge Cakes</option>
+        <option value="themecakes" {% if request.GET.structure == 'themecakes' %}selected{% endif %}>Theme Cakes</option>
+      </select>
 
-    <select class="cakes-filter">
-      <option value="" disabled selected hidden>Price</option>
-      <option value="low-high">Low → High</option>
-      <option value="high-low">High → Low</option>
-    </select>
+      <select name="price" class="cakes-filter" onchange="this.form.submit()">
+  <option value="" hidden>Price</option>
 
+  <option value="300-600"
+    {% if request.GET.price == '300-600' %}selected{% endif %}>
+    ₹300 – ₹600
+  </option>
+
+  <option value="500-1000"
+    {% if request.GET.price == '500-1000' %}selected{% endif %}>
+    ₹500 – ₹1000
+  </option>
+
+  <option value="1000-1500"
+    {% if request.GET.price == '1000-1500' %}selected{% endif %}>
+    ₹1000 – ₹1500
+  </option>
+
+  <option value="low-high"
+    {% if request.GET.price == 'low-high' %}selected{% endif %}>
+    Low → High
+  </option>
+
+  <option value="high-low"
+    {% if request.GET.price == 'high-low' %}selected{% endif %}>
+    High → Low
+  </option>
+</select>
+
+
+    </form>
   </div>
 </section>
 
 
-<!-- ================= BEST SELLERS ================= -->
-<section class="cakes-section">
+<section class="cakes-grid">
   <div class="container">
-    <div class="cakes-grid">
+    <div class="row g-4">
 
-      <!-- Cake Card -->
-      <div class="cakes-card">
-        <img src="{% static 'images/ctc.jpg' %}">
-        <div class="cakes-hover">
-          <span>₹650</span>
-          <button>Add to Cart</button>
+      {% for cake in page_obj %}
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="cake-card">
+          <img src="{{ cake.image.url }}" alt="{{ cake.name }}">
+          <div class="cake-info">
+            <h5>{{ cake.name }}</h5>
+            <span>₹{{ cake.price }}</span>
+          </div>
         </div>
-        <h6>Chocolate Truffle Cake</h6>
       </div>
-
-      <div class="cakes-card tall">
-        <img src="{% static 'images/rvc.jpg' %}">
-        <div class="cakes-hover">
-          <span>₹580</span>
-          <button>Add to Cart</button>
-        </div>
-        <h6>Red Velvet Cake</h6>
-      </div>
-
-      <div class="cakes-card">
-        <img src="{% static 'images/floral.jpg' %}">
-        <div class="cakes-hover">
-          <span>₹720</span>
-          <button>Add to Cart</button>
-        </div>
-        <h6>Premium Floral Cake</h6>
-      </div>
-
-      <div class="cakes-card tall">
-        <img src="{% static 'images/lbc.jpg' %}">
-        <div class="cakes-hover">
-          <span>₹680</span>
-          <button>Add to Cart</button>
-        </div>
-        <h6>Lemon Blueberry Cake</h6>
-      </div>
+      {% endfor %}
 
     </div>
   </div>
 </section>
+
+<!-- ================= PAGINATION ================= -->
+<div class="pagination-wrap">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">
+        Previous
+      </a>
+    </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+      <a class="page-link"
+         href="?{{ request.GET.urlencode }}&page={{ num }}">
+        {{ num }}
+      </a>
+    </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">
+        Next
+      </a>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+
+
+
 
 {% endblock %}

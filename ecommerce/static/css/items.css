@@ -7,6 +7,14 @@
   background-repeat: no-repeat;
   position: relative;
 }
+.dessert-hero {
+  height: 100vh;
+  background-image: url("../images/dessert_banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
 
 .cakes-hero-overlay {
   background: rgba(0, 0, 0, 0.35); /* dark overlay for text */
@@ -165,84 +173,77 @@
 
 
 
-/* ================= GRID ================= */
-.cakes-section {
-  padding: 50px 0;
+/* ================= BEST SELLERS ================= */
+.cakes-best-sellers {
+  padding: 70px 0;
+  background: #ffffff;
 }
 
 .cakes-section-title {
-  margin-bottom: 24px;
+  font-size: 28px;
   font-weight: 600;
+  color: #2f2a25;
+  text-align: center;
 }
 
-.cakes-grid {
-  column-count: 4;
-  column-gap: 20px;
+.cakes-section-subtitle {
+  font-size: 15px;
+  color: #7a6e63;
+  margin-top: 6px;
+  text-align: center;
 }
 
-.cakes-card {
-  break-inside: avoid;
-  margin-bottom: 20px;
-  position: relative;
+/* Card */
+.best-seller-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+  transition: all 0.35s ease;
+  cursor: pointer;
 }
 
-.cakes-card img {
+.best-seller-card img {
   width: 100%;
-  border-radius: 10px;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
-.cakes-card h6 {
-  margin-top: 10px;
-  font-weight: 500;
+/* Hover */
+.best-seller-card:hover {
+  transform: translateY(-6px);
 }
 
-/* ================= HOVER ================= */
-.cakes-hover {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: 0.3s;
-  border-radius: 10px;
+.best-seller-card:hover img {
+  transform: scale(1.08);
 }
 
-.cakes-hover span {
-  color: #fff;
-  font-size: 18px;
-  margin-bottom: 10px;
+/* Info */
+.best-seller-info {
+  padding: 18px;
+  text-align: center;
 }
 
-.cakes-hover button {
-  background: #f4efe9;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 30px;
+.best-seller-info h5 {
+  font-size: 16px;
   font-weight: 600;
+  color: #2f2a25;
+  margin-bottom: 6px;
 }
 
-.cakes-card:hover .cakes-hover {
-  opacity: 1;
+.best-seller-info span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #cbb48d;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 992px) {
-  .cakes-grid { column-count: 2; }
-}
-
-@media (max-width: 576px) {
-  .cakes-grid { column-count: 1; }
-  .cakes-hover button { width: 80%; }
-}
 
 /* ================= PUDDINGS PAGE ================= */
 
 .puddings-hero {
   height: 90vh;
-  background: url("/static/images/pudding_banner.png") center/cover no-repeat;
+  background: url("/static/images/pudding_banner.jpg") center/cover no-repeat;
   position: relative;
 }
 

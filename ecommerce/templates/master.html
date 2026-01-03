@@ -46,33 +46,19 @@
           <a class="nav-link dropdown-toggle" href="{% url 'home' %}#shop">Shop</a>
           <ul class="dropdown-menu">
 
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="{% url 'cakes' %}">Cakes</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Chocolate Cakes</a></li>
-                <li><a class="dropdown-item">Fruit Cakes</a></li>
-                <li><a class="dropdown-item">Custom Cakes</a></li>
-              </ul>
+            <li>
+              <a class="dropdown-item" href="{% url 'cakes' %}">Cakes</a>
             </li>
 
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="{% url 'desserts' %}">Desserts</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Brownies</a></li>
-                <li><a class="dropdown-item">Jar Desserts</a></li>
-              </ul>
+            <li>
+              <a class="dropdown-item" href="{% url 'desserts' %}">Desserts</a>
             </li>
 
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="{% url 'puddings' %}">Puddings</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Caramel</a></li>
-                <li><a class="dropdown-item" href="#">Bread Pudding</a></li>
-              </ul>
+            <li>
+              <a class="dropdown-item" href="{% url 'puddings' %}">Puddings</a>
             </li>
 
             <li><a class="dropdown-item" href="{% url 'sugarfree' %}">Sugar-Free</a></li>
-            <li><a class="dropdown-item" href="{% url 'dryfruits' %}">Dry Fruits</a></li>
             <li><a class="dropdown-item" href="{% url 'gift' %}">Gift</a></li>
 
           </ul>

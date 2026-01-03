@@ -1,6 +1,170 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 {% load static %}
-{% block title %}Bakeora | Freshly Baked Happiness{% endblock %}
+
+{% block title %}Desserts | Bakeora{% endblock %}
+
 {% block content %}
-<h1>desserts</h1>
+
+<!-- ================= HERO ================= -->
+<section class="dessert-hero">
+  <div class="cakes-hero-overlay">
+    <div class="container">
+      <div class="cakes-hero-text">
+        <h1>Sweet Desserts</h1>
+        <p>Indulge in our handcrafted delights</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BEST SELLERS ================= -->
+<section class="cakes-best-sellers">
+  <div class="container">
+    <h2 class="cakes-section-title">Best Sellers</h2>
+    <p class="cakes-section-subtitle">
+      Our most loved Desserts, chosen by customers
+    </p>
+
+    <div class="row g-4 mt-4">
+
+      <!-- Cake 1 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/browny.jpg' %}" alt="Brownie">
+          <div class="best-seller-info">
+            <h5>Brownie</h5>
+            <span>₹350</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 2 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/donuts.jpg' %}" alt="Donuts">
+          <div class="best-seller-info">
+            <h5>Donuts</h5>
+            <span>₹200</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 3 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/Chocolate_Croissants.jpg' %}" alt="Chocolate Croissants">
+          <div class="best-seller-info">
+            <h5>Chocolate Croissants</h5>
+            <span>₹500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake 4 -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="best-seller-card">
+          <img src="{% static 'images/macaroons.jpg' %}" alt="Macaroons">
+          <div class="best-seller-info">
+            <h5>Macaroons</h5>
+            <span>₹300</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= FILTER BAR ================= -->
+<section class="cakes-filter-bar">
+  <div class="container">
+    <form method="get" class="cakes-filter-inner">
+
+      <!-- CATEGORY -->
+      <select name="category" class="cakes-filter" onchange="this.form.submit()">
+        <option value="" hidden>Category</option>
+        <option value="pastries" {% if request.GET.category == 'pastries' %}selected{% endif %}>Pastries</option>
+        <option value="cookies_biscuits" {% if request.GET.category == 'cookies_biscuits' %}selected{% endif %}>Cookies & Biscuits</option>
+        <option value="brownie" {% if request.GET.category == 'brownie' %}selected{% endif %}>Brownie</option>
+        <option value="frozen" {% if request.GET.category == 'frozen' %}selected{% endif %}>Frozen</option>
+        <option value="crepes_pancakes" {% if request.GET.category == 'crepes_pancakes' %}selected{% endif %}>Crepes & Pancakes</option>
+        <option value="fruit" {% if request.GET.category == 'fruit' %}selected{% endif %}>Fruit</option>
+        <option value="fried" {% if request.GET.category == 'fried' %}selected{% endif %}>Fried</option>
+        <option value="gelatin" {% if request.GET.category == 'gelatin' %}selected{% endif %}>Gelatin</option>
+      </select>
+
+      <!-- FLAVOR -->
+      <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
+        <option value="" hidden>Flavor</option>
+        <option value="chocolate" {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>Chocolate</option>
+        <option value="vanilla" {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>Vanilla</option>
+        <option value="fruit" {% if request.GET.flavor == 'fruit' %}selected{% endif %}>Fruit</option>
+        <option value="pistachio" {% if request.GET.flavor == 'pistachio' %}selected{% endif %}>Pistachio</option>
+        <option value="strawberry" {% if request.GET.flavor == 'strawberry' %}selected{% endif %}>Strawberry</option>
+        <option value="mango" {% if request.GET.flavor == 'mango' %}selected{% endif %}>Mango</option>
+      </select>
+
+      <!-- PRICE -->
+      <select name="price" class="cakes-filter" onchange="this.form.submit()">
+        <option value="" hidden>Price</option>
+        <option value="300-600" {% if request.GET.price == '300-600' %}selected{% endif %}>₹150 – ₹450</option>
+        <option value="500-1000" {% if request.GET.price == '500-1000' %}selected{% endif %}>₹500 – ₹1000</option>
+        <option value="1000-1500" {% if request.GET.price == '1000-1500' %}selected{% endif %}>₹1000 – ₹1500</option>
+        <option value="low-high" {% if request.GET.price == 'low-high' %}selected{% endif %}>Low → High</option>
+        <option value="high-low" {% if request.GET.price == 'high-low' %}selected{% endif %}>High → Low</option>
+      </select>
+
+    </form>
+  </div>
+</section>
+
+<!-- ================= DESSERT GRID ================= -->
+<section class="cakes-grid">
+  <div class="container">
+    <div class="row g-4">
+
+      {% for dessert in page_obj %}
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="cake-card">
+          <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
+          <div class="cake-info">
+            <h5>{{ dessert.name }}</h5>
+            <span>₹{{ dessert.price }}</span>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center">No desserts found</p>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGINATION ================= -->
+<div class="pagination-wrap">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>
+    </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ num }}">{{ num }}</a>
+    </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+
 {% endblock %}
