@@ -1,91 +1,208 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Bakeora{% endblock %}</title>
+  <title>{% block title %}Bakeora{% endblock %}</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/Items.css' %}">
-
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Items.css' %}">
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
-  <div class="container">
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+    <div class="container">
 
-    <!-- LEFT: LOGO -->
-    <a class="navbar-brand d-flex flex-column">
-      <img src="{% static 'images/bakeora_logo.png' %}" alt="Bakeora Logo" class="logo-img">
-    </a>
+      <!-- LOGO -->
+      <a class="navbar-brand d-flex flex-column">
+        <img src="{% static 'images/bakeora_logo.png' %}" alt="Bakeora Logo" class="logo-img">
+      </a>
 
-    <!-- TOGGLER -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <!-- TOGGLER -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <!-- CENTER + RIGHT -->
-    <div class="collapse navbar-collapse" id="mainNav">
+      <!-- MENU -->
+      <div class="collapse navbar-collapse" id="mainNav">
 
-      <!-- CENTER MENU -->
-      <ul class="navbar-nav mx-auto gap-lg-4 mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#about">About</a></li>
+        <!-- CENTER MENU -->
+        <ul class="navbar-nav mx-auto gap-lg-4 mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#about">About</a></li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="{% url 'home' %}#shop">Shop</a>
-          <ul class="dropdown-menu">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'home' %}#shop">Shop</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'cakes' %}">Cakes</a></li>
+              <li><a class="dropdown-item" href="{% url 'desserts' %}">Desserts</a></li>
+              <li><a class="dropdown-item" href="{% url 'puddings' %}">Puddings</a></li>
+              <li><a class="dropdown-item" href="{% url 'sugarfree' %}">Sugar-Free</a></li>
+              <li><a class="dropdown-item" href="{% url 'gift' %}">Gift</a></li>
+            </ul>
+          </li>
 
-            <li>
-              <a class="dropdown-item" href="{% url 'cakes' %}">Cakes</a>
-            </li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#popular">Signature</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+        </ul>
 
-            <li>
-              <a class="dropdown-item" href="{% url 'desserts' %}">Desserts</a>
-            </li>
+        <!-- RIGHT ICONS -->
+        <div class="d-flex align-items-center gap-3">
 
-            <li>
-              <a class="dropdown-item" href="{% url 'puddings' %}">Puddings</a>
-            </li>
+          <!-- SEARCH -->
+          <div class="search-wrapper position-relative">
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search products..."
+              autocomplete="off">
+            <button type="button" class="search-btn">
+              <i class="fa-solid fa-magnifying-glass bakeora-search"></i>
+            </button>
 
-            <li><a class="dropdown-item" href="{% url 'sugarfree' %}">Sugar-Free</a></li>
-            <li><a class="dropdown-item" href="{% url 'gift' %}">Gift</a></li>
+            <!-- Live results dropdown -->
+            <div id="searchResults" class="search-results-dropdown"></div>
+          </div>
 
-          </ul>
-        </li>
+          <!-- USER ACCOUNT -->
+{% if user.is_authenticated %}
+<div class="dropdown">
+  <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+     href="#"
+     data-bs-toggle="dropdown"
+     aria-expanded="false">
 
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#popular">Signature</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
-      </ul>
+    <i class="fa-regular fa-user"></i>
+    <span class="d-none d-lg-inline">{{ user.username }}</span>
+  </a>
 
-      <!-- RIGHT ICONS -->
-      <div class="d-flex gap-3">
-        <a href="#" class="text-dark">🔍</a>
-        <a href="#" class="text-dark">👤</a>
-        <a href="#" class="text-dark position-relative">
-          🛒
-          <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"></span>
-        </a>
+  <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+    <li class="dropdown-header text-muted">
+      Signed in as <strong>{{ user.username }}</strong>
+    </li>
+
+    <li><a class="dropdown-item" href="#">
+      <i class="fa-solid fa-box me-2"></i> My Orders
+    </a></li>
+
+    <li><a class="dropdown-item" href="#">
+      <i class="fa-solid fa-user-gear me-2"></i> Profile
+    </a></li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">
+      <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+    </a></li>
+  </ul>
+</div>
+
+{% else %}
+
+<a href="{% url 'login' %}" class="nav-link d-flex align-items-center gap-1">
+  <i class="fa-regular fa-user"></i>
+  <span class="d-none d-lg-inline">Login</span>
+</a>
+
+{% endif %}
+
+
+          <!-- CART -->
+          <a href="#" class="text-dark">🛒</a>
+
+        </div>
+
       </div>
-
     </div>
-  </div>
-</nav>
+  </nav>
 
-{% block content %}
-{% endblock %}
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ================= PAGE CONTENT ================= -->
+  {% block content %}{% endblock %}
+
+  <!-- ================= SEARCH SCRIPT ================= -->
+  <!-- Search Overlay -->
+  <div id="searchOverlay"></div>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const overlay = document.getElementById("searchOverlay");
+  const resultsBox = document.getElementById("searchResults");
+  const searchBtn = document.querySelector(".search-btn");
+
+  /* Focus search when icon clicked */
+  searchBtn.addEventListener("click", () => {
+    searchInput.focus();
+  });
+
+  /* Show overlay on focus */
+  searchInput.addEventListener("focus", () => {
+    overlay.classList.add("active");
+  });
+
+  /* Close search when clicking outside */
+  document.addEventListener("click", (e) => {
+    if (
+      !e.target.closest(".search-wrapper") &&
+      !e.target.closest("#searchResults")
+    ) {
+      overlay.classList.remove("active");
+      resultsBox.innerHTML = "";
+    }
+  });
+
+  /* LIVE SEARCH */
+  let timer;
+  searchInput.addEventListener("keyup", () => {
+    clearTimeout(timer);
+    const query = searchInput.value.trim();
+
+    if (!query) {
+      resultsBox.innerHTML = "";
+      return;
+    }
+
+    timer = setTimeout(() => {
+      fetch(`/ajax-search/?q=${query}`)
+        .then(res => res.json())
+        .then(data => {
+          resultsBox.innerHTML = "";
+
+          if (!data.results.length) {
+            resultsBox.innerHTML =
+              `<div class="search-empty">No results found</div>`;
+            return;
+          }
+
+          data.results.forEach(item => {
+            resultsBox.innerHTML += `
+              <div class="search-item"
+                onclick="window.location.href='/${item.type}/${item.id}/'">
+                <img src="${item.image}">
+                <div>
+                  <strong>${item.name}</strong><br>
+                  ₹${item.price}
+                </div>
+              </div>`;
+          });
+        });
+    }, 300);
+  });
+</script>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>

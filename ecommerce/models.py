@@ -2,6 +2,29 @@ from django.db import models
 
 # Create your models here.
 
+class ProductSearch(models.Model):
+
+    PRODUCT_TYPES = [
+        ('cake', 'Cake'),
+        ('dessert', 'Dessert'),
+        ('pudding', 'Pudding'),
+        ('sugarfree', 'Sugar Free'),
+        ('gift', 'Gift'),
+    ]
+
+    name = models.CharField(max_length=150)
+    product_type = models.CharField(max_length=20, choices=PRODUCT_TYPES)
+
+    category = models.CharField(max_length=100, blank=True, null=True)
+    flavor = models.CharField(max_length=100, blank=True, null=True)
+
+    price = models.IntegerField()
+    image = models.ImageField(upload_to='search/')
+    product_id = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.name} ({self.product_type})"
+
 class Cake(models.Model):
     name = models.CharField(max_length=150)
     image = models.ImageField(upload_to='cakes/')

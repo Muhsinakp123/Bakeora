@@ -9,42 +9,35 @@ body {
 }
 
 /* ================= NAVBAR ================= */
+
 .navbar {
-  height: 80px;              /* LOCKED height */
-  padding: 0;
+  min-height: 80px;          /* NOT fixed height */
+  padding: 8px 0;
+  z-index: 999;
 }
 
 .navbar .container {
-  height: 100%;
   display: flex;
-  align-items: center;       /* vertical centering */
+  align-items: center;
 }
 
-/* ================= LOGO ================= */
-.navbar-brand {
-  padding: 0;
-  margin: 0;
-  line-height: 1;
-  text-align: center;
-}
-
-/* LOGO — bigger but navbar-safe */
+/* LOGO */
 .logo-img {
-  max-height: 156px;          
+  max-height: 60px;          /* SAFE size */
   width: auto;
   object-fit: contain;
-  display: block;
 }
 
-/* ================= MENU ================= */
+/* NAV LINKS */
 .navbar-nav {
   align-items: center;
 }
 
 .navbar-nav .nav-link {
-  padding: 0;
   font-weight: 500;
+  padding: 6px 0;
 }
+
 
 /* ================= DROPDOWN (HOVER) ================= */
 .navbar .dropdown:hover > .dropdown-menu {
@@ -73,6 +66,21 @@ body {
   margin-top: 6px;
 }
 
+/* User dropdown */
+.navbar .dropdown-menu {
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.navbar .dropdown-item i {
+  color: #c48b5f;
+}
+
+.navbar .dropdown-item:hover {
+  background-color: #f8f3ee;
+}
+
+
 /* ================= MOBILE FIX ================= */
 @media (max-width: 992px) {
   .navbar {
@@ -88,6 +96,109 @@ body {
     left: 0;
   }
 }
+
+/* ================= SEARCH ================= */
+
+.search-wrapper {
+  position: relative;
+  z-index: 1000;
+}
+
+.search-input {
+  width: 190px;
+  border-radius: 999px;
+  padding: 7px 14px;
+  border: 1px solid #e5c7a7;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  border-color: #c48b5f;
+  box-shadow: 0 0 0 3px rgba(196,139,95,0.35);
+  outline: none;
+}
+
+.search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+}
+
+.bakeora-search {
+  color: #c48b5f;
+  font-size: 15px;
+}
+
+/* ================= SEARCH ================= */
+
+/* Background dim */
+#searchOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.25s ease;
+}
+
+#searchOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* Search results dropdown */
+.search-results-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  max-height: 380px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Result item */
+.search-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.search-item:hover {
+  background: #f8f8f8;
+}
+
+.search-item img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Empty text */
+.search-empty {
+  padding: 12px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* Focus highlight  */
+.search-input:focus {
+  border-color: #c48b5f;
+  box-shadow: 0 0 0 3px rgba(243,168,71,0.4);
+}
+
+
 
 /* ================= HERO ================= */
 .hero {
