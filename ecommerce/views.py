@@ -15,18 +15,24 @@ def home(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST['username']
+        username_or_email = request.POST['username']
         password = request.POST['password']
+
+        # Allow login via username or email
+        try:
+            user_obj = User.objects.get(email=username_or_email)
+            username = user_obj.username
+        except User.DoesNotExist:
+            username = username_or_email
 
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, "Invalid username or password")
+            messages.error(request, "Invalid username/email or password")
 
     return render(request, "login.html")
-
 
 def register_view(request):
     if request.method == "POST":
