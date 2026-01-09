@@ -1,0 +1,113 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}Shop | Bakeora{% endblock %}
+
+{% block content %}
+
+<section class="shop-page py-5 mt-5">
+  <div class="container">
+
+    <h2 class="text-center fw-bold mb-4">Shop Our Delights</h2>
+
+    <div class="row">
+
+      <!-- FILTER SIDEBAR -->
+      <div class="col-md-3 mb-4">
+        <form method="get" class="filter-box" id="filterForm">
+
+          <h5 class="mb-3">Filter</h5>
+
+          <!-- Product Type -->
+          <select name="type" class="form-select mb-3" onchange="this.form.submit()">
+  <option value="">All Products</option>
+
+  <option value="cake"
+    {% if selected_type == 'cake' %}selected{% endif %}>
+    Cakes
+  </option>
+
+  <option value="dessert"
+    {% if selected_type == 'dessert' %}selected{% endif %}>
+    Desserts
+  </option>
+
+  <option value="pudding"
+    {% if selected_type == 'pudding' %}selected{% endif %}>
+    Puddings
+  </option>
+
+  <option value="sugarfree"
+    {% if selected_type == 'sugarfree' %}selected{% endif %}>
+    Sugar Free
+  </option>
+
+  <option value="gift"
+    {% if selected_type == 'gift' %}selected{% endif %}>
+    Gift
+  </option>
+</select>
+
+
+          <!-- Price -->
+          <select name="price" class="form-select mb-3" onchange="this.form.submit()">
+  <option value="">Price</option>
+
+  <option value="under-500"
+    {% if selected_price == 'under-500' %}selected{% endif %}>
+    Under ₹500
+  </option>
+
+  <option value="500-1000"
+    {% if selected_price == '500-1000' %}selected{% endif %}>
+    ₹500 – ₹1000
+  </option>
+
+  <option value="low-high"
+    {% if selected_price == 'low-high' %}selected{% endif %}>
+    Low → High
+  </option>
+
+  <option value="high-low"
+    {% if selected_price == 'high-low' %}selected{% endif %}>
+    High → Low
+  </option>
+</select>
+
+
+        </form>
+
+      </div>
+
+      <!-- PRODUCTS GRID -->
+      <div class="col-md-9">
+        <div class="row g-4">
+
+          {% for item in products %}
+          <div class="col-md-4 col-6">
+            <div class="product-card">
+
+              <img src="{{ item.image.url }}" alt="{{ item.name }}">
+
+              <div class="product-info">
+                <h6>{{ item.name }}</h6>
+                <p class="price">₹{{ item.price }}</p>
+
+                <a href="{% url 'search_redirect' item.id %}" class="btn btn-sm add-btn">
+                  View
+                </a>
+              </div>
+
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-center">No products found</p>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

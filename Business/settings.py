@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ecommerce',
+    'products',
+    'cart',
+    'accounts',
+    'orders',
     
     'django.contrib.sites',
 
@@ -138,3 +142,17 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "prompt": "select_account",
+        },
+    }
+}
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+TEMPLATES[0]['OPTIONS']['context_processors'] += [
+    'ecommerce.context_processors.cart_count',
+]

@@ -1,0 +1,91 @@
+{% extends "master.html" %}
+{% block title %}Custom Cake Order | Bakeora{% endblock %}
+
+{% block content %}
+<section class="py-5 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-md-7">
+        <div class="card shadow p-4">
+
+          <h3 class="fw-bold text-center mb-4">
+            Customize Your Cake 🎂
+          </h3>
+
+          <form method="post">
+            {% csrf_token %}
+
+            <!-- Cake Type -->
+            <div class="mb-3">
+              <label class="form-label">Cake Type</label>
+              <select name="cake_type" class="form-select" required>
+                <option value="">Select</option>
+                <option value="birthday">Birthday Cake</option>
+                <option value="wedding">Wedding Cake</option>
+                <option value="bento">Bento Cake</option>
+                <option value="kids">Kids Cake</option>
+                <option value="custom">Fully Custom</option>
+              </select>
+            </div>
+
+            <!-- Flavor -->
+            <div class="mb-3">
+              <label class="form-label">Flavor</label>
+              <select name="flavor" class="form-select" required>
+                <option value="">Select</option>
+                <option value="chocolate">Chocolate</option>
+                <option value="vanilla">Vanilla</option>
+                <option value="redvelvet">Red Velvet</option>
+                <option value="butterscotch">Butterscotch</option>
+                <option value="fruit">Fruit</option>
+              </select>
+            </div>
+
+            <!-- Size -->
+            <div class="mb-3">
+              <label class="form-label">Cake Size</label>
+              <select name="size" class="form-select" required>
+                <option value="">Select</option>
+                <option value="0.5kg">0.5 Kg</option>
+                <option value="1kg">1 Kg</option>
+                <option value="2kg">2 Kg</option>
+                <option value="3kg">3 Kg</option>
+              </select>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-3">
+              <label class="form-label">Message on Cake</label>
+              <input type="text" name="message" class="form-control"
+                     placeholder="Happy Birthday Anna 🎉">
+            </div>
+
+            <!-- Delivery Date -->
+            <div class="mb-3">
+              <label class="form-label">Delivery Date</label>
+              <input type="date" name="delivery_date"
+                     class="form-control" required>
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-4">
+              <label class="form-label">Special Instructions</label>
+              <textarea name="notes" rows="3"
+                        class="form-control"
+                        placeholder="Eggless, less sugar, theme color..."></textarea>
+            </div>
+
+            <button class="btn w-100 order-btn">
+              Place Custom Order
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

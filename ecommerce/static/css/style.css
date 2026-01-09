@@ -232,6 +232,30 @@ body {
   box-shadow: 0 0 0 3px rgba(243,168,71,0.4);
 }
 
+/* Cart icon */
+.cart-icon i {
+  font-size: 1.3rem;
+  color:  #c97b63; /* Bakeora brown */
+  transition: color 0.2s ease;
+}
+
+.cart-icon:hover i {
+  color: #d79c8a; /* Bakeora accent */
+}
+
+/* Cart badge */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #c97b63;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+}
 
 
 /* ================= HERO ================= */

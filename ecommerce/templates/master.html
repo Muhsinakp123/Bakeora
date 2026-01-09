@@ -117,7 +117,18 @@
 
 
           <!-- CART -->
-          <a href="#" class="text-dark">🛒</a>
+          <a href="{% url 'cart' %}"
+   class="nav-link position-relative p-0 cart-icon">
+
+  <i class="fa-solid fa-bag-shopping"></i>
+
+  {% if cart_count %}
+  <span class="cart-badge">
+    {{ cart_count }}
+  </span>
+  {% endif %}
+
+</a>
 
         </div>
 
