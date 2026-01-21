@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -131,8 +137,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
@@ -156,3 +160,17 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 TEMPLATES[0]['OPTIONS']['context_processors'] += [
     'ecommerce.context_processors.cart_count',
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = "Bakeora <bakesbakeora@gmail.com>"
+
+PASSWORD_RESET_EMAIL_TEMPLATE_NAME = "password_reset_subject.txt"
+PASSWORD_RESET_HTML_EMAIL_TEMPLATE_NAME = "password_reset_email.html"
