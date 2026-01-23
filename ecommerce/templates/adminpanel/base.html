@@ -1,0 +1,40 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Bakeora Admin{% endblock %}</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-[#0b0b1a] text-gray-200 min-h-screen">
+
+<div class="flex">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-[#11112a] min-h-screen p-6 hidden md:block">
+    <h1 class="text-2xl font-bold text-purple-400 mb-8">BAKEORA</h1>
+
+    <nav class="space-y-4 text-sm">
+      <a href="#" class="block text-purple-300 font-semibold">Dashboard</a>
+      <a href="#" class="block hover:text-purple-300">Products</a>
+      <a href="#" class="block hover:text-purple-300">Orders</a>
+      <a href="#" class="block hover:text-purple-300">Users</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 p-8">
+    {% block content %}{% endblock %}
+  </main>
+
+</div>
+
+</body>
+</html>
+

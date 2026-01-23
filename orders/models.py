@@ -12,12 +12,14 @@ User = settings.AUTH_USER_MODEL
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('shipped', 'Shipped'),
-        ('delivered', 'Delivered'),
-        ('cancelled', 'Cancelled'),
-    ]
+    ('placed', 'Placed'),
+    ('preparing', 'Preparing'),
+    ('out_for_delivery', 'Out for Delivery'),
+    ('delivered', 'Delivered'),
+    ('cancelled', 'Cancelled'),
+    ('refunded', 'Refunded'),
+]
+
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_amount = models.PositiveIntegerField()
