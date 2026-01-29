@@ -11,32 +11,58 @@ body {
 /* ================= NAVBAR ================= */
 
 .navbar {
-  min-height: 80px;          /* NOT fixed height */
+  min-height: 80px;
   padding: 8px 0;
-  z-index: 999;
+  z-index: 10;
+
+  background:radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
 }
+
 
 .navbar .container {
   display: flex;
   align-items: center;
 }
 
-/* LOGO */
+/* LOGO – visually bigger without affecting navbar */
 .logo-img {
-  max-height: 60px;          /* SAFE size */
+  max-height: 60px;          /* keep original constraint */
   width: auto;
   object-fit: contain;
+
+  transform: scale(2.85);    /* 👈 makes logo look bigger */
+  transform-origin: left center;
 }
+
 
 /* NAV LINKS */
-.navbar-nav {
-  align-items: center;
-}
-
 .navbar-nav .nav-link {
   font-weight: 500;
-  padding: 6px 0;
+  color: #5a4635;
+  position: relative;
+  transition: color 0.3s ease;
 }
+
+.navbar-nav .nav-link:hover {
+  color: #c59d5f;
+}
+
+/* Subtle underline */
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #c59d5f;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
 
 
 /* ================= DROPDOWN (HOVER) ================= */
@@ -68,9 +94,12 @@ body {
 
 /* User dropdown */
 .navbar .dropdown-menu {
-  border-radius: 12px;
-  font-size: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(197, 157, 95, 0.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
 }
+
 
 .navbar .dropdown-item i {
   color: #c48b5f;
@@ -232,22 +261,34 @@ body {
   box-shadow: 0 0 0 3px rgba(243,168,71,0.4);
 }
 
-/* Cart icon */
-.cart-icon i {
-  font-size: 1.3rem;
-  color:  #c97b63; /* Bakeora brown */
-  transition: color 0.2s ease;
+/* Cart circle like user icon */
+.cart-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #e5c7a7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #c48b5f;
+  font-size: 15px;
+  transition: all 0.25s ease;
 }
 
-.cart-icon:hover i {
-  color: #d79c8a; /* Bakeora accent */
+/* Hover effect (same as user icon) */
+.cart-circle:hover {
+  border-color: #c48b5f;
+  box-shadow: 0 0 0 3px rgba(196,139,95,0.35);
+  background: #fffaf5;
+  color: #a36a3f;
 }
 
 /* Cart badge */
 .cart-badge {
   position: absolute;
   top: -6px;
-  right: -10px;
+  right: -6px;
   background: #c97b63;
   color: #fff;
   font-size: 0.65rem;
@@ -257,34 +298,140 @@ body {
   line-height: 1;
 }
 
+/* ================= HERO SECTION ================= */
 
-/* ================= HERO ================= */
-.hero {
-  position: relative;   /* REQUIRED */
-  min-height: 100vh;
-  background-image: url('/static/images/homebanner.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  overflow: hidden;     /* KEY FIX */
+.hero-collage {
+  padding: 100px 0;
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
+  position: relative;
+  overflow: hidden;
 }
 
+/* LEFT TEXT */
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  font-weight: 600;
+  color: #2b2b2b;
+  line-height: 1.2;
+}
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;             /* replaces width/height issues */
-  background-color: rgba(145, 143, 143, 0.35);
+.hero-text p {
+  font-size: 1.1rem;
+  color: #6f6f6f;
+  margin-top: 20px;
+  max-width: 420px;
+  line-height: 1.7;
+}
+
+/* BUTTON */
+.order-btn {
+  background: #c59d5f;
+  color: #fff;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 30px rgba(197, 157, 95, 0.35);
+}
+
+.order-btn:hover {
+  background: #b08952;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(197, 157, 95, 0.45);
+}
+
+/* RIGHT COLLAGE */
+.hero-collage-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base stays same */
+.collage {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+  transition: transform 0.4s ease;
+}
+
+.collage img {
+  width: 240px;
+  height: 320px;
+  object-fit: cover;
+}
+
+/*  curved arrangement */
+.collage-1 {
+  left: 50px;
+  top: 35px;              /* move slightly down */
+  transform: rotate(-4deg);
   z-index: 1;
 }
 
+.collage-2 {
+  transform: rotate(0deg);
+  z-index: 3;
+}
 
-.hero .container {
-  position: relative;
+.collage-3 {
+  right: 50px;
+  top: -35px;             /* move slightly up */
+  transform: rotate(4deg);
   z-index: 2;
 }
+
+.collage:hover {
+  transform: translateY(-8px);
+}
+
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-collage {
+    padding: 70px 0;
+  }
+
+  .hero-text h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-collage-wrap {
+    height: 380px;
+    margin-top: 50px;
+  }
+
+  .collage-1 {
+    left: 80px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-collage {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .hero-collage-wrap {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .collage {
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+}
+
+
 
 
 /* ================= CARDS ================= */
@@ -319,103 +466,290 @@ body {
   transform: translateY(-2px);
 }
 /* ================= WHY BAKEORA ================= */
+
 .why-bakeora {
-  background-color: #fffaf5; /* soft bakery nude background */
+  overflow: hidden;
+  position: relative;
 }
 
-.why-title {
-  font-weight: 700;
-  letter-spacing: 0.5px;
+/* TOP CURVE */
+.why-bakeora::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, #fff7f3, #ffffff);
+  border-bottom-left-radius: 50% 100%;
+  border-bottom-right-radius: 50% 100%;
 }
 
-.why-text {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #6c757d; /* Bootstrap muted tone */
+/* BOTTOM CURVE */
+.why-bakeora::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, #fff7f3, #ffffff);
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
 }
 
-/* Image styling */
+/* IMAGE */
 .why-img {
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  max-width: 90%;
+  position: relative;
+  z-index: 2;
+  border-radius: 24px;
+  max-width: 80%;
+  max-height: 600px;   /*  controls image height */
+  object-fit: contain;
 }
 
-/* Mobile spacing */
+
+/* TITLE */
+.why-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #7a3e3e;
+}
+
+/* TEXT */
+.why-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #6f4a4a;
+  margin-bottom: 18px;
+  max-width: 520px;
+}
+
+/* STATS */
+.why-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* STAT CARD */
+.stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 24px;
+  min-width: 145px;
+  text-align: center;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.stat-card h4 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  color: #7a3e3e;
+  margin-bottom: 4px;
+}
+
+.stat-card span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  color: #7b5a5a;
+}
+
+/* PRIMARY STAT (Bakeora Accent) */
+.stat-card.highlight {
+  background: #c49a6c;
+}
+
+.stat-card.highlight h4,
+.stat-card.highlight span {
+  color: #ffffff;
+}
+
+/* HOVER */
+.stat-card:hover {
+  transform: translateY(-6px);
+}
+
 @media (max-width: 768px) {
   .why-img {
-    margin-top: 20px;
+    max-width: 100%;
+    max-height: 300px;
   }
 }
-/* ================= POPULAR PICKS ================= */
 
-/* Card base */
-.popular-card {
-  border: 1px solid #dbdada;   /* soft visible border */
+/* Section background */
+.shop-section {
+  background:linear-gradient(135deg, #fff7f3, #ffffff);
+}
+
+/* Title styling */
+.shop-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  color: #3a3a3a;
+}
+
+/* Remove link underline */
+.shop-link {
+  text-decoration: none;
+}
+
+/* Card */
+.shop-card {
+  position: relative;
+  border-radius: 18px;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-  transition: all 0.35s ease;
-}
-
-/* Hover effect */
-.popular-card:hover {
-  transform: translateY(-8px);
-  border-color: #d6c3a3;       /* nude / beige highlight */
-  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
-}
-
-
-/* Image wrapper */
-.popular-card img {
-  height: 280px;
-  width: 100%;
-  object-fit: cover;
+  height: 65%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   transition: transform 0.4s ease;
 }
 
-/* Image zoom on hover */
-.popular-card:hover img {
+/* Image */
+.shop-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+/* Hover effect */
+.shop-card:hover img {
   transform: scale(1.08);
 }
 
-/* Card body */
-.popular-card .card-body {
-  padding: 20px 16px 24px;
+.shop-card:hover {
+  transform: translateY(-8px);
 }
 
-/* Title */
-.popular-card .card-title {
-  font-weight: 600;
-  font-size: 17px;
-  margin-top: 18px;
-  color: #222;
-}
-
-/* Description */
-.popular-card .card-text {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #6c757d;
-  margin-bottom: 5px;
-}
-
-/* Inner content width for clean look */
-.popular-content {
-  max-width: 90%;
-  margin: 0 auto;
+/* Bottom text overlay */
+.shop-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 24px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0)
+  );
   text-align: center;
 }
 
-/* Soft divider between image & content */
-.popular-card img {
-  border-bottom: 1px solid #f1f1f1;
+.shop-overlay h5 {
+  margin: 0;
+  color: #fff;
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
 }
 
-/* Extra breathing space */
-.popular-card .card-body {
-  background-color: #fff;
+/* ================= BAKEORA POPULAR SECTION ================= */
+
+.popular-luxury-section {
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
+  position: relative;
+  padding: 5rem 0;
 }
+
+/* Title */
+.popular-luxury-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.6rem;
+  color: #b8903c;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.luxury-divider {
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #caa44a, transparent);
+  margin: 12px auto 0;
+}
+
+/* Gold Card Frame */
+.luxury-card {
+  background: linear-gradient(145deg, #e8c873, #b8903c);
+  padding: 6px;
+  border-radius: 16px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+  transition: transform 0.4s ease;
+}
+
+.luxury-card:hover {
+  transform: translateY(-12px);
+}
+
+/* Inner Card */
+.luxury-inner {
+  background: #2b0f14;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Image */
+.luxury-inner img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* Content */
+.luxury-content {
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.luxury-content h6 {
+  font-family: "Playfair Display", serif;
+  color: #e8c873;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.luxury-content p {
+  font-size: 0.8rem;
+  color: #f1e6d2;
+  line-height: 1.4;
+}
+/* ================= CURVED WAVES ================= */
+
+.bakeora-wave {
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bakeora-wave-top {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, #fff7f3, #ffffff);
+  border-bottom-left-radius: 50% 100%;
+  border-bottom-right-radius: 50% 100%;
+}
+
+.bakeora-wave-bottom {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, #fff7f3, #ffffff);
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+}
+
 /* ================= CONTACT ================= */
 
 .contact-section {
@@ -478,21 +812,54 @@ body {
   background: #cbb48d;
   transform: translateY(-2px);
 }
-/* ================= FOOTER ================= */
+/* ================= BAKEORA FOOTER ================= */
+
 .bakeora-footer {
-  background: linear-gradient(180deg, #1c1c1c, #0f0f0f);
-  color: #ddd;
+  background: linear-gradient(180deg, #2b0f14 0%, #1c090c 100%);
+  color: #f5ead7;
+  position: relative;
 }
 
+/* Brand */
+.footer-brand {
+  font-family: "Playfair Display", serif;
+  font-size: 2.4rem;
+  color: #e7c873;
+  letter-spacing: 2px;
+}
+
+.footer-tagline {
+  font-size: 0.95rem;
+  color: #d9c7a2;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.footer-about {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e8dcc6;
+}
+
+/* Titles */
 .footer-title {
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #fff;
+  font-family: "Playfair Display", serif;
+  color: #e7c873;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
 }
 
+.footer-text {
+  font-size: 0.9rem;
+  color: #e8dcc6;
+  line-height: 1.6;
+}
+
+/* Links */
 .footer-links {
   list-style: none;
   padding: 0;
+  margin-bottom: 1.5rem;
 }
 
 .footer-links li {
@@ -500,95 +867,135 @@ body {
 }
 
 .footer-links a {
-  color: #bbb;
+  color: #f5ead7;
+  font-size: 0.9rem;
   text-decoration: none;
+  position: relative;
   transition: color 0.3s ease;
 }
 
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 1px;
+  background: #e7c873;
+  transition: width 0.3s ease;
+}
+
 .footer-links a:hover {
-  color: #d6c3a3; /* Bakeora beige */
+  color: #e7c873;
 }
 
-.footer-text {
-  line-height: 1.8;
-  color: #bbb;
+.footer-links a:hover::after {
+  width: 100%;
 }
 
-.footer-social {
-  display: flex;
-  gap: 14px;
-}
-
+/* Social Icons */
 .footer-social a {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 18px;
-  transition: all 0.3s ease;
+  color: #e7c873;
+  font-size: 1.4rem;
+  margin-right: 14px;
+  display: inline-block;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .footer-social a:hover {
-  background: #d6c3a3;
-  color: #1c1c1c;
-  transform: translateY(-3px);
+  color: #fff3cf;
+  transform: translateY(-4px);
 }
 
-.footer-line {
-  border-color: rgba(255,255,255,0.08);
-  margin: 30px 0;
-}
-
-.footer-copy {
-  font-size: 14px;
-  color: #aaa;
-}
-.shop-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  height: 330px;        /* height > width */
-}
-
-.shop-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* keeps image clean */
-  transition: transform 0.4s ease;
-}
-
-.shop-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45); /* overlay */
+/* Newsletter */
+.newsletter-box {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #fffaf2;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.newsletter-box input {
+  flex: 1;
+  border: none;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.newsletter-box button {
+  background: linear-gradient(135deg, #e7c873, #c49b3b);
+  border: none;
+  padding: 0 22px;
+  font-weight: 600;
+  color: #2b0f14;
+  cursor: pointer;
   transition: background 0.3s ease;
 }
 
-.shop-overlay h5 {
-  color: #fff;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.newsletter-box button:hover {
+  background: linear-gradient(135deg, #f3db97, #d3ae4a);
 }
 
-/* Hover effect (optional but premium) */
-.shop-card:hover img {
-  transform: scale(1.08);
+/* Payments */
+.payment-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.shop-card:hover .shop-overlay {
-  background: rgba(0, 0, 0, 0.6);
+.payment-icons i {
+  font-size: 1.9rem;
+  color: #e7c873;
 }
-.shop-link {
+
+.trust-badge {
+  font-size: 0.8rem;
+  color: #d9c7a2;
+}
+
+/* Divider */
+.footer-divider {
+  border-color: rgba(231, 200, 115, 0.35);
+  margin: 3rem 0 1.5rem;
+}
+
+/* Bottom Bar */
+.footer-bottom p,
+.footer-bottom a {
+  font-size: 0.85rem;
+  color: #f5ead7;
+}
+
+.footer-bottom a {
   text-decoration: none;
-  display: block;
+  margin: 0 6px;
+  transition: color 0.3s ease;
 }
+
+.footer-bottom a:hover {
+  color: #e7c873;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .footer-brand {
+    font-size: 2rem;
+  }
+
+  .newsletter-box {
+    flex-direction: column;
+  }
+
+  .newsletter-box button {
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .payment-icons {
+    flex-wrap: wrap;
+  }
+}
+
 

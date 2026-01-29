@@ -5,65 +5,92 @@
 
 
 <!-- ================= HERO ================= -->
-<section id="home" class="hero d-flex align-items-center text-center">
+<section id="home" class="hero-collage">
   <div class="container">
-    <h1 class="fw-bold">Celebrate Every Moment with Bakeora</h1>
-    <p class="lead mt-3">Cakes, Desserts, Puddings & Sugar-Free Delights</p>
-    <a href="{% url 'shop' %}" class="btn btn-lg mt-3 order-btn">
-  Shop Now
-</a>
+    <div class="row align-items-center">
 
+      <!-- LEFT CONTENT -->
+      <div class="col-md-5 hero-text">
+        <h1>Elevate Your Sweet Moments</h1>
+        <p>
+          Freshly baked cakes, desserts & sugar-free delights
+        </p>
+        <a href="{% url 'shop' %}" class="btn order-btn mt-4">
+          Shop Now
+        </a>
+      </div>
+
+      <!-- RIGHT COLLAGE -->
+      <div class="col-md-7 hero-collage-wrap">
+        <div class="collage collage-1">
+          <img src="{% static 'images/home2.jpg' %}" alt="Cake image">
+        </div>
+        <div class="collage collage-2">
+          <img src="{% static 'images/home1.jpg' %}" alt="Dessert image">
+        </div>
+        <div class="collage collage-3">
+          <img src="{% static 'images/home3.jpg' %}" alt="Pastry image">
+        </div>
+      </div>
+
+
+    </div>
   </div>
 </section>
 
-
 <!-- ================= WHY BAKEORA ================= -->
-<section id="about" class="py-5 why-bakeora">
-  <div class="container">
+<section id="about" class="why-bakeora position-relative">
+  <div class="container py-5">
     <div class="row align-items-center g-5">
 
-      <!-- LEFT: CONTENT -->
-      <div class="col-md-6">
-        <h2 class="mb-4 why-title">Why Bakeora</h2>
-
-        <p class="why-text">
-          Bakeora is a premium dessert brand that brings freshly baked happiness to every celebration.
-          We offer a wide range of freshly baked cakes, handcrafted desserts, puddings, dry fruits,
-          and sugar-free options, all made using high-quality ingredients.
-        </p>
-
-        <p class="why-text">
-          Every dessert at Bakeora is prepared with care, love, and attention to detail. Our skilled
-          bakers use rich cocoa, fresh milk, fruits, and nuts to create desserts that are not only
-          delicious but also fresh and satisfying in every bite.
-        </p>
-
-        <p class="why-text">
-          We believe that desserts are more than just food — they are part of special moments.
-          Whether it’s a birthday, a celebration, a thoughtful gift, or a small sweet break for
-          yourself, Bakeora adds warmth and joy to every occasion.With a strong focus on quality, taste, and customer
-          happiness, Bakeora is committed to
-          delivering desserts you can trust and truly enjoy, every single time.
-        </p>
-
+      <!-- IMAGE -->
+      <div class="col-lg-6 text-center">
+        <img src="{% static 'images/bakeora_about.jpg' %}" alt="Why Bakeora" class="img-fluid why-img">
       </div>
 
-      <!-- RIGHT: IMAGE -->
-      <div class="col-md-6 text-center">
-        <img src="{% static 'images/about.png' %}" alt="Why Bakeora" class="img-fluid why-img">
-      </div>
+      <!-- CONTENT -->
+      <div class="col-lg-6">
+        <h2 class="why-title mb-4">Why Bakeora</h2>
 
+        <p class="why-text">
+          Bakeora is a premium dessert brand dedicated to bringing freshly baked happiness to every moment.
+          We create handcrafted cakes, desserts, puddings, and sugar-free options using high-quality
+          ingredients and thoughtful recipes.
+        </p>
+
+        <p class="why-text">
+          Every dessert is prepared with care, passion, and attention to detail — ensuring comfort,
+          consistency, and flavors you can truly trust and enjoy.
+        </p>
+
+        <!-- STATS -->
+        <div class="why-stats mt-4">
+          <div class="stat-card highlight">
+            <h4>32+</h4>
+            <span>Handcrafted Desserts</span>
+          </div>
+          <div class="stat-card">
+            <h4>82%</h4>
+            <span>Quality Focus</span>
+          </div>
+          <div class="stat-card">
+            <h4>28+</h4>
+            <span>Premium Ingredients</span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
 
 
 <!-- ================= SHOP ================= -->
-<section id="shop" class="py-5 bg-light">
+<section id="shop" class="shop-section py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Explore Our Delights</h2>
+    <h2 class="shop-title text-center mb-5">Explore Our Delights</h2>
 
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
 
       <!-- Cakes -->
       <div class="col-6 col-md-4">
@@ -101,99 +128,71 @@
         </a>
       </div>
 
-
-
-      <!-- Sugar-Free -->
-      <div class="col-6 col-md-4">
-        <a href="{% url 'sugarfree' %}" class="shop-link">
-          <div class="shop-card">
-            <img src="{% static 'images/sugarfree.jpg' %}" alt="Sugar Free">
-            <div class="shop-overlay">
-              <h5>Sugar-Free Items</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Gift Boxes -->
-      <div class="col-6 col-md-4">
-        <a href="{% url 'gift' %}" class="shop-link">
-          <div class="shop-card">
-            <img src="{% static 'images/giftboxes.jpg' %}" alt="Gift Boxes">
-            <div class="shop-overlay">
-              <h5>Gift Boxes</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- ================= POPULAR ================= -->
-<section id="popular" class="py-5 bg-light">
+<!-- ================= POPULAR PICKS ================= -->
+
+<div class="bakeora-wave bakeora-wave-top"></div>
+
+<section id="popular" class="popular-luxury-section py-5">
   <div class="container">
-    <h2 class="text-center mb-5 fw-bold">Popular Picks</h2>
 
-    <div class="row g-4">
+    <h2 class="popular-luxury-title text-center mb-5">
+      Popular Picks
+      <span class="luxury-divider"></span>
+    </h2>
 
-      <!-- Card 1 -->
+    <div class="row g-4 justify-content-center">
+
+      <!-- Card -->
       <div class="col-md-3 col-6">
-        <div class="card popular-card h-100 text-center">
-          <img src="{% static 'images/choclate.jpg' %}" class="card-img-top" alt="Chocolate Truffle Cake">
-          <div class="card-body">
-  <div class="popular-content">
-    <h6 class="card-title">Chocolate Truffle Cake</h6>
-    <p class="card-text">
-      Rich chocolate layers with smooth truffle frosting
-    </p>
-  </div>
-</div>
-
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="col-md-3 col-6">
-        <div class="card popular-card h-100 text-center">
-          <img src="{% static 'images/RedVelvet.jpg' %}" class="card-img-top" alt="Red Velvet Jar Cake">
-          <div class="card-body">
-            <div class="popular-content">
-            <h6 class="card-title">Red Velvet Jar Cake</h6>
-             <p class="card-text">
-            Soft red velvet cake layered with creamy frosting
-          </p>
+        <div class="luxury-card">
+          <div class="luxury-inner">
+            <img src="{% static 'images/choclate.jpg' %}" alt="">
+            <div class="luxury-content">
+              <h6>Chocolate Truffle Cake</h6>
+              <p>Rich chocolate layers with smooth truffle frosting</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card -->
       <div class="col-md-3 col-6">
-        <div class="card popular-card h-100 text-center">
-          <img src="{% static 'images/LotusBiscoff.jpg' %}" class="card-img-top" alt="Caramel Pudding">
-          <div class="card-body">
-            <div class="popular-content">
-            <h6 class="card-title">Caramel Biscoff Pudding</h6>
-             <p class="card-text">
-            Creamy caramel pudding with crunchy Biscoff layers
-          </p>
+        <div class="luxury-card">
+          <div class="luxury-inner">
+            <img src="{% static 'images/RedVelvet.jpg' %}" alt="">
+            <div class="luxury-content">
+              <h6>Red Velvet Jar Cakes</h6>
+              <p>Soft red velvet cake layered with creamy frosting</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Card 4 -->
+      <!-- Card -->
       <div class="col-md-3 col-6">
-        <div class="card popular-card h-100 text-center">
-          <img src="{% static 'images/gift.jpg' %}" class="card-img-top" alt="Dessert Gift Box">
-          <div class="card-body">
-            <div class="popular-content">
-            <h6 class="card-title">Dessert Gift Box</h6>
-            <p class="card-text">
-            A delightful box of assorted desserts, perfect for gifting loved ones
-          </p>
+        <div class="luxury-card">
+          <div class="luxury-inner">
+            <img src="{% static 'images/LotusBiscoff.jpg' %}" alt="">
+            <div class="luxury-content">
+              <h6>Caramel Biscoff Pudding</h6>
+              <p>Creamy caramel pudding with crunchy Biscoff layers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="col-md-3 col-6">
+        <div class="luxury-card">
+          <div class="luxury-inner">
+            <img src="{% static 'images/rassberry.jpg' %}" alt="">
+            <div class="luxury-content">
+              <h6>Raspberry Cake</h6>
+              <p>Vanilla sponge layered with raspberry compote & cream frosting</p>
             </div>
           </div>
         </div>
@@ -202,14 +201,17 @@
     </div>
   </div>
 </section>
+
+<div class="bakeora-wave bakeora-wave-bottom"></div>
+
 
 <!-- ================= REVIEWS ================= -->
-<section id="reviews" class="py-5 bg-light text-center">
+<!-- <section id="reviews" class="py-5 bg-light text-center">
   <div class="container">
     <h2>Customer Reviews</h2>
     <p class="mt-3">⭐⭐⭐⭐⭐ Trusted by dessert lovers</p>
   </div>
-</section>
+</section> -->
 
 <!-- ================= CONTACT ================= -->
 <section id="contact" class="contact-section py-5">
@@ -251,49 +253,82 @@
   </div>
 </section>
 
-
-<!-- ================= FOOTER ================= -->
+<!-- ================= BAKEORA FOOTER ================= -->
 <footer class="bakeora-footer">
   <div class="container py-5">
-    <div class="row gy-4">
 
-      <!-- Quick Links -->
-      <div class="col-md-4">
+    <div class="row gy-5">
+
+      <!-- ABOUT BAKEORA -->
+      <div class="col-lg-4 col-md-6">
+        <h2 class="footer-brand">BAKEORA</h2>
+        <p class="footer-tagline">Freshly Baked Happiness</p>
+        <p class="footer-about">
+          Bakeora crafts artisan desserts using premium ingredients,
+          blending tradition with modern flavors to deliver joy in every bite.
+        </p>
+
+        <div class="footer-social mt-3">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+        </div>
+      </div>
+
+      <!-- LINKS + CONTACT -->
+      <div class="col-lg-4 col-md-6">
         <h5 class="footer-title">Quick Links</h5>
-        <ul class="footer-links">
+        <ul class="footer-links mb-4">
           <li><a href="#about">About</a></li>
           <li><a href="#shop">Shop</a></li>
           <li><a href="#popular">Signature</a></li>
         </ul>
-      </div>
 
-      <!-- Contact -->
-      <div class="col-md-4">
         <h5 class="footer-title">Contact</h5>
         <p class="footer-text">
           📞 +91 98765 43210 <br>
           📍 Calicut, Kerala <br>
-          ✉️ bakeora@gmail.com
+          ✉️ bakesbakeora@gmail.com
         </p>
       </div>
 
-      <!-- Follow Us -->
-      <div class="col-md-4">
-        <h5 class="footer-title">Follow Us</h5>
-        <div class="footer-social">
-          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+      <!-- NEWSLETTER -->
+      <div class="col-lg-4 col-md-12">
+        <h5 class="footer-title">Join the Sweet List</h5>
+        <p class="footer-text">
+          Get exclusive offers, new launches, and dessert inspiration.
+        </p>
+
+        <form class="newsletter-box">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+
+        <div class="payment-icons mt-4">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <span class="trust-badge">100% Secure Payments</span>
         </div>
       </div>
 
     </div>
 
-    <hr class="footer-line">
+    <hr class="footer-divider">
 
-    <p class="text-center footer-copy">
-      © 2026 Bakeora | Freshly Baked Happiness
-    </p>
+    <!-- BOTTOM BAR -->
+    <div class="row footer-bottom align-items-center">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="mb-0">© 2026 Bakeora. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms</a> |
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+
   </div>
 </footer>
 

@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+{% block title %}Checkout | Bakeora{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Checkout</h2>
+
+  <!-- ✅ LOCATION / ERROR MESSAGES -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger text-center">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row">
+    <!-- Address -->
+    <div class="col-md-7">
+      <form method="post">
+        {% csrf_token %}
+
+        <input name="name" class="form-control mb-3" placeholder="Full Name" required>
+        <input name="phone" class="form-control mb-3" placeholder="Phone Number" required>
+        <textarea name="address" class="form-control mb-3" placeholder="Address" required></textarea>
+
+        <!-- 👇 District / City -->
+        <input name="city" class="form-control mb-3" placeholder="District (Kannur, Kozhikode...)" required>
+
+        <input name="pincode" class="form-control mb-3" placeholder="Pincode" required>
+
+        <button class="btn btn-dark w-100">
+          Place Order
+        </button>
+      </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-md-5">
+      <div class="border p-3">
+        <h5>Order Summary</h5>
+        <hr>
+
+        {% for item in cart_items %}
+          <div class="d-flex justify-content-between mb-2">
+            <span>{{ item.product.name }} × {{ item.quantity }}</span>
+            <span>₹{{ item.total_price }}</span>
+          </div>
+        {% endfor %}
+
+        <hr>
+        <h5>Total: ₹{{ total }}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

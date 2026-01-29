@@ -16,12 +16,20 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/Items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/log_reg.css' %}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+
+
+
 </head>
 
 <body>
 
   <!-- ================= NAVBAR ================= -->
-  <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+  <nav class="navbar navbar-expand-lg bakeora-navbar fixed-top">
     <div class="container">
 
       <!-- LOGO -->
@@ -48,8 +56,6 @@
               <li><a class="dropdown-item" href="{% url 'cakes' %}">Cakes</a></li>
               <li><a class="dropdown-item" href="{% url 'desserts' %}">Desserts</a></li>
               <li><a class="dropdown-item" href="{% url 'puddings' %}">Puddings</a></li>
-              <li><a class="dropdown-item" href="{% url 'sugarfree' %}">Sugar-Free</a></li>
-              <li><a class="dropdown-item" href="{% url 'gift' %}">Gift</a></li>
             </ul>
           </li>
 
@@ -71,6 +77,19 @@
             <!-- Live results dropdown -->
             <div id="searchResults" class="search-results-dropdown"></div>
           </div>
+
+          <a href="{% url 'cart' %}" class="cart-icon-wrapper position-relative">
+            <span class="cart-circle">
+              <i class="fa-solid fa-bag-shopping"></i>
+            </span>
+
+            {% if cart_count %}
+            <span class="cart-badge">
+              {{ cart_count }}
+            </span>
+            {% endif %}
+          </a>
+
 
           <!-- USER ACCOUNT -->
           {% if user.is_authenticated %}
@@ -114,21 +133,6 @@
           </a>
 
           {% endif %}
-
-
-          <!-- CART -->
-          <a href="{% url 'cart' %}"
-   class="nav-link position-relative p-0 cart-icon">
-
-  <i class="fa-solid fa-bag-shopping"></i>
-
-  {% if cart_count %}
-  <span class="cart-badge">
-    {{ cart_count }}
-  </span>
-  {% endif %}
-
-</a>
 
         </div>
 

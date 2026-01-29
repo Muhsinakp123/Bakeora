@@ -8,8 +8,6 @@ class ProductSearch(models.Model):
         ('cake', 'Cake'),
         ('dessert', 'Dessert'),
         ('pudding', 'Pudding'),
-        ('sugarfree', 'Sugar Free'),
-        ('gift', 'Gift'),
     ]
 
     name = models.CharField(max_length=150)

@@ -1,0 +1,9 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+  <h2>Order Placed Successfully 🎉</h2>
+  <p>Your Order ID is <strong>#{{ order.id }}</strong></p>
+  <p>Status: {{ order.status|title }}</p>
+</div>
+{% endblock %}

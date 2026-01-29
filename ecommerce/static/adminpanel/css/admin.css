@@ -1,0 +1,42 @@
+body.dark {
+    background: #0b1020;
+    color: white;
+    font-family: 'Segoe UI';
+}
+
+.dashboard {
+    padding: 30px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+
+.blue { background: linear-gradient(135deg,#3b82f6,#06b6d4); }
+.red { background: linear-gradient(135deg,#ef4444,#ec4899); }
+.purple { background: linear-gradient(135deg,#8b5cf6,#d946ef); }
+
+.revenue {
+    margin-top: 30px;
+    padding: 20px;
+    background: #111827;
+    border-radius: 15px;
+}
+
+.recent {
+    margin-top: 30px;
+    background: #111827;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.status.delivered { color: #22c55e; }
+.status.pending { color: #facc15; }

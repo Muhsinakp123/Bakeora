@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cart',
     'accounts',
     'orders',
+    'adminpanel',
     
     'django.contrib.sites',
 
@@ -172,5 +173,18 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = "Bakeora <bakesbakeora@gmail.com>"
 
-PASSWORD_RESET_EMAIL_TEMPLATE_NAME = "password_reset_subject.txt"
+PASSWORD_RESET_SUBJECT_TEMPLATE_NAME = "password_reset_subject.txt"
+PASSWORD_RESET_EMAIL_TEMPLATE_NAME = "password_reset_email.txt"
 PASSWORD_RESET_HTML_EMAIL_TEMPLATE_NAME = "password_reset_email.html"
+1
+
+PAYPAL_CLIENT_ID = os.environ.get("PAYPAL_CLIENT_ID")
+
+ALLOWED_DISTRICTS = [
+    'kannur',
+    'malappuram',
+    'wayanad',
+    'kozhikode',
+]
+
+

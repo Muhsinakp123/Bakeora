@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Cake,Dessert,Pudding
 from django.core.paginator import Paginator
 from products.models import ProductSearch
@@ -119,12 +119,6 @@ def desserts(request):
         'page_obj': page_obj
     })
 
-def sugarfree(request):
-    return render(request,'sugarfree.html')
-
-def gift(request):
-    return render(request,'gift.html')
-
 
 def shop(request):
     products = ProductSearch.objects.all()
@@ -150,3 +144,23 @@ def shop(request):
         'selected_price': price,
     }
     return render(request, 'shop.html', context)
+
+
+def cake_detail(request, id):
+    cake = get_object_or_404(Cake, id=id)
+
+    # ensure product exists in ProductSearch
+    product_search, created = ProductSearch.objects.get_or_create(
+        product_id=cake.id,
+        product_type='cake',
+        defaults={
+            'name': cake.name,
+            'price': cake.price,
+            'image': cake.image,
+        }
+    )
+
+    return render(request, 'cake_detail.html', {
+        'cake': cake,
+        'product': product_search
+    })
