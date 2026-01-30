@@ -13,9 +13,8 @@ body {
 .navbar {
   min-height: 80px;
   padding: 8px 0;
-  z-index: 10;
-
-  background:radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
+  z-index: 1000;
+  background:linear-gradient(180deg, #2b0f14 0%, #1c090c 100%);
 }
 
 
@@ -38,7 +37,7 @@ body {
 /* NAV LINKS */
 .navbar-nav .nav-link {
   font-weight: 500;
-  color: #5a4635;
+  color:  #e7c873;;
   position: relative;
   transition: color 0.3s ease;
 }
@@ -63,9 +62,6 @@ body {
   width: 100%;
 }
 
-
-
-/* ================= DROPDOWN (HOVER) ================= */
 .navbar .dropdown:hover > .dropdown-menu {
   display: block;
 }
@@ -92,22 +88,23 @@ body {
   margin-top: 6px;
 }
 
-/* User dropdown */
 .navbar .dropdown-menu {
-  background: rgba(255, 255, 255, 0.9);
+  background: #1c090c;
   border-radius: 16px;
-  border: 1px solid rgba(197, 157, 95, 0.35);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  border: 1px solid rgba(231, 200, 115, 0.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.5);
 }
 
-
-.navbar .dropdown-item i {
-  color: #c48b5f;
+.navbar .dropdown-item {
+  color: #f5ead7;
 }
+
 
 .navbar .dropdown-item:hover {
-  background-color: #f8f3ee;
+  background-color: rgba(231, 200, 115, 0.12);
+  color: #e7c873;
 }
+
 
 /* ================= USER PROFILE ICON ================= */
 
@@ -115,34 +112,21 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid #e5c7a7;
+  border: 1px solid rgba(231, 200, 115, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c48b5f;
+  color: #e7c873;
   font-size: 15px;
+  background: transparent;
   transition: all 0.25s ease;
-  background: #fff;
 }
 
-/* Hover like search bar */
 .user-icon:hover {
-  border-color: #c48b5f;
-  box-shadow: 0 0 0 3px rgba(196,139,95,0.35);
-  background: #fffaf5;
-  color: #a36a3f;
+  background: rgba(231, 200, 115, 0.1);
+  border-color: #e7c873;
+  box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
 }
-
-/* Logged-in dropdown icon spacing fix */
-.navbar .dropdown-toggle.user-icon::after {
-  display: none;
-}
-
-/* Dropdown alignment */
-.navbar .dropdown-menu {
-  margin-top: 12px;
-}
-
 
 /* ================= MOBILE FIX ================= */
 @media (max-width: 992px) {
@@ -166,18 +150,28 @@ body {
   position: relative;
   z-index: 1000;
 }
-
 .search-input {
   width: 190px;
   border-radius: 999px;
   padding: 7px 14px;
-  border: 1px solid #e5c7a7;
+  border: 1px solid rgba(231, 200, 115, 0.45);
   font-size: 14px;
+  background: #1c090c;
+  color: #f5ead7;
+}
+
+.search-input:hover {
+  border-color: #e7c873;
+  box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
+}
+
+.search-input::placeholder {
+  color: #cbbfa8;
 }
 
 .search-input:focus {
-  border-color: #c48b5f;
-  box-shadow: 0 0 0 3px rgba(196,139,95,0.35);
+  border-color: #e7c873;
+  box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
   outline: none;
 }
 
@@ -191,33 +185,38 @@ body {
 }
 
 .bakeora-search {
-  color: #c48b5f;
+  color:#e7c873;
   font-size: 15px;
 }
-
-/* ================= SEARCH ================= */
 
 /* Background dim */
 #searchOverlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  z-index: 998;
+  top: 80px;      /* 👈 SAME AS NAVBAR HEIGHT */
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
-  transition: 0.25s ease;
+  transition: opacity 0.3s ease;
+  z-index: 900;
+  pointer-events: none;
 }
+
 
 #searchOverlay.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 
 /* Search results dropdown */
 .search-results-dropdown {
   position: absolute;
-  top: 110%;
+  top: 100%;
   left: 0;
   width: 100%;
   background: #fff;
@@ -225,7 +224,7 @@ body {
   box-shadow: 0 12px 40px rgba(0,0,0,0.18);
   max-height: 380px;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 /* Result item */
@@ -255,33 +254,23 @@ body {
   font-size: 14px;
 }
 
-/* Focus highlight  */
-.search-input:focus {
-  border-color: #c48b5f;
-  box-shadow: 0 0 0 3px rgba(243,168,71,0.4);
-}
-
-/* Cart circle like user icon */
 .cart-circle {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid #e5c7a7;
+  border: 1px solid rgba(231, 200, 115, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  color: #c48b5f;
+  background: transparent;
+  color: #e7c873;
   font-size: 15px;
   transition: all 0.25s ease;
 }
 
-/* Hover effect (same as user icon) */
 .cart-circle:hover {
-  border-color: #c48b5f;
-  box-shadow: 0 0 0 3px rgba(196,139,95,0.35);
-  background: #fffaf5;
-  color: #a36a3f;
+  background: rgba(231, 200, 115, 0.1);
+  box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
 }
 
 /* Cart badge */
@@ -301,7 +290,7 @@ body {
 /* ================= HERO SECTION ================= */
 
 .hero-collage {
-  padding: 100px 0;
+  padding: 100px 0 70px;
   background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
   position: relative;
   overflow: hidden;
@@ -470,32 +459,7 @@ body {
 .why-bakeora {
   overflow: hidden;
   position: relative;
-}
-
-/* TOP CURVE */
-.why-bakeora::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 100%;
-  height: 140px;
-  background: linear-gradient(135deg, #fff7f3, #ffffff);
-  border-bottom-left-radius: 50% 100%;
-  border-bottom-right-radius: 50% 100%;
-}
-
-/* BOTTOM CURVE */
-.why-bakeora::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 140px;
-  background: linear-gradient(135deg, #fff7f3, #ffffff);
-  border-top-left-radius: 50% 100%;
-  border-top-right-radius: 50% 100%;
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
 }
 
 /* IMAGE */
@@ -580,79 +544,90 @@ body {
   }
 }
 
-/* Section background */
+/* <!-- ================= SHOP ================= --> */
+
 .shop-section {
-  background:linear-gradient(135deg, #fff7f3, #ffffff);
+  background:radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
 }
 
-/* Title styling */
-.shop-title {
-  font-family: "Playfair Display", serif;
-  font-size: 2.5rem;
-  color: #3a3a3a;
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #c9a24d; /* Bakeora gold */
+  position: relative;
 }
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c9a24d,
+    transparent
+  );
+  margin: 12px auto 0;
+}
+
 
 /* Remove link underline */
 .shop-link {
   text-decoration: none;
 }
 
-/* Card */
 .shop-card {
   position: relative;
-  border-radius: 18px;
+  border-radius: 14px;
   overflow: hidden;
-  height: 65%;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  transition: transform 0.4s ease;
+  border: 3px solid #c9a24d;
+  background: linear-gradient(180deg, #2b0f12, #140709);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Image */
 .shop-card img {
   width: 100%;
-  height: 100%;
+  height: 420px;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
-}
-
-/* Hover effect */
-.shop-card:hover img {
-  transform: scale(1.08);
 }
 
 .shop-card:hover {
   transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
 }
 
-/* Bottom text overlay */
 .shop-overlay {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 24px;
+  inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.6),
-    rgba(0, 0, 0, 0)
+    rgba(20, 7, 9, 0.9),
+    rgba(20, 7, 9, 0.2)
   );
-  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 18px;
 }
 
 .shop-overlay h5 {
-  margin: 0;
-  color: #fff;
-  font-family: "Playfair Display", serif;
-  font-size: 1.5rem;
-  letter-spacing: 1px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #f3d27a;
+  letter-spacing: 0.5px;
 }
+
 
 /* ================= BAKEORA POPULAR SECTION ================= */
 
 .popular-luxury-section {
-  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
   position: relative;
   padding: 5rem 0;
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
 }
 
 /* Title */
@@ -718,100 +693,122 @@ body {
   color: #f1e6d2;
   line-height: 1.4;
 }
-/* ================= CURVED WAVES ================= */
 
-.bakeora-wave {
-  height: 100px;
-  background-size: cover;
-  background-repeat: no-repeat;
+#popular {
+  padding-bottom: 3.5rem;
 }
 
-.bakeora-wave-top {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 100%;
-  height: 140px;
-  background: linear-gradient(135deg, #fff7f3, #ffffff);
-  border-bottom-left-radius: 50% 100%;
-  border-bottom-right-radius: 50% 100%;
+#contact {
+  padding-top: 3rem;
 }
 
-.bakeora-wave-bottom {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 140px;
-  background: linear-gradient(135deg, #fff7f3, #ffffff);
-  border-top-left-radius: 50% 100%;
-  border-top-right-radius: 50% 100%;
-}
 
 /* ================= CONTACT ================= */
 
+/* Shared section heading style (Popular Picks style) */
+.section-heading {
+  font-family: "Playfair Display", serif;
+  font-size: 2.6rem;
+  color: #c9a24d;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-heading::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #c9a24d,
+    transparent
+  );
+}
+
 .contact-section {
-  background: linear-gradient(180deg, #f8f5f2, #f4ede5);
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
 }
 
+/* Titles */
 .contact-title {
-  color: #3a2e2a;              
-  letter-spacing: 0.5px;
+  font-family: "Playfair Display", serif;
+  font-size: 2.4rem;
+  color: #3b1c1c;
 }
 
+.contact-subtitle {
+  color: #7a6a58;
+  max-width: 520px;
+  margin: 0 auto;
+}
 
-/* Contact card */
 .contact-card {
-  max-width: 700px;
-  background: #fcfcfc;
-  border-radius: 24px;
-  padding: 40px 36px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
-}
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  background: linear-gradient(180deg, #fffaf2, #ffffff);
+  max-width: 520px; 
+  padding: 42px;
+  border-radius: 26px;
 
+  /* GOLD BORDER */
+  border: 2px solid #c9a24d;
+
+  /* DEPTH */
+  box-shadow:
+    0 20px 45px rgba(59, 28, 28, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+.contact-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 28px 55px rgba(59, 28, 28, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
 
 /* Labels */
 .contact-card .form-label {
-  color: #3a2e2a;
-  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a6b3c;
 }
-
 
 /* Inputs */
 .contact-input {
-  background: #fff;
-  border: 1px solid #e2d6c3;
+  border: 1px solid #e6d3b3;
   border-radius: 14px;
-  padding: 14px 18px;
-  color: #333;
-}
-
-.contact-input::placeholder {
-  color: #9a8f86;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  background-color: #fffaf2;
 }
 
 .contact-input:focus {
-  border-color: #d6c3a3;
-  box-shadow: 0 0 0 0.2rem rgba(214,195,163,0.35);
+  border-color: #d4af37;
+  box-shadow: 0 0 0 0.15rem rgba(212, 175, 55, 0.25);
 }
-
 
 /* Button */
 .contact-btn {
-  background: #d6c3a3;
-  color: #2a1f1a;
-  font-weight: 600;
+  background: linear-gradient(135deg, #d4af37, #b8942e);
+  color: #3b1c1c;
+  border: none;
   padding: 14px;
   border-radius: 30px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   transition: all 0.3s ease;
 }
 
 .contact-btn:hover {
-  background: #cbb48d;
+  background: linear-gradient(135deg, #b8942e, #d4af37);
   transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
 }
+
 /* ================= BAKEORA FOOTER ================= */
 
 .bakeora-footer {
@@ -953,6 +950,13 @@ body {
 .trust-badge {
   font-size: 0.8rem;
   color: #d9c7a2;
+}
+
+.footer-text i {
+  color: #e7c873;
+  margin-right: 8px;
+  font-size: 1rem;
+  vertical-align: middle;
 }
 
 /* Divider */

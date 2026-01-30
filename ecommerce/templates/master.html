@@ -149,58 +149,70 @@
   <!-- Search Overlay -->
   <div id="searchOverlay"></div>
 
-  <script>
-    const searchInput = document.getElementById("searchInput");
-    const overlay = document.getElementById("searchOverlay");
-    const resultsBox = document.getElementById("searchResults");
-    const searchBtn = document.querySelector(".search-btn");
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const overlay = document.getElementById("searchOverlay");
+  const resultsBox = document.getElementById("searchResults");
+  const searchBtn = document.querySelector(".search-btn");
+  const searchWrapper = document.querySelector(".search-wrapper");
 
-    /* Focus search when icon clicked */
-    searchBtn.addEventListener("click", () => {
-      searchInput.focus();
-    });
+  // Focus input when icon clicked
+  searchBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    searchInput.focus();
+  });
 
-    /* Show overlay on focus */
-    searchInput.addEventListener("focus", () => {
-      overlay.classList.add("active");
-    });
+  // Show overlay on focus
+  searchInput.addEventListener("focus", () => {
+    overlay.classList.add("active");
+  });
 
-    /* Close search when clicking outside */
-    document.addEventListener("click", (e) => {
-      if (
-        !e.target.closest(".search-wrapper") &&
-        !e.target.closest("#searchResults")
-      ) {
-        overlay.classList.remove("active");
-        resultsBox.innerHTML = "";
-      }
-    });
+  // Prevent clicks inside search from closing overlay
+  searchWrapper.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 
-    /* LIVE SEARCH */
-    let timer;
-    searchInput.addEventListener("keyup", () => {
-      clearTimeout(timer);
-      const query = searchInput.value.trim();
+  // Close ONLY when clicking overlay
+  overlay.addEventListener("click", () => {
+    overlay.classList.remove("active");
+    resultsBox.innerHTML = "";
+    searchInput.blur();
+  });
 
-      if (!query) {
-        resultsBox.innerHTML = "";
-        return;
-      }
+  // ESC key close
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      overlay.classList.remove("active");
+      resultsBox.innerHTML = "";
+      searchInput.blur();
+    }
+  });
 
-      timer = setTimeout(() => {
-        fetch(`/ajax-search/?q=${query}`)
-          .then(res => res.json())
-          .then(data => {
-            resultsBox.innerHTML = "";
+  /* LIVE SEARCH */
+  let timer;
+  searchInput.addEventListener("keyup", () => {
+    clearTimeout(timer);
+    const query = searchInput.value.trim();
 
-            if (!data.results.length) {
-              resultsBox.innerHTML =
-                `<div class="search-empty">No results found</div>`;
-              return;
-            }
+    if (!query) {
+      resultsBox.innerHTML = "";
+      return;
+    }
 
-            data.results.forEach(item => {
-              resultsBox.innerHTML += `
+    timer = setTimeout(() => {
+      fetch(`/ajax-search/?q=${query}`)
+        .then(res => res.json())
+        .then(data => {
+          resultsBox.innerHTML = "";
+
+          if (!data.results.length) {
+            resultsBox.innerHTML =
+              `<div class="search-empty">No results found</div>`;
+            return;
+          }
+
+          data.results.forEach(item => {
+            resultsBox.innerHTML += `
               <div class="search-item"
                 onclick="window.location.href='/${item.type}/${item.id}/'">
                 <img src="${item.image}">
@@ -209,11 +221,11 @@
                   ₹${item.price}
                 </div>
               </div>`;
-            });
           });
-      }, 300);
-    });
-  </script>
+        });
+    }, 300);
+  });
+</script>
 
 
   <!-- Bootstrap JS -->
