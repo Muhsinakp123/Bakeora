@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Cake
+from .models import Cake, Dessert, Pudding, ProductSearch
+
+admin.site.register(Dessert)
+admin.site.register(Pudding)
+admin.site.register(ProductSearch)
+
 
 @admin.register(Cake)
 class CakeAdmin(admin.ModelAdmin):

@@ -38,9 +38,25 @@ class Cake(models.Model):
             ('kids', 'Kids'),
         ]
     )
+    FLAVOR_CHOICES = [
+    ('chocolate','Chocolate'),
+    ('vanilla','Vanilla'),
+    ('red-velvet','Red Velvet'),
+    ('butterscotch','Butterscotch'),
+    ('fruit-cakes','Fruit Cakes'),
+    ('cheese_cakes','Cheese Cakes'),
+]
+    STRUCTURE_CHOICES = [
+    ('single','Single Tier'),
+    ('double','Double Tier'),
+    ('cupcakes','Cup Cakes'),
+    ('sheetcakes','Sheet Cakes'),
+    ('spongecakes','Sponge Cakes'),
+    ('themecakes','Theme Cakes'),
+    ]
+    flavor = models.CharField(max_length=50, choices=FLAVOR_CHOICES)
+    structure = models.CharField(max_length=50, choices=STRUCTURE_CHOICES)
 
-    flavor = models.CharField(max_length=50)
-    structure = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -50,20 +66,14 @@ class Dessert(models.Model):
         ('pastries', 'Pastries'),
         ('cookies_biscuits', 'Cookies & Biscuits'),
         ('brownie', 'Brownie'),
-        ('frozen', 'Frozen'),
-        ('crepes_pancakes', 'Crepes & Pancakes'),
-        ('fruit', 'Fruit'),
-        ('fried', 'Fried'),
-        ('gelatin', 'Gelatin'),
+        ('pistachio', 'Pistachio'),
     ]
 
     FLAVOR_CHOICES = [
         ('chocolate', 'Chocolate'),
         ('vanilla', 'Vanilla'),
         ('fruit', 'Fruit'),
-        ('pistachio', 'Pistachio'),
-        ('strawberry', 'Strawberry'),
-        ('mango', 'Mango'),
+        ('nutty_caramel','Nutty & Caramel')
     ]
 
     name = models.CharField(max_length=150)
@@ -104,6 +114,7 @@ class Pudding(models.Model):
         ('pistachio', 'Pistachio'),
         ('strawberry', 'Strawberry'),
         ('mango', 'Mango'),
+        ('butter','Butter')
     ]
 
     name = models.CharField(max_length=150)

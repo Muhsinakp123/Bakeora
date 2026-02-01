@@ -1,33 +1,158 @@
 {% extends "master.html" %}
 {% load static %}
 
-{% block title %}Cakes | Bakeora{% endblock %}
+{% block title %}Puddings | Bakeora{% endblock %}
 
 {% block content %}
 
-<!-- ===== HERO SECTION ===== -->
-<section class="puddings-hero">
-  <div class="puddings-hero-overlay">
-    <div class="container">
-      <h1>Pure Indulgence in Every Spoonful</h1>
-      <p>Warm, chilled & vegan puddings crafted with love</p>
+<!-- ===== PUDDING HERO — LUXURY SPLIT ===== -->
+<section class="puddings-hero-lux">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT CONTENT -->
+      <div class="col-lg-6">
+        <div class="puddings-hero-text">
+          <h1>Desserts Crafted<br>to Perfection</h1>
+
+          <p>
+            Indulge in our selection of artisanal puddings and creamy
+            delights made from the finest ingredients.
+          </p>
+
+          <!-- small preview cards -->
+          <div class="puddings-mini-row">
+
+            <div class="mini-card">
+              <img src="{% static 'images/pudding-hero1.jpg' %}">
+              <span>Golden Honeycomb Custard</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="{% static 'images/pudding-hero2.jpg' %}">
+              <span>Toffee Bread & Butter</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="{% static 'images/pudding-hero3.jpg' %}">
+              <span>White Chocolate Spiced Chai</span>
+            </div>
+
+            <div class="mini-card">
+              <img src="{% static 'images/pudding-hero4.jpg' %}">
+              <span>Coconut Raspberry Chia</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- RIGHT IMAGE -->
+      <div class="col-lg-6 text-center">
+        <div class="puddings-hero-frame">
+          <img src="{% static 'images/pudding-hero-main.png' %}" alt="">
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- ================= BEST SELLING PUDDINGS ================= -->
+<section class="cakes-best-sellers">
+  <div class="container text-center">
+
+    <h2 class="cakes-section-title">
+      Best Sellers
+      <span class="cakes-title-divider"></span>
+    </h2>
+
+    <p class="cakes-section-subtitle">
+      Our most loved puddings
+    </p>
+
+    <div class="row g-4 mt-4">
+
+      <!-- Card -->
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="bs-gold-frame">
+          <div class="bs-card">
+            <img src="{% static 'images/pudding3.jpg' %}" alt="">
+            <div class="bs-card-info">
+              <h5>Caramel Custard</h5>
+              <span>₹260</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="bs-gold-frame">
+          <div class="bs-card">
+            <img src="{% static 'images/pudding1.jpg' %}" alt="">
+            <div class="bs-card-info">
+              <h5>Chocolate Lava Pudding</h5>
+              <span>₹280</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="bs-gold-frame">
+          <div class="bs-card">
+            <img src="{% static 'images/pudding2.jpg' %}" alt="">
+            <div class="bs-card-info">
+              <h5>Mango Chia Pudding</h5>
+              <span>₹240</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="bs-gold-frame">
+          <div class="bs-card">
+            <img src="{% static 'images/pudding4.jpg' %}" alt="">
+            <div class="bs-card-info">
+              <h5>Berry Cream Pudding</h5>
+              <span>₹300</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 <!-- ===== FILTER TABS ===== -->
 <section class="puddings-filter-bar">
   <div class="container">
     <div class="puddings-filters">
-      <button class="pudding-filter active" data-filter="all">All</button>
-      <button class="pudding-filter" data-filter="warm">Warm</button>
-      <button class="pudding-filter" data-filter="chilled">Chilled</button>
-      <button class="pudding-filter" data-filter="vegan">Vegan</button>
+
+      <button class="pudding-filter active" data-filter="all">
+        All
+      </button>
+
+      <button class="pudding-filter" data-filter="warm">
+        Warm
+      </button>
+
+      <button class="pudding-filter" data-filter="chilled">
+        Chilled
+      </button>
+
+      <button class="pudding-filter" data-filter="vegan">
+        Vegan
+      </button>
+
     </div>
   </div>
 </section>
 
-<!-- ================= FILTER BAR ================= -->
+
+<!-- ===== FILTER BAR ===== -->
 <section class="cakes-filter-bar">
   <div class="container">
     <form method="get" class="cakes-filter-inner">
@@ -35,55 +160,133 @@
       <!-- FLAVOR -->
       <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
         <option value="" hidden>Flavor</option>
-        <option value="chocolate" {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>Chocolate</option>
-        <option value="vanilla" {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>Vanilla</option>
-        <option value="fruit" {% if request.GET.flavor == 'fruit' %}selected{% endif %}>Fruit</option>
-        <option value="pistachio" {% if request.GET.flavor == 'pistachio' %}selected{% endif %}>Pistachio</option>
-        <option value="strawberry" {% if request.GET.flavor == 'strawberry' %}selected{% endif %}>Strawberry</option>
-        <option value="mango" {% if request.GET.flavor == 'mango' %}selected{% endif %}>Mango</option>
+
+        <option value="chocolate"
+          {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>
+          Chocolate
+        </option>
+
+        <option value="vanilla"
+          {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>
+          Vanilla
+        </option>
+
+        <option value="fruit"
+          {% if request.GET.flavor == 'fruit' %}selected{% endif %}>
+          Fruit
+        </option>
+
+        <option value="pistachio"
+          {% if request.GET.flavor == 'pistachio' %}selected{% endif %}>
+          Pistachio
+        </option>
+
+        <option value="strawberry"
+          {% if request.GET.flavor == 'strawberry' %}selected{% endif %}>
+          Strawberry
+        </option>
+
+        <option value="mango"
+          {% if request.GET.flavor == 'mango' %}selected{% endif %}>
+          Mango
+        </option>
       </select>
 
       <!-- PRICE -->
       <select name="price" class="cakes-filter" onchange="this.form.submit()">
         <option value="" hidden>Price</option>
-        <option value="300-600" {% if request.GET.price == '300-600' %}selected{% endif %}>₹150 – ₹450</option>
-        <option value="500-1000" {% if request.GET.price == '500-1000' %}selected{% endif %}>₹500 – ₹1000</option>
-        <option value="1000-1500" {% if request.GET.price == '1000-1500' %}selected{% endif %}>₹1000 – ₹1500</option>
-        <option value="low-high" {% if request.GET.price == 'low-high' %}selected{% endif %}>Low → High</option>
-        <option value="high-low" {% if request.GET.price == 'high-low' %}selected{% endif %}>High → Low</option>
+        <option value="150-450">₹150 – ₹450</option>
+        <option value="450-800">₹450 – ₹800</option>
+        <option value="low-high">Low → High</option>
+        <option value="high-low">High → Low</option>
       </select>
 
     </form>
   </div>
 </section>
 
-
-<!-- ===== PRODUCTS GRID ===== -->
-<section class="puddings-section">
+<!-- ===== PUDDING GRID (CAKE STYLE CARDS) ===== -->
+<section class="cakes-grid" id="grid">
   <div class="container">
-    <div class="puddings-grid">
+    <div class="row g-4">
 
       {% for pudding in page_obj %}
-      <div class="pudding-card {{ pudding.style }}">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="cake-card">
+          <img src="{{ pudding.image.url }}" alt="{{ pudding.name }}">
 
-        {% if pudding.tag_text %}
-        <span class="pudding-tag {{ pudding.tag_color }}">
-          {{ pudding.tag_text }}
-        </span>
-        {% endif %}
+          <div class="cake-info">
+            <h5>{{ pudding.name }}</h5>
+            <span>₹{{ pudding.price }}</span>
 
-        <img src="{{ pudding.image.url }}" alt="{{ pudding.name }}">
-        <h6>{{ pudding.name }}</h6>
-        <p class="pudding-price">₹{{ pudding.price }}</p>
-
+            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ pudding.id }}">
+              Add to Cart
+            </button>
+          </div>
+        </div>
       </div>
       {% empty %}
-        <p class="text-center">No puddings available</p>
+      <p class="text-center">No puddings available</p>
       {% endfor %}
 
     </div>
   </div>
 </section>
 
+
+<!-- ================= PAGINATION (MATCH CAKES PAGE) ================= -->
+<div class="pagination-wrap">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link"
+        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}#grid">
+        Previous
+      </a>
+    </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+      <a class="page-link"
+        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#grid">
+        {{ num }}
+      </a>
+    </li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link"
+        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}#grid">
+        Next
+      </a>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+
+
+<!-- ===== ADD TO CART SCRIPT ===== -->
+<script>
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
+
+      const productId = this.dataset.productId;
+
+      fetch(`/cart/add/${productId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+        .then(r => r.json())
+        .then(data => alert(data.success ? "Added to cart ✅" : "Failed ❌"));
+    });
+  });
+</script>
 
 {% endblock %}

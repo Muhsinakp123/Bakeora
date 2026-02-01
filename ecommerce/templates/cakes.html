@@ -118,14 +118,36 @@
 </section>
 
 <!-- ================= CATEGORY BUBBLES ================= -->
+<!-- ================= CATEGORY BUBBLES ================= -->
 <section class="cakes-categories">
   <div class="container">
     <div class="cakes-category-row">
-      <a href="?category=wedding" class="cakes-category"><i class="bi bi-heart"></i><span>Wedding</span></a>
-      <a href="?category=birthday" class="cakes-category"><i class="bi bi-cake2"></i><span>Birthday</span></a>
-      <a href="?category=bento" class="cakes-category"><i class="bi bi-box"></i><span>Bento</span></a>
-      <a href="?category=vegan" class="cakes-category"><i class="bi bi-leaf"></i><span>Vegan</span></a>
-      <a href="?category=kids" class="cakes-category"><i class="bi bi-emoji-smile"></i><span>Kids</span></a>
+
+      <a href="?category=wedding"
+         class="cakes-category {% if not request.GET.category or request.GET.category == 'wedding' %}active{% endif %}">
+        <i class="bi bi-heart"></i><span>Wedding</span>
+      </a>
+
+      <a href="?category=birthday"
+         class="cakes-category {% if request.GET.category == 'birthday' %}active{% endif %}">
+        <i class="bi bi-cake2"></i><span>Birthday</span>
+      </a>
+
+      <a href="?category=bento"
+         class="cakes-category {% if request.GET.category == 'bento' %}active{% endif %}">
+        <i class="bi bi-box"></i><span>Bento</span>
+      </a>
+
+      <a href="?category=vegan"
+         class="cakes-category {% if request.GET.category == 'vegan' %}active{% endif %}">
+        <i class="bi bi-leaf"></i><span>Vegan</span>
+      </a>
+
+      <a href="?category=kids"
+         class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
+        <i class="bi bi-emoji-smile"></i><span>Kids</span>
+      </a>
+
     </div>
   </div>
 </section>

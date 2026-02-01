@@ -186,83 +186,446 @@
   color: #f1e6d2;
 }
 
-/* ================= CAKE CATEGORIES ================= */
+/* ===== LUXURY CATEGORY BUBBLES ===== */
+
 .cakes-categories {
-  padding: 40px 0 30px;
-  background: #fff;
+  background: #fffdf9;
+  padding: 26px 0;
 }
 
 .cakes-category-row {
   display: flex;
   justify-content: center;
-  gap: 28px;
+  gap: 18px;
   flex-wrap: wrap;
 }
 
+/* bubble buttons */
 .cakes-category {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold-soft);
+  background: transparent;
+  border: 2px solid #d4af37;
+  color: #f4d48a;
+
+  padding: 12px 22px;
+  border-radius: 999px;
+
+  font-weight: 600;
+  letter-spacing: .4px;
+
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  color: var(--dark);
+  gap: 8px;
+
   text-decoration: none;
-  transition: all 0.35s ease;
-  background: #fff;
+  transition: .3s;
 }
 
+/* icon */
 .cakes-category i {
-  font-size: 22px;
-  color: var(--gold);
-  margin-bottom: 6px;
+  font-size: 16px;
 }
 
-.cakes-category span {
-  font-size: 13px;
-  font-weight: 500;
-}
-
+/* hover — same as pudding tabs */
 .cakes-category:hover {
-  border-color: var(--gold);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-  transform: translateY(-4px);
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 18px rgba(212,175,55,.45);
+  transform: translateY(-2px);
 }
 
-/* ================= CAKES FILTER BAR ================= */
+/* active category (when selected by query param) */
+.cakes-category.active {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 22px rgba(212,175,55,.55);
+}
+
+/* ===== LUXURY FILTER DROPDOWNS ===== */
+
 .cakes-filter-bar {
-  background: #fffaf3;
-  padding: 28px 0;
-  border-top: 1px solid rgba(200,164,93,0.25);
-  border-bottom: 1px solid rgba(200,164,93,0.25);
+  background: #fffdf9;
+  padding: 22px 0;
 }
 
 .cakes-filter-inner {
   display: flex;
-  gap: 18px;
   justify-content: center;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .cakes-filter {
-  min-width: 260px;
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 1px solid var(--gold-soft);
-  background: #fff;
-  font-size: 14px;
-  color: var(--dark);
-  transition: all 0.3s ease;
+  background: #4a0e1c;
+  color: #f4d48a;
+  border: 2px solid #d4af37;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 600;
+  min-width: 180px;
+  cursor: pointer;
+  transition: .3s;
 }
 
+.cakes-filter:hover,
 .cakes-filter:focus {
+  background: #5c1324;
+  box-shadow: 0 0 16px rgba(212,175,55,.35);
   outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(200,164,93,0.25);
 }
 
+/* ================= DESSERT LUX HERO  ================= */
+
+.dessert-hero-lux {
+  padding: 110px 0 90px;
+  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* split panel like reference image */
+.dessert-hero-panel {
+  background: radial-gradient(circle at top left, #7a1c2c, #3b0612 60%);
+  border-radius: 54px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.18);
+  max-width: 100%;
+  border: 8px solid #c9a24d;;
+}
+
+.dessert-hero-left {
+  padding: 60px;
+  color: #fff;
+  height: 420px;              /* ← SAME as right */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dessert-hero-left h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  line-height: 1.15;
+}
+
+.dessert-hero-left p {
+  color: #f2d9c2;
+  margin-top: 18px;
+  max-width: 420px;
+}
+
+.dessert-hero-right {
+  padding: 0;
+  height: 420px;              /* ← hero image area height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dessert-hero-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* ← fills area without distortion */
+  border-radius: 0 28px 28px 0;  /* match panel corners */
+  display: block;
+}
+
+/* gold wave accent */
+.dessert-hero-gold {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(to right, transparent, #e7c873, transparent);
+  opacity: 0.25;
+  filter: blur(30px);
+}
+
+/* ================= DESSERT POPULAR LUX ================= */
+
+.dessert-section-title {
+  font-size: 42px;
+  font-weight: 600;
+  color: #c9a227;
+  font-family: "Playfair Display", serif;
+}
+
+.dessert-title-divider {
+  display: block;
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #c9a227, transparent);
+  margin: 12px auto 0;
+  border-radius: 3px;
+}
+
+.dessert-section-subtitle {
+  color: #777;
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+
+/* gold frame */
+.dessert-gold-frame {
+  padding: 6px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #e6c15a, #b8962e);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+}
+
+
+/* card */
+.dessert-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.dessert-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.18);
+}
+
+
+/* image */
+.dessert-card img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* bottom strip like best sellers */
+.dessert-card-info {
+  background: #4b0f14;
+  color: #fff;
+  padding: 14px;
+  text-align: center;
+}
+
+.dessert-card-info h5 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.dessert-card-info span {
+  display: block;
+  margin-top: 4px;
+  color: #e6c15a;
+  font-weight: 700;
+}
+/* ===== PUDDING HERO LUXURY ===== */
+
+.puddings-hero-lux {
+  background: radial-gradient(circle at top left, #7a1c2c, #3b0612 60%);
+  padding: 90px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* gold glow edges */
+.puddings-hero-lux::before,
+.puddings-hero-lux::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(212,175,55,.35), transparent 70%);
+  filter: blur(40px);
+}
+
+.puddings-hero-lux::before {
+  top: -120px;
+  left: -120px;
+}
+
+.puddings-hero-lux::after {
+  bottom: -120px;
+  right: -120px;
+}
+
+
+/* LEFT TEXT */
+
+.puddings-hero-text h1 {
+  color: #f4d48a;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.puddings-hero-text p {
+  color: #f6e6c9;
+  font-size: 17px;
+  max-width: 520px;
+  margin-bottom: 30px;
+}
+
+
+/* RIGHT GOLD FRAME IMAGE */
+
+.puddings-hero-frame {
+  display: inline-block;
+  padding: 8px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f3d27a, #b88a2a);
+  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+}
+
+.puddings-hero-frame img {
+  width: 100%;
+  max-width: 420px;
+  height: 520px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+
+/* MINI CARDS ROW */
+
+.puddings-mini-row {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.mini-card {
+  width: 120px;
+  height: 150px;
+  background: #4a0e1c;
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  padding: 6px;
+  text-align: center;
+  transition: .3s;
+}
+
+.mini-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.mini-card span {
+  display: block;
+  color: #f4d48a;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.mini-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.5);
+}
+/* ===== PUDDING FILTER TABS ===== */
+
+.puddings-filter-bar {
+  background: #fffdf9;
+  padding: 26px 0;
+
+}
+
+.puddings-filters {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.pudding-filter {
+  background: transparent;
+  border: 2px solid #d4af37;
+  color: #f4d48a;
+  padding: 10px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  transition: .3s;
+}
+
+.pudding-filter:hover {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 18px rgba(212,175,55,.45);
+  transform: translateY(-2px);
+}
+
+.pudding-filter.active {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 22px rgba(212,175,55,.55);
+}
+
+/* ===== LUX PAGINATION ===== */
+
+.pagination-wrap {
+  margin: 60px 0 40px;
+}
+
+.pagination {
+  gap: 10px;
+}
+
+.pagination .page-item {
+  list-style: none;
+}
+
+.pagination .page-link {
+  background: #fffdf9;
+  border: 2px solid #d4af37;
+  color: #7a0f19;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 8px 16px;
+  min-width: 44px;
+  text-align: center;
+  transition: .25s;
+}
+
+/* hover */
+.pagination .page-link:hover {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 12px rgba(212,175,55,.45);
+  transform: translateY(-2px);
+}
+
+/* active page */
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  box-shadow: 0 0 16px rgba(212,175,55,.6);
+  border-color: #b88a2a;
+}
+
+/* disabled */
+.pagination .page-item.disabled .page-link {
+  opacity: .5;
+  pointer-events: none;
+}
+.add-to-cart-btn {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .25s;
+}
+
+.add-to-cart-btn:hover {
+  background: linear-gradient(135deg, #7a0f19, #4a050c);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(212,175,55,.5);
+}
 /* ================= CAKES GRID FIX ================= */
 .cakes-grid {
   padding: 70px 0;
@@ -276,6 +639,7 @@
   border: 1px solid rgba(200,164,93,0.25);
   transition: all 0.35s ease;
   height: 100%;
+  border: 5px solid #b88a2a;
 }
 
 .cake-card img {
@@ -306,212 +670,4 @@
   font-weight: 600;
   color: var(--gold);
   margin-bottom: 12px;
-}
-
-.add-to-cart-btn {
-  background: var(--gold);
-  border: none;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  transition: all 0.3s ease;
-}
-
-.add-to-cart-btn:hover {
-  background: #b18c44;
-}
-
-/* ================= PAGINATION ================= */
-
-.pagination-wrap {
-  padding: 40px 0 60px;
-}
-
-.pagination .page-link {
-  border: none;
-  margin: 0 6px;
-  border-radius: 10px;
-  color: var(--dark);
-  padding: 8px 14px;
-}
-
-.pagination .page-item.active .page-link {
-  background: var(--gold);
-  color: #fff;
-}
-
-.pagination .page-link:hover {
-  background: rgba(200,164,93,0.2);
-}
-
-
-
-/* ================= PUDDINGS PAGE ================= */
-
-.puddings-hero {
-  height: 90vh;
-  background: url("/static/images/pudding_banner.jpg") center/cover no-repeat;
-  position: relative;
-}
-
-.puddings-hero-overlay {
-  background: rgba(0,0,0,0.35);
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.puddings-hero h1 {
-  color: #fff;
-  font-size: 44px;
-  font-weight: 600;
-}
-
-.puddings-hero p {
-  color: #f4efe9;
-}
-
-/* Filter bar */
-.puddings-filter-bar {
-  position: sticky;
-  top: 80px;
-  background: #fffaf5;
-  padding: 16px 0;
-  border-bottom: 1px solid #eee2d2;
-  z-index: 40;
-}
-
-.puddings-filters {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.pudding-filter {
-  border: 1px solid #e2d6c3;
-  background: #fff;
-  padding: 10px 22px;
-  border-radius: 30px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.pudding-filter.active,
-.pudding-filter:hover {
-  background: #c8a97e;
-  color: #fff;
-}
-
-/* Grid */
-.puddings-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  padding: 40px 0;
-}
-
-.pudding-card {
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.pudding-card:hover {
-  transform: translateY(-6px);
-}
-
-.pudding-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.pudding-card h6 {
-  margin: 12px;
-  font-weight: 500;
-}
-
-.pudding-price {
-  margin: 0 12px 16px;
-  font-weight: 600;
-  color: #c8a97e;
-}
-
-/* Tags */
-.pudding-tag {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: #c8a97e;
-  color: #fff;
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 20px;
-}
-
-.pudding-tag.green { background: #2e8b57; }
-.pudding-tag.vegan { background: #5f8d4e; }
-
-.filter-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-
-.filter-btn {
-  background: #d6b98c;
-  font-weight: 600;
-}
-
-.product-card {
-  background: #fff;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  transition: transform 0.3s;
-}
-
-.product-card:hover {
-  transform: translateY(-6px);
-}
-
-.product-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.product-info {
-  padding: 15px;
-  text-align: center;
-}
-
-.product-info h6 {
-  font-weight: 600;
-}
-
-.product-info .price {
-  color: #8b5e34;
-  font-weight: 600;
-}
-
-.add-btn {
-  background: #5a3e2b;
-  color: white;
-  border-radius: 20px;
-}
-
-.dessert-hero {
-  height: 100vh;
-  background-image: url("../images/dessert_banner.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
 }

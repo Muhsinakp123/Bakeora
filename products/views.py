@@ -62,19 +62,25 @@ def puddings(request):
         puddings = puddings.filter(flavor=flavor)
 
     # -------- PRICE FILTER --------
-    if price == '300-600':
+    if price == '150-450':
         puddings = puddings.filter(price__gte=150, price__lte=450)
-    elif price == '500-1000':
-        puddings = puddings.filter(price__gte=500, price__lte=1000)
-    elif price == '1000-1500':
-        puddings = puddings.filter(price__gte=1000, price__lte=1500)
+
+    elif price == '450-800':
+        puddings = puddings.filter(price__gte=450, price__lte=800)
+
     elif price == 'low-high':
         puddings = puddings.order_by('price')
+
     elif price == 'high-low':
         puddings = puddings.order_by('-price')
 
+    # -------- PAGINATION --------
+    paginator = Paginator(puddings, 8)   # 8 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'page_obj': puddings
+        'page_obj': page_obj
     }
 
     return render(request, 'puddings.html', context)
