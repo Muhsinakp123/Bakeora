@@ -13,7 +13,7 @@
       <!-- LEFT CONTENT -->
       <div class="col-lg-6">
         <div class="puddings-hero-text">
-          <h1>Desserts Crafted<br>to Perfection</h1>
+          <h1>Puddings Crafted<br>to Perfection</h1>
 
           <p>
             Indulge in our selection of artisanal puddings and creamy
@@ -126,82 +126,95 @@
     </div>
   </div>
 </section>
+
 <!-- ===== FILTER TABS ===== -->
 <section class="puddings-filter-bar">
   <div class="container">
-    <div class="puddings-filters">
 
-      <button class="pudding-filter active" data-filter="all">
-        All
-      </button>
+    <div class="text-center">
+      <h2 class="cakes-section-title">
+        Available Delights
+        <span class="cakes-title-divider"></span>
+      </h2>
 
-      <button class="pudding-filter" data-filter="warm">
-        Warm
-      </button>
-
-      <button class="pudding-filter" data-filter="chilled">
-        Chilled
-      </button>
-
-      <button class="pudding-filter" data-filter="vegan">
-        Vegan
-      </button>
-
+      <p class="cakes-section-subtitle">
+        Explore our freshly prepared pudding collection
+      </p>
     </div>
+
+<div class="puddings-filters">
+
+<a href="?{% for k,v in request.GET.items %}{% if k != 'type' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}type=all#grid"
+   class="pudding-filter {% if not request.GET.type or request.GET.type == 'all' %}active{% endif %}">
+   All
+</a>
+
+<a href="?{% for k,v in request.GET.items %}{% if k != 'type' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}type=warm#grid"
+   class="pudding-filter {% if request.GET.type == 'warm' %}active{% endif %}">
+   Warm
+</a>
+
+<a href="?{% for k,v in request.GET.items %}{% if k != 'type' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}type=chilled#grid"
+   class="pudding-filter {% if request.GET.type == 'chilled' %}active{% endif %}">
+   Chilled
+</a>
+
+<a href="?{% for k,v in request.GET.items %}{% if k != 'type' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}type=vegan#grid"
+   class="pudding-filter {% if request.GET.type == 'vegan' %}active{% endif %}">
+   Vegan
+</a>
+
+</div>
+
+
   </div>
 </section>
-
 
 <!-- ===== FILTER BAR ===== -->
 <section class="cakes-filter-bar">
   <div class="container">
     <form method="get" class="cakes-filter-inner">
 
-      <!-- FLAVOR -->
-      <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
-        <option value="" hidden>Flavor</option>
+  <!-- keep tab filter -->
+  {% if request.GET.type %}
+  <input type="hidden" name="type" value="{{ request.GET.type }}">
+  {% endif %}
 
-        <option value="chocolate"
-          {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>
-          Chocolate
-        </option>
+  <!-- FLAVOR -->
+  <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
+    <option value="" hidden>Flavor</option>
 
-        <option value="vanilla"
-          {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>
-          Vanilla
-        </option>
+    <option value="chocolate" {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>Chocolate</option>
+    <option value="vanilla" {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>Vanilla</option>
+    <option value="fruit" {% if request.GET.flavor == 'fruit' %}selected{% endif %}>Fruit</option>
+    <option value="pistachio" {% if request.GET.flavor == 'pistachio' %}selected{% endif %}>Pistachio</option>
+    <option value="strawberry" {% if request.GET.flavor == 'strawberry' %}selected{% endif %}>Strawberry</option>
+    <option value="mango" {% if request.GET.flavor == 'mango' %}selected{% endif %}>Mango</option>
+  </select>
 
-        <option value="fruit"
-          {% if request.GET.flavor == 'fruit' %}selected{% endif %}>
-          Fruit
-        </option>
+  <!-- PRICE -->
+  <select name="price" class="cakes-filter" onchange="this.form.submit()">
+    <option value="" hidden>Price</option>
 
-        <option value="pistachio"
-          {% if request.GET.flavor == 'pistachio' %}selected{% endif %}>
-          Pistachio
-        </option>
+    <option value="150-450" {% if request.GET.price == '150-450' %}selected{% endif %}>
+      ₹150 – ₹450
+    </option>
 
-        <option value="strawberry"
-          {% if request.GET.flavor == 'strawberry' %}selected{% endif %}>
-          Strawberry
-        </option>
+    <option value="450-800" {% if request.GET.price == '450-800' %}selected{% endif %}>
+      ₹450 – ₹800
+    </option>
 
-        <option value="mango"
-          {% if request.GET.flavor == 'mango' %}selected{% endif %}>
-          Mango
-        </option>
-      </select>
+    <option value="low-high" {% if request.GET.price == 'low-high' %}selected{% endif %}>
+      Low → High
+    </option>
 
-      <!-- PRICE -->
-      <select name="price" class="cakes-filter" onchange="this.form.submit()">
-        <option value="" hidden>Price</option>
-        <option value="150-450">₹150 – ₹450</option>
-        <option value="450-800">₹450 – ₹800</option>
-        <option value="low-high">Low → High</option>
-        <option value="high-low">High → Low</option>
-      </select>
+    <option value="high-low" {% if request.GET.price == 'high-low' %}selected{% endif %}>
+      High → Low
+    </option>
+  </select>
 
-    </form>
+</form>
+
   </div>
 </section>
 

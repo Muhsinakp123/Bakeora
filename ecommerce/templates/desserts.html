@@ -23,29 +23,24 @@
       </div>
     </div>
   </div>
-
   <div class="dessert-hero-gold"></div>
 </section>
+
+
 <!-- ================= POPULAR PICKS ================= -->
 <section class="dessert-popular-lux py-5">
   <div class="container text-center">
-
     <h2 class="dessert-section-title">
       Popular Picks
       <span class="dessert-title-divider"></span>
     </h2>
-
-    <p class="dessert-section-subtitle">
-      Our most loved desserts
-    </p>
+    <p class="dessert-section-subtitle">Our most loved desserts</p>
 
     <div class="row g-4 mt-4">
-
-      <!-- Card -->
       <div class="col-12 col-sm-6 col-lg-4">
         <div class="dessert-gold-frame">
           <div class="dessert-card">
-            <img src="{% static 'images/browny.jpg' %}" alt="Brownie">
+            <img src="{% static 'images/browny.jpg' %}">
             <div class="dessert-card-info">
               <h5>Brownie</h5>
               <span>₹350</span>
@@ -57,7 +52,7 @@
       <div class="col-12 col-sm-6 col-lg-4">
         <div class="dessert-gold-frame">
           <div class="dessert-card">
-            <img src="{% static 'images/donuts.jpg' %}" alt="Donuts">
+            <img src="{% static 'images/donuts.jpg' %}">
             <div class="dessert-card-info">
               <h5>Donuts</h5>
               <span>₹200</span>
@@ -69,7 +64,7 @@
       <div class="col-12 col-sm-6 col-lg-4">
         <div class="dessert-gold-frame">
           <div class="dessert-card">
-            <img src="{% static 'images/macaroons.jpg' %}" alt="Macaroons">
+            <img src="{% static 'images/macaroons.jpg' %}">
             <div class="dessert-card-info">
               <h5>Macaroons</h5>
               <span>₹300</span>
@@ -77,69 +72,124 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ================= FILTER BAR ================= -->
+<!-- ================= GRID ================= -->
+<section id="dessert-grid" class="cakes-grid py-5">
+  <div class="container">
+
+    <!-- SECTION TITLE -->
+    <div class="text-center ">
+      <h2 class="cakes-section-title">
+        Available Delights
+        <span class="cakes-title-divider"></span>
+      </h2>
+
+      <p class="cakes-section-subtitle">
+        Explore our freshly prepared dessert collection
+      </p>
+    </div>
+    <!-- ================= FILTER BAR ================= -->
 <section class="cakes-filter-bar">
   <div class="container">
-    <form method="get" class="cakes-filter-inner">
+    <form method="get" class="cakes-filter-inner" id="filterForm">
 
-      <select name="category" class="cakes-filter" onchange="this.form.submit()">
+      <select name="category" class="cakes-filter">
         <option value="" hidden>Category</option>
-        <option value="pastries" {% if request.GET.category == 'pastries' %}selected{% endif %}>Pastries</option>
-        <option value="cookies_biscuits" {% if request.GET.category == 'cookies_biscuits' %}selected{% endif %}>Cookies & Biscuits</option>
-        <option value="brownie" {% if request.GET.category == 'brownie' %}selected{% endif %}>Brownie</option>
-        <option value="pistachio" {% if request.GET.category == 'pistachio' %}selected{% endif %}>Pistachio</option>
+
+        <option value="pastries"
+          {% if request.GET.category == 'pastries' %}selected{% endif %}>
+          Pastries
+        </option>
+
+        <option value="cookies_biscuits"
+          {% if request.GET.category == 'cookies_biscuits' %}selected{% endif %}>
+          Cookies & Biscuits
+        </option>
+
+        <option value="brownie"
+          {% if request.GET.category == 'brownie' %}selected{% endif %}>
+          Brownie
+        </option>
+
+        <option value="pistachio"
+          {% if request.GET.category == 'pistachio' %}selected{% endif %}>
+          Pistachio
+        </option>
       </select>
 
-      <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
+
+      <select name="flavor" class="cakes-filter">
         <option value="" hidden>Flavor</option>
-        <option value="chocolate">Chocolate</option>
-        <option value="vanilla">Vanilla</option>
-        <option value="fruit">Fruit</option>
-        <option value="nutty_caramel">Nutty & Caramel</option>
+
+        <option value="chocolate"
+          {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>
+          Chocolate
+        </option>
+
+        <option value="vanilla"
+          {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>
+          Vanilla
+        </option>
+
+        <option value="fruit"
+          {% if request.GET.flavor == 'fruit' %}selected{% endif %}>
+          Fruit
+        </option>
+
+        <option value="nutty_caramel"
+          {% if request.GET.flavor == 'nutty_caramel' %}selected{% endif %}>
+          Nutty & Caramel
+        </option>
       </select>
 
-      <select name="price" class="cakes-filter" onchange="this.form.submit()">
+
+      <select name="price" class="cakes-filter">
         <option value="" hidden>Price</option>
-        <option value="low-high">Low → High</option>
-        <option value="high-low">High → Low</option>
+
+        <option value="low-high"
+          {% if request.GET.price == 'low-high' %}selected{% endif %}>
+          Low → High
+        </option>
+
+        <option value="high-low"
+          {% if request.GET.price == 'high-low' %}selected{% endif %}>
+          High → Low
+        </option>
       </select>
 
     </form>
   </div>
 </section>
 
-<!-- ================= DESSERT GRID ================= -->
-<section id="dessert-grid" class="cakes-grid py-5">
-  <div class="container">
+
     <div class="row g-4">
 
       {% for dessert in page_obj %}
       <div class="col-12 col-sm-6 col-lg-3">
+        <div class="cake-card">
+          <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
 
-        <!-- ✅ STEP 3 LUX CARD -->
-        <div class="lux-card">
-          <div class="lux-img-wrap">
-            <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
-          </div>
-          <div class="lux-card-body">
+          <div class="cake-info">
             <h5>{{ dessert.name }}</h5>
             <span>₹{{ dessert.price }}</span>
+
+            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ dessert.id }}">
+              Add to Cart
+            </button>
           </div>
         </div>
-
       </div>
       {% empty %}
-        <p class="text-center">No desserts found</p>
+      <p class="text-center">No desserts found</p>
       {% endfor %}
 
     </div>
   </div>
 </section>
+
 
 <!-- ================= PAGINATION ================= -->
 <div class="pagination-wrap mb-5">
@@ -147,7 +197,8 @@
 
     {% if page_obj.has_previous %}
     <li class="page-item">
-      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">
+      <a class="page-link"
+        href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}#dessert-grid">
         Previous
       </a>
     </li>
@@ -155,13 +206,17 @@
 
     {% for num in page_obj.paginator.page_range %}
     <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ num }}">{{ num }}</a>
+      <a class="page-link"
+        href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ num }}#dessert-grid">
+        {{ num }}
+      </a>
     </li>
     {% endfor %}
 
     {% if page_obj.has_next %}
     <li class="page-item">
-      <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">
+      <a class="page-link"
+        href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}#dessert-grid">
         Next
       </a>
     </li>
@@ -169,5 +224,46 @@
 
   </ul>
 </div>
+
+
+<!-- ================= JS ================= -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    /* filter submit with anchor */
+    document.querySelectorAll('.cakes-filter').forEach(select => {
+      select.addEventListener('change', function () {
+        const form = document.getElementById("filterForm");
+        const url = new URL(window.location.href);
+        const data = new FormData(form);
+
+        for (const [k, v] of data.entries()) {
+          if (v) url.searchParams.set(k, v);
+          else url.searchParams.delete(k);
+        }
+
+        url.searchParams.delete("page");
+        url.hash = "dessert-grid";
+        window.location.href = url.toString();
+      });
+    });
+
+    /* add to cart */
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        fetch(`/cart/add/${this.dataset.productId}/`, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        })
+          .then(r => r.json())
+          .then(d => alert(d.success ? "Added to cart ✅" : "Failed ❌"));
+      });
+    });
+
+  });
+</script>
 
 {% endblock %}

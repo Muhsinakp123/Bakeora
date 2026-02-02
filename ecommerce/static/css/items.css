@@ -2,7 +2,7 @@
 
 .cakes-hero-split {
   padding: 110px 0;
-  background: #f9ead7;
+  background: radial-gradient(circle at top left, #7a1c2c, #3b0612 60%);
   overflow: hidden;
 }
 
@@ -45,34 +45,36 @@
 .cakes-hero-content h1 {
   font-family: "Playfair Display", serif;
   font-size: 3rem;
-  color: #1f3d2b;
+  color: #f4d48a;
   line-height: 1.2;
 }
 
 .cakes-hero-content h1 span {
-  color: #1f3d2b;
+  color: #f4d48a;
 }
 
 .cakes-hero-content p {
   margin-top: 20px;
   font-size: 1.05rem;
-  color: #5c5c5c;
+  color: #f2d9c2;
   max-width: 480px;
 }
 
-/* Button */
-.hero-shop-btn {
-  margin-top: 25px;
-  background: #d39a9a;
-  color: #fff;
-  padding: 12px 30px;
-  border-radius: 6px;
+.order-btn{
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 20px;
+  font-size: 13px;
   font-weight: 600;
+  transition: .25s;
 }
 
-.hero-shop-btn:hover {
-  background: #bf7f7f;
+.order-btn:hover {
+  background: linear-gradient(135deg, #7a0f19, #4a050c);
   color: #fff;
+  box-shadow: 0 0 12px rgba(212,175,55,.5);
 }
 
 @media (min-width: 992px) {
@@ -218,6 +220,8 @@
 
   text-decoration: none;
   transition: .3s;
+  
+  margin-top: 10px;
 }
 
 /* icon */
@@ -277,7 +281,6 @@
 
 .dessert-hero-lux {
   padding: 110px 0 90px;
-  background: radial-gradient(circle at center, #fff6ec 0%, #f2d9b6 100%);
   position: relative;
   overflow: hidden;
 }
@@ -305,6 +308,7 @@
   font-family: "Playfair Display", serif;
   font-size: 3rem;
   line-height: 1.15;
+  color: #f4d48a;
 }
 
 .dessert-hero-left p {
@@ -537,6 +541,7 @@
   justify-content: center;
   gap: 18px;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .pudding-filter {
@@ -548,6 +553,7 @@
   font-weight: 600;
   letter-spacing: .4px;
   transition: .3s;
+  text-decoration: none;
 }
 
 .pudding-filter:hover {
@@ -628,7 +634,6 @@
 }
 /* ================= CAKES GRID FIX ================= */
 .cakes-grid {
-  padding: 70px 0;
   background: #fffdf9;
 }
 

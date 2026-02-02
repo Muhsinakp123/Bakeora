@@ -54,37 +54,40 @@ def cakes(request):
 def puddings(request):
     puddings = Pudding.objects.all()
 
-    # -------- FILTERS --------
-    flavor = request.GET.get('flavor')
-    price = request.GET.get('price')
+    # ---------- TAB FILTER (Warm / Chilled / Vegan) ----------
+    type_filter = request.GET.get("type")
+    if type_filter and type_filter != "all":
+        puddings = puddings.filter(style=type_filter)
 
+    # ---------- FLAVOR ----------
+    flavor = request.GET.get("flavor")
     if flavor:
         puddings = puddings.filter(flavor=flavor)
 
-    # -------- PRICE FILTER --------
-    if price == '150-450':
+    # ---------- PRICE ----------
+    price = request.GET.get("price")
+
+    if price == "150-450":
         puddings = puddings.filter(price__gte=150, price__lte=450)
 
-    elif price == '450-800':
+    elif price == "450-800":
         puddings = puddings.filter(price__gte=450, price__lte=800)
 
-    elif price == 'low-high':
-        puddings = puddings.order_by('price')
+    elif price == "low-high":
+        puddings = puddings.order_by("price")
 
-    elif price == 'high-low':
-        puddings = puddings.order_by('-price')
+    elif price == "high-low":
+        puddings = puddings.order_by("-price")
 
-    # -------- PAGINATION --------
-    paginator = Paginator(puddings, 8)   # 8 items per page
-    page_number = request.GET.get('page')
+    # ---------- PAGINATION ----------
+    paginator = Paginator(puddings, 8)
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        'page_obj': page_obj
-    }
-
-    return render(request, 'puddings.html', context)
-
+    return render(request, "puddings.html", {
+        "page_obj": page_obj
+    })
+    
 def desserts(request):
     desserts = Dessert.objects.all()
 
