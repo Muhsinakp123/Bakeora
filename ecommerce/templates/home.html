@@ -222,30 +222,45 @@
     </p>
 
     <div class="contact-card mx-auto">
-      <form>
+  <form method="post">
+    {% csrf_token %}
 
-        <div class="mb-4">
-          <label class="form-label">Name</label>
-          <input type="text" class="form-control contact-input" placeholder="Your name">
-        </div>
+    <!-- identify this as contact form -->
+    <input type="hidden" name="form_type" value="contact">
 
-        <div class="mb-4">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control contact-input" placeholder="your@email.com">
-        </div>
-
-        <div class="mb-4">
-          <label class="form-label">Message</label>
-          <textarea rows="4" class="form-control contact-input"
-            placeholder="Tell us about your order or inquiry..."></textarea>
-        </div>
-
-        <button type="submit" class="contact-btn w-100">
-          Send Message
-        </button>
-
-      </form>
+    <div class="mb-4">
+      <label class="form-label">Name</label>
+      <input type="text"
+             name="name"
+             class="form-control contact-input"
+             placeholder="Your name"
+             required>
     </div>
+
+    <div class="mb-4">
+      <label class="form-label">Email</label>
+      <input type="email"
+             name="email"
+             class="form-control contact-input"
+             placeholder="your@email.com"
+             required>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label">Message</label>
+      <textarea rows="4"
+                name="message"
+                class="form-control contact-input"
+                placeholder="Tell us about your order or inquiry..."
+                required></textarea>
+    </div>
+
+    <button type="submit" class="contact-btn w-100">
+      Send Message
+    </button>
+
+  </form>
+</div>
 
   </div>
 </section>

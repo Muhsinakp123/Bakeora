@@ -13,17 +13,17 @@
 
       <!-- LEFT IMAGE COLLAGE -->
       <div class="col-lg-6 position-relative">
-<div class="cakes-hero-images-grid">
+        <div class="cakes-hero-images-grid">
 
-  <div class="hero-grid-img">
-    <img src="{% static 'images/cake-hero-1.jpg' %}" alt="Cake Image 1">
-  </div>
+          <div class="hero-grid-img">
+            <img src="{% static 'images/cake-hero-1.jpg' %}" alt="Cake Image 1">
+          </div>
 
-  <div class="hero-grid-img">
-    <img src="{% static 'images/cake-hero-2.jpg' %}" alt="Cake Image 2">
-  </div>
+          <div class="hero-grid-img">
+            <img src="{% static 'images/cake-hero-2.jpg' %}" alt="Cake Image 2">
+          </div>
 
-</div>
+        </div>
 
       </div>
 
@@ -120,9 +120,9 @@
 <!-- ================= CATEGORY BUBBLES ================= -->
 <section class="cakes-categories">
   <div class="container">
-        <!-- SECTION TITLE -->
+    <!-- SECTION TITLE -->
     <div class="text-center ">
-      <h2 class="cakes-section-title" >
+      <h2 class="cakes-section-title">
         Available Delights
         <span class="cakes-title-divider"></span>
       </h2>
@@ -132,31 +132,70 @@
       </p>
     </div>
     <div class="cakes-category-row">
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=all#c-grid"
+class="cakes-category {% if not request.GET.category or request.GET.category == 'all' %}active{% endif %}">
+  <i class="fa-solid fa-gift"></i>
+  <span>All</span>
+</a>
 
-      <a href="?category=wedding"
-         class="cakes-category {% if not request.GET.category or request.GET.category == 'wedding' %}active{% endif %}">
-        <i class="bi bi-heart"></i><span>Wedding</span>
-      </a>
 
-      <a href="?category=birthday"
-         class="cakes-category {% if request.GET.category == 'birthday' %}active{% endif %}">
-        <i class="bi bi-cake2"></i><span>Birthday</span>
-      </a>
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=wedding#c-grid"
+class="cakes-category {% if request.GET.category == 'wedding' %}active{% endif %}">
+  <i class="bi bi-heart"></i><span>Wedding</span>
+</a>
 
-      <a href="?category=bento"
-         class="cakes-category {% if request.GET.category == 'bento' %}active{% endif %}">
-        <i class="bi bi-box"></i><span>Bento</span>
-      </a>
 
-      <a href="?category=vegan"
-         class="cakes-category {% if request.GET.category == 'vegan' %}active{% endif %}">
-        <i class="bi bi-leaf"></i><span>Vegan</span>
-      </a>
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=birthday#c-grid"
+class="cakes-category {% if request.GET.category == 'birthday' %}active{% endif %}">
+  <i class="bi bi-cake2"></i><span>Birthday</span>
+</a>
 
-      <a href="?category=kids"
-         class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
-        <i class="bi bi-emoji-smile"></i><span>Kids</span>
-      </a>
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=bento#c-grid"
+class="cakes-category {% if request.GET.category == 'bento' %}active{% endif %}">
+  <i class="bi bi-box"></i><span>Bento</span>
+</a>
+
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=vegan#c-grid"
+class="cakes-category {% if request.GET.category == 'vegan' %}active{% endif %}">
+  <i class="bi bi-leaf"></i><span>Vegan</span>
+</a>
+
+
+<a href="?{% for k,v in request.GET.items %}
+{% if k != 'category' and k != 'page' %}
+{{k}}={{v}}&
+{% endif %}
+{% endfor %}
+category=kids#c-grid"
+class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
+  <i class="bi bi-emoji-smile"></i><span>Kids</span>
+</a>
+
 
     </div>
   </div>
@@ -167,48 +206,59 @@
   <div class="container">
     <form method="get" class="cakes-filter-inner">
       {% if request.GET.category %}
-        <input type="hidden" name="category" value="{{ request.GET.category }}">
+      <input type="hidden" name="category" value="{{ request.GET.category }}">
       {% endif %}
 
       <!-- Flavor Filter -->
-      <select name="flavor" class="cakes-filter" onchange="this.form.submit()">
-        <option value="" hidden>Flavor</option>
-        <option value="chocolate" {% if request.GET.flavor == 'chocolate' %}selected{% endif %}>Chocolate</option>
-        <option value="vanilla" {% if request.GET.flavor == 'vanilla' %}selected{% endif %}>Vanilla</option>
-        <option value="red-velvet" {% if request.GET.flavor == 'red-velvet' %}selected{% endif %}>Red Velvet</option>
-        <option value="butterscotch" {% if request.GET.flavor == 'butterscotch' %}selected{% endif %}>Butterscotch</option>
-        <option value="fruit-cakes" {% if request.GET.flavor == 'fruit-cakes' %}selected{% endif %}>Fruit Cakes</option>
-        <option value="cheese_cakes" {% if request.GET.flavor == 'cheese_cakes' %}selected{% endif %}>Cheese Cakes</option>
-      </select>
+<select name="flavor" class="cakes-filter" onchange="this.form.submit()">
+<option value="">Flavor</option>
+
+{% for value,label in flavors %}
+<option value="{{ value }}"
+{% if request.GET.flavor == value %}selected{% endif %}>
+{{ label }}
+</option>
+{% endfor %}
+</select>
+
+
 
       <!-- Structure Filter -->
-      <select name="structure" class="cakes-filter" onchange="this.form.submit()">
-        <option value="" hidden>Structure</option>
-        <option value="single" {% if request.GET.structure == 'single' %}selected{% endif %}>Single Tier</option>
-        <option value="double" {% if request.GET.structure == 'double' %}selected{% endif %}>Double Tier</option>
-        <option value="cupcakes" {% if request.GET.structure == 'cupcakes' %}selected{% endif %}>Cup Cakes</option>
-        <option value="sheetcakes" {% if request.GET.structure == 'sheetcakes' %}selected{% endif %}>Sheet Cakes</option>
-        <option value="spongecakes" {% if request.GET.structure == 'spongecakes' %}selected{% endif %}>Sponge Cakes</option>
-        <option value="themecakes" {% if request.GET.structure == 'themecakes' %}selected{% endif %}>Theme Cakes</option>
-      </select>
+<select name="structure" class="cakes-filter" onchange="this.form.submit()">
+<option value="">Structure</option>
+
+{% for value,label in structures %}
+<option value="{{ value }}"
+{% if request.GET.structure == value %}selected{% endif %}>
+{{ label }}
+</option>
+{% endfor %}
+</select>
 
       <!-- Price Filter -->
-      <select name="price" class="cakes-filter" onchange="this.form.submit()">
-        <option value="" hidden>Price</option>
-        <option value="300-600" {% if request.GET.price == '300-600' %}selected{% endif %}>₹300 – ₹600</option>
-        <option value="500-1000" {% if request.GET.price == '500-1000' %}selected{% endif %}>₹500 – ₹1000</option>
-        <option value="1000-1500" {% if request.GET.price == '1000-1500' %}selected{% endif %}>₹1000 – ₹1500</option>
-        <option value="low-high" {% if request.GET.price == 'low-high' %}selected{% endif %}>Low → High</option>
-        <option value="high-low" {% if request.GET.price == 'high-low' %}selected{% endif %}>High → Low</option>
-      </select>
+<select name="price" class="cakes-filter" onchange="this.form.submit()">
+  <option value="" hidden>Price</option>
+
+  <option value="400-1000" {% if request.GET.price == '400-1000' %}selected{% endif %}>₹400 – ₹1000</option>
+
+  <option value="1000-2000" {% if request.GET.price == '1000-2000' %}selected{% endif %}>₹1000 – ₹2000</option>
+
+  <option value="2000-5000" {% if request.GET.price == '2000-5000' %}selected{% endif %}>₹2000 – ₹5000</option>
+
+  <option value="low-high" {% if request.GET.price == 'low-high' %}selected{% endif %}>Low → High</option>
+
+  <option value="high-low" {% if request.GET.price == 'high-low' %}selected{% endif %}>High → Low</option>
+</select>
+
     </form>
   </div>
 </section>
 
 <!-- ================= CAKE GRID ================= -->
-<section class="cakes-grid">
+<section class="cakes-grid" id="c-grid">
   <div class="container">
     <div class="row g-4">
+
       {% for cake in page_obj %}
       <div class="col-12 col-sm-6 col-lg-3">
         <div class="cake-card">
@@ -216,43 +266,72 @@
             <img src="{{ cake.image.url }}" alt="{{ cake.name }}">
           </a>
           <div class="cake-info">
-            <a href="{% url 'cake_detail' cake.id %}"><h5>{{ cake.name }}</h5></a>
+            <a href="{% url 'cake_detail' cake.id %}">
+              <h5>{{ cake.name }}</h5>
+            </a>
             <span>₹{{ cake.price }}</span>
-            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ cake.id }}">Add to Cart</button>
+            <button class="btn btn-sm add-to-cart-btn"
+                    data-product-id="{{ cake.id }}">
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
+
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <h5>No cakes found for selected filters</h5>
+      </div>
       {% endfor %}
+
     </div>
   </div>
 </section>
+
 
 <!-- ================= PAGINATION ================= -->
 <div class="pagination-wrap">
   <ul class="pagination justify-content-center">
     {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}">Previous</a>
-      </li>
+    <li class="page-item">
+      <a class="page-link"
+        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}#c-grid">Previous</a>
+    </li>
     {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-      <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-        <a class="page-link" href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+{% for num in page_obj.paginator.page_range %}
+  {% if num <= 3 %}
+    {% if page_obj.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
       </li>
-    {% endfor %}
+    {% else %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#c-grid">
+           {{ num }}
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 
     {% if page_obj.has_next %}
-      <li class="page-item">
-        <a class="page-link" href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">Next</a>
-      </li>
+    <li class="page-item">
+      <a class="page-link"
+        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}#c-grid">Next</a>
+    </li>
     {% endif %}
   </ul>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
   document.querySelectorAll('.add-to-cart-btn').forEach(button => {
     button.addEventListener('click', function () {
+
       const productId = this.dataset.productId;
 
       fetch(`/cart/add/${productId}/`, {
@@ -262,17 +341,19 @@
           "X-Requested-With": "XMLHttpRequest"
         }
       })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         if (data.success) {
           alert("Added to cart ✅");
         } else {
           alert("Failed to add to cart ❌");
         }
-      })
-      .catch(error => console.error("Error:", error));
+      });
+
     });
   });
+
+});
 </script>
 
 {% endblock %}

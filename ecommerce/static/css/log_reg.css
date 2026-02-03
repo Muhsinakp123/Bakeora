@@ -1,87 +1,220 @@
-.login-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ===== BODY ===== */
+
+.lux-split-body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Poppins,sans-serif;
+  background: radial-gradient(circle at 20% 20%, #7a0f18, #2a0005 70%);
 }
 
-.login-card {
-    background: #fff;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 400px;
+/* ===== CARD ===== */
+
+.lux-split-card{
+  width:900px;
+  max-width:95vw;
+  height:580px;
+  background:white;
+  border-radius:24px;
+  display:flex;
+  overflow:hidden;
+
+  box-shadow:0 50px 120px rgba(0,0,0,.45);
 }
 
-.login-card h2 {
-    margin-bottom: 20px;
-    font-weight: 700;
+/* ===== LEFT PANEL ===== */
+
+.lux-left-panel{
+  width:38%;
+  background:
+    linear-gradient(135deg,
+      #a0152a 0%,
+      #7a0f18 40%,
+      #5b0912 100%);
+  position:relative;
 }
 
-.google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    text-decoration: none;
-    color: #444;
-    font-weight: 500;
-    transition: all 0.3s ease;
+/* angled gold overlay */
+
+.lux-left-panel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg,
+      transparent 35%,
+      rgba(212,168,96,.25) 36%,
+      rgba(212,168,96,.25) 60%,
+      transparent 61%);
 }
 
-.google-btn img {
-    width: 20px;
-    margin-right: 10px;
+.lux-left-inner{
+  position:absolute;
+  top:140px;
+  left:40px;
 }
 
-.google-btn:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.lux-pill{
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  padding:12px 26px;
+  border-radius:999px;
+  margin-bottom:16px;
+  font-size:14px;
+  letter-spacing:1px;
 }
 
-.divider-text {
-    margin: 15px 0;
-    color: #888;
+.lux-pill.active{
+  background:#f3d596;
+  color:#6b3f00;
+  font-weight:600;
+}
+.pill-link{
+  text-decoration: none;
 }
 
-form input {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
+/* ===== RIGHT PANEL ===== */
+
+.lux-right-panel{
+  width:62%;
+  padding:60px 70px;
+  text-align:center;
 }
 
-.login-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: #cbb894; /* Beige color */
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+/* ===== ICON ===== */
+
+.lux-login-icon{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  margin:0 auto 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:white;
+
+  background:linear-gradient(#e7c178,#b27a2b);
+  box-shadow:0 12px 26px rgba(179,122,43,.4);
 }
 
-.login-btn:hover {
-    background: #bfa77b;
+.lux-right-panel h2{
+  font-family:"Playfair Display",serif;
+  color:#9b6a24;
+  font-size:32px;
+  margin-bottom:26px;
 }
 
-.links {
-    margin-top: 15px;
+/* ===== INPUT ===== */
+
+.lux-input{
+  margin-bottom:22px;
 }
 
-.links a {
-    color: #007bff;
-    text-decoration: none;
+.lux-input input{
+  width:100%;
+  border:none;
+  border-bottom:2px solid #d8c39b;
+  padding:12px 4px;
+  font-size:15px;
+  background:transparent;
+  outline:none;
 }
 
-.links a:hover {
-    text-decoration: underline;
+.lux-input input:focus{
+  border-color:#b8893a;
+}
+
+/* ===== ROW ===== */
+
+.lux-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+}
+
+.forgot-link{
+  font-size:13px;
+  color:#7a0f18;
+  text-decoration:none;
+}
+
+/* ===== BUTTON ===== */
+
+.lux-btn{
+  padding:10px 26px;
+  border-radius:999px;
+  border:none;
+  font-weight:600;
+  letter-spacing:1px;
+  color:white;
+  cursor:pointer;
+
+  background:linear-gradient(#e7c178,#b27a2b);
+  box-shadow:0 10px 20px rgba(179,122,43,.35);
+}
+
+/* ===== DIVIDER ===== */
+
+.lux-divider{
+  margin:28px 0 16px;
+  font-size:13px;
+  color:#8b7a60;
+}
+
+/* ===== SOCIAL ===== */
+
+.social-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 120px;
+  border-radius:999px;
+  border:1px solid #d8c39b;
+  text-decoration:none;
+  color:#6f5b43;
+  font-size:14px;
+}
+
+.social-btn img{
+  width:18px;
+}
+
+/* ===== SIGNUP ===== */
+
+.signup-text{
+  margin-top:20px;
+  font-size:13px;
+}
+
+.signup-text a{
+  color:#b8893a;
+  font-weight:600;
+  text-decoration:none;
+}
+
+/* ===== ERROR ===== */
+
+.error-msg{
+  background:#ffe6e6;
+  color:#a33;
+  padding:8px;
+  border-radius:8px;
+  font-size:13px;
+  margin-bottom:14px;
+}
+.lux-split-card-reg{
+  width:900px;
+  max-width:95vw;
+  height:640px;
+  background:white;
+  border-radius:24px;
+  display:flex;
+  overflow:hidden;
+
+  box-shadow:0 50px 120px rgba(0,0,0,.45);
 }

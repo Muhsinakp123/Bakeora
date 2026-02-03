@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import Subscriber
 
 # Create your views here.
 
@@ -41,7 +42,7 @@ def register_view(request):
                 password=password
             )
             messages.success(request, "Account created successfully")
-            return redirect('login')
+            return redirect('home')
 
     return render(request, "register.html")
 
@@ -49,3 +50,14 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+def subscribe_email(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+
+        if email:
+            Subscriber.objects.get_or_create(email=email)
+
+    return redirect(request.META.get("HTTP_REFERER", "/"))
+
+

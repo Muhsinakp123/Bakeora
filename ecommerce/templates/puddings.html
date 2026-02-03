@@ -260,14 +260,23 @@
     </li>
     {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-      <a class="page-link"
-        href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#grid">
-        {{ num }}
-      </a>
-    </li>
-    {% endfor %}
+{% for num in page_obj.paginator.page_range %}
+  {% if num <= 3 %}
+    {% if page_obj.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#grid">
+           {{ num }}
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 
     {% if page_obj.has_next %}
     <li class="page-item">

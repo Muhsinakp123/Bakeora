@@ -4,110 +4,166 @@
 
 {% block content %}
 
-<section class="shop-page py-5 mt-5">
+<section class="shop-page mt-5">
   <div class="container">
 
-    <h2 class="text-center fw-bold mb-4">Shop Our Delights</h2>
-
-    <div class="row">
-
-      <!-- FILTER SIDEBAR -->
-      <div class="col-md-3 mb-4">
-        <form method="get" class="filter-box" id="filterForm">
-
-          <h5 class="mb-3">Filter</h5>
-
-          <!-- Product Type -->
-          <select name="type" class="form-select mb-3" onchange="this.form.submit()">
-  <option value="">All Products</option>
-
-  <option value="cake"
-    {% if selected_type == 'cake' %}selected{% endif %}>
-    Cakes
-  </option>
-
-  <option value="dessert"
-    {% if selected_type == 'dessert' %}selected{% endif %}>
-    Desserts
-  </option>
-
-  <option value="pudding"
-    {% if selected_type == 'pudding' %}selected{% endif %}>
-    Puddings
-  </option>
-
-  <option value="sugarfree"
-    {% if selected_type == 'sugarfree' %}selected{% endif %}>
-    Sugar Free
-  </option>
-
-  <option value="gift"
-    {% if selected_type == 'gift' %}selected{% endif %}>
-    Gift
-  </option>
-</select>
+    <!-- SECTION TITLE -->
+    <div class="text-center">
+      <h2 class="cakes-section-title">
+        Shop Our Delights
+        <span class="cakes-title-divider"></span>
+      </h2>
+      <p class="cakes-section-subtitle">
+        Explore everything freshly baked at Bakeora
+      </p>
+    </div>
 
 
-          <!-- Price -->
-          <select name="price" class="form-select mb-3" onchange="this.form.submit()">
-  <option value="">Price</option>
+    <!-- ================= FILTER BAR (DESSERT STYLE) ================= -->
+    <section class="cakes-filter-bar">
+      <div class="container">
+        <form method="get" class="cakes-filter-inner" id="filterForm">
 
-  <option value="under-500"
-    {% if selected_price == 'under-500' %}selected{% endif %}>
-    Under ₹500
-  </option>
+          <!-- TYPE -->
+          <select name="type" class="cakes-filter">
+            <option value="" hidden>Product Type</option>
 
-  <option value="500-1000"
-    {% if selected_price == '500-1000' %}selected{% endif %}>
-    ₹500 – ₹1000
-  </option>
+            <option value="cake" {% if selected_type == 'cake' %}selected{% endif %}>Cakes</option>
+            <option value="dessert" {% if selected_type == 'dessert' %}selected{% endif %}>Desserts</option>
+            <option value="pudding" {% if selected_type == 'pudding' %}selected{% endif %}>Puddings</option>
 
-  <option value="low-high"
-    {% if selected_price == 'low-high' %}selected{% endif %}>
-    Low → High
-  </option>
+          </select>
 
-  <option value="high-low"
-    {% if selected_price == 'high-low' %}selected{% endif %}>
-    High → Low
-  </option>
-</select>
+          <!-- PRICE -->
+          <select name="price" class="cakes-filter">
+            <option value="" hidden>Price</option>
 
+            <option value="under-500" {% if selected_price == 'under-500' %}selected{% endif %}>
+              Under ₹500
+            </option>
+
+            <option value="500-1000" {% if selected_price == '500-1000' %}selected{% endif %}>
+              ₹500 – ₹1000
+            </option>
+
+            <option value="low-high" {% if selected_price == 'low-high' %}selected{% endif %}>
+              Low → High
+            </option>
+
+            <option value="high-low" {% if selected_price == 'high-low' %}selected{% endif %}>
+              High → Low
+            </option>
+
+          </select>
 
         </form>
-
       </div>
+    </section>
 
-      <!-- PRODUCTS GRID -->
-      <div class="col-md-9">
-        <div class="row g-4">
 
-          {% for item in products %}
-          <div class="col-md-4 col-6">
-            <div class="product-card">
+    <!-- ================= PRODUCTS GRID ================= -->
+    <div class="row g-4 mt-4" id="shop-grid">
 
-              <img src="{{ item.image.url }}" alt="{{ item.name }}">
+      {% for item in page_obj %}
+      <div class="col-12 col-sm-6 col-lg-3">
 
-              <div class="product-info">
-                <h6>{{ item.name }}</h6>
-                <p class="price">₹{{ item.price }}</p>
+        <!-- USING YOUR EXISTING CAKE CARD STYLE -->
+        <div class="cake-card">
+          <img src="{{ item.image.url }}" alt="{{ item.name }}">
 
-                <a href="{% url 'search_redirect' item.id %}" class="btn btn-sm add-btn">
-                  View
-                </a>
-              </div>
+          <div class="cake-info">
+            <h5>{{ item.name }}</h5>
+            <span>₹{{ item.price }}</span>
 
-            </div>
+            <a href="{% url 'search_redirect' item.id %}"
+               class="btn btn-sm add-to-cart-btn">
+              View
+            </a>
           </div>
-          {% empty %}
-          <p class="text-center">No products found</p>
-          {% endfor %}
-
         </div>
+
       </div>
+      {% empty %}
+        <p class="text-center">No products found</p>
+      {% endfor %}
 
     </div>
+
   </div>
 </section>
+
+
+<!-- ================= PAGINATION (UNCHANGED LOGIC) ================= -->
+{% if page_obj.has_other_pages %}
+<div class="pagination-wrap text-center mb-5">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?page={{ page_obj.previous_page_number }}&type={{ selected_type }}&price={{ selected_price }}#shop-grid">
+         Prev
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Prev</span>
+    </li>
+    {% endif %}
+
+{% for num in page_obj.paginator.page_range %}
+  {% if num <= 3 %}
+    {% if page_obj.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#shop-grid">
+           {{ num }}
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link"
+         href="?page={{ page_obj.next_page_number }}&type={{ selected_type }}&price={{ selected_price }}#shop-grid">
+         Next
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Next</span>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+{% endif %}
+
+
+<!-- ================= FILTER AUTO SUBMIT JS ================= -->
+<script>
+document.querySelectorAll('.cakes-filter').forEach(select => {
+  select.addEventListener('change', function () {
+    const form = document.getElementById("filterForm");
+    const data = new FormData(form);
+    const url = new URL(window.location.href);
+
+    for (const [k,v] of data.entries()) {
+      if (v) url.searchParams.set(k, v);
+      else url.searchParams.delete(k);
+    }
+
+    url.searchParams.delete("page");
+    window.location.href = url.toString();
+  });
+});
+</script>
 
 {% endblock %}

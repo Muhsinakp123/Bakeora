@@ -270,6 +270,7 @@ body {
 
 .cart-circle:hover {
   background: rgba(231, 200, 115, 0.1);
+  border-color: #e7c873;
   box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
 }
 

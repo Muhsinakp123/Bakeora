@@ -1,44 +1,86 @@
+{% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Bakeora</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Bakeora</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/log_reg.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-    <div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-4">
 
-      <h3 class="text-center mb-4">Create Account</h3>
-      {% load socialaccount %}
+<body class="lux-split-body">
 
-<a href="{% provider_login_url 'google' %}" class="google-btn">
-  <img src="https://developers.google.com/identity/images/g-logo.png">
-  Continue with Google
-</a>
+<div class="lux-split-card-reg">
 
-<div class="auth-divider">or</div>
+  <!-- LEFT PANEL -->
+  <div class="lux-left-panel">
+    <div class="lux-left-inner">
 
+      <a href="{% url 'login' %}" class="pill-link">
+        <div class="lux-pill">LOGIN</div>
+      </a>
 
-      <form method="POST">
-        {% csrf_token %}
-
-        <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
-        <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
-        <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
-
-        <button class="btn btn-dark w-100">Sign Up</button>
-      </form>
-
-      <p class="text-center mt-3">
-        Already have an account?
-        <a href="{% url 'login' %}">Login</a>
-      </p>
+      <a href="{% url 'register' %}" class="pill-link">
+        <div class="lux-pill active">SIGN UP</div>
+      </a>
 
     </div>
   </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="lux-right-panel">
+
+    <div class="lux-login-icon">
+      <i class="fa-solid fa-user-plus"></i>
+    </div>
+
+    <h2>Sign Up</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="lux-input">
+        <input type="text" name="username" placeholder="Username" required>
+      </div>
+
+      <div class="lux-input">
+        <input type="email" name="email" placeholder="Email" required>
+      </div>
+
+      <div class="lux-input">
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+
+      <div class="lux-row" style="justify-content:flex-end;">
+        <button type="submit" class="lux-btn">
+          CREATE ACCOUNT
+        </button>
+      </div>
+
+    </form>
+
+    <div class="lux-divider">Or sign up with</div>
+
+    <div class="lux-social">
+      <a href="{% provider_login_url 'google' %}" class="social-btn">
+        <img src="{% static 'images/google.jpg' %}">
+        Google
+      </a>
+    </div>
+
+    <p class="signup-text">
+      Already have an account?
+      <a href="{% url 'login' %}">Login</a>
+    </p>
+
+  </div>
+
 </div>
+
 </body>
 </html>

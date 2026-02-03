@@ -2,12 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import JsonResponse
 from products.models import ProductSearch
+from accounts.models import ContactMessage
 
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    if request.method == "POST" and request.POST.get("form_type") == "contact":
+        ContactMessage.objects.create(
+            name=request.POST.get("name"),
+            email=request.POST.get("email"),
+            message=request.POST.get("message"),
+        )
 
+    return render(request, "home.html")
 
 def search(request):
     query = request.GET.get('q')

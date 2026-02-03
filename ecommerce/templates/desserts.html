@@ -42,8 +42,8 @@
           <div class="dessert-card">
             <img src="{% static 'images/browny.jpg' %}">
             <div class="dessert-card-info">
-              <h5>Brownie</h5>
-              <span>₹350</span>
+              <h5>Cheesecake Swirl Brownie</h5>
+              <span>₹790</span>
             </div>
           </div>
         </div>
@@ -204,14 +204,23 @@
     </li>
     {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-      <a class="page-link"
-        href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ num }}#dessert-grid">
-        {{ num }}
-      </a>
-    </li>
-    {% endfor %}
+{% for num in page_obj.paginator.page_range %}
+  {% if num <= 3 %}
+    {% if page_obj.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
+      </li>
+    {% else %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?{% for key,value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}#dessert-grid">
+           {{ num }}
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 
     {% if page_obj.has_next %}
     <li class="page-item">

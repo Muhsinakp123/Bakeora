@@ -193,10 +193,17 @@
           Get exclusive offers, new launches, and dessert inspiration.
         </p>
 
-        <form class="newsletter-box">
-          <input type="email" placeholder="Enter your email" required>
-          <button type="submit">Subscribe</button>
-        </form>
+<form method="post" action="{% url 'subscribe_email' %}" class="newsletter-box">
+
+  {% csrf_token %}
+
+  <input type="email"
+         name="email"
+         placeholder="Enter your email"
+         required>
+
+  <button type="submit">Subscribe</button>
+</form>
 
         <div class="payment-icons mt-4">
           <i class="fab fa-cc-visa"></i>

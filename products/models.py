@@ -49,6 +49,7 @@ class Cake(models.Model):
     STRUCTURE_CHOICES = [
     ('single','Single Tier'),
     ('double','Double Tier'),
+    ('trible','Trible Tier'),
     ('cupcakes','Cup Cakes'),
     ('sheetcakes','Sheet Cakes'),
     ('spongecakes','Sponge Cakes'),
