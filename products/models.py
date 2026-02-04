@@ -3,25 +3,40 @@ from django.db import models
 # Create your models here.
 
 class ProductSearch(models.Model):
-
     PRODUCT_TYPES = [
         ('cake', 'Cake'),
         ('dessert', 'Dessert'),
         ('pudding', 'Pudding'),
     ]
 
-    name = models.CharField(max_length=150)
+    product_id = models.PositiveIntegerField()
     product_type = models.CharField(max_length=20, choices=PRODUCT_TYPES)
 
-    category = models.CharField(max_length=100, blank=True, null=True)
-    flavor = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=200, db_index=True)
 
-    price = models.IntegerField()
-    image = models.ImageField(upload_to='search/')
-    product_id = models.PositiveIntegerField()
+    category = models.CharField(
+        max_length=100,
+        blank=True,
+        default=""
+    )
+
+    flavor = models.CharField(
+        max_length=100,
+        blank=True,
+        default=""
+    )
+
+    tags = models.CharField(max_length=250, blank=True)
+    description = models.TextField(blank=True)
+
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    image = models.ImageField(upload_to='search/', blank=True)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.name} ({self.product_type})"
+        return self.name
+
 
 class Cake(models.Model):
     name = models.CharField(max_length=150)

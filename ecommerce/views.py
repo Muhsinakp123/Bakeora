@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.db.models import Q
 from django.http import JsonResponse
-from products.models import ProductSearch
+from products.models import ProductSearch,Cake,Pudding,Dessert
 from accounts.models import ContactMessage
+from rapidfuzz import fuzz
+from .search_utils import normalize_query
 
 # Create your views here.
 
@@ -17,52 +19,90 @@ def home(request):
     return render(request, "home.html")
 
 def search(request):
-    query = request.GET.get('q')
-    results = {}
+    raw_query = request.GET.get("q", "")
+    query = normalize_query(raw_query)
 
-    if query:
-        queryset = ProductSearch.objects.filter(
-            Q(name__icontains=query) |
-            Q(category__icontains=query) |
-            Q(flavor__icontains=query)
-        )
+    base_qs = ProductSearch.objects.filter(is_active=True)
 
-        # group by product type (for your UI sections)
-        results = {
-            'cakes': queryset.filter(product_type='cake'),
-            'desserts': queryset.filter(product_type='dessert'),
-            'puddings': queryset.filter(product_type='pudding'),
-            'sugarfree': queryset.filter(product_type='sugarfree'),
-            'gift': queryset.filter(product_type='gift'),
-        }
+    # Broad DB filter first (fast pre-filter)
+    db_matches = base_qs.filter(
+        Q(name__icontains=query) |
+        Q(category__icontains=query) |
+        Q(flavor__icontains=query) |
+        Q(tags__icontains=query)
+    )
 
-    return render(request, 'search_results.html', {
-        'query': query,
-        'results': results
-    })
+    scored = []
+
+    for item in db_matches:
+        score = 0
+
+        score += fuzz.partial_ratio(query, item.name.lower()) * 3
+        score += fuzz.partial_ratio(query, item.category.lower()) * 2
+        score += fuzz.partial_ratio(query, item.flavor.lower()) * 2
+        score += fuzz.partial_ratio(query, item.tags.lower())
+
+        if score > 120:   # threshold
+            scored.append((score, item))
+
+    scored.sort(reverse=True, key=lambda x: x[0])
+
+    results = [x[1] for x in scored]
+
+    context = {
+        "query": raw_query,
+        "results": results
+    }
+
+    return render(request, "search_results.html", context)
+
 
 def ajax_search(request):
-    query = request.GET.get('q', '').strip()
+    q = request.GET.get("q", "").strip()
+
+    if len(q) < 1:
+        return JsonResponse([], safe=False)
+
+    cakes = Cake.objects.filter(
+        Q(name__icontains=q) | Q(flavor__icontains=q)
+    )[:5]
+
+    desserts = Dessert.objects.filter(
+        Q(name__icontains=q) | Q(flavor__icontains=q)
+    )[:5]
+
+    puddings = Pudding.objects.filter(
+        Q(name__icontains=q) | Q(flavor__icontains=q)
+    )[:5]
 
     results = []
 
-    if query:
-        items = ProductSearch.objects.filter(
-            Q(name__icontains=query) |
-            Q(category__icontains=query) |
-            Q(flavor__icontains=query)
-        )[:8]  # limit results (important)
+    for c in cakes:
+        results.append({
+            "name": c.name,
+            "price": c.price,
+            "image": c.image.url if c.image else "",
+            "url": f"/cakes/{c.id}/"
+        })
 
-        for item in items:
-            results.append({
-                'id': item.id,
-                'name': item.name,
-                'price': item.price,
-                'image': item.image.url,
-                'type': item.product_type
-            })
+    for d in desserts:
+        results.append({
+            "name": d.name,
+            "price": d.price,
+            "image": d.image.url if d.image else "",
+            "url": f"/desserts/{d.id}/"
+        })
 
-    return JsonResponse({'results': results})
+    for p in puddings:
+        results.append({
+            "name": p.name,
+            "price": p.price,
+            "image": p.image.url if p.image else "",
+            "url": f"/puddings/{p.id}/"
+        })
+
+    return JsonResponse(results, safe=False)
+
 
 def search_redirect(request, id):
     item = get_object_or_404(ProductSearch, id=id)

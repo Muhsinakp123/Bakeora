@@ -27,20 +27,17 @@ def cakes(request):
         cakes_qs = cakes_qs.filter(structure=structure)
 
     # ---------- PRICE ----------
-    if price == '300-600':
-        cakes_qs = cakes_qs.filter(price__range=(300,600))
-
-    elif price == '500-1000':
-        cakes_qs = cakes_qs.filter(price__range=(500,1000))
-
-    elif price == '1000-1500':
-        cakes_qs = cakes_qs.filter(price__range=(1000,1500))
-
+    if price == '400-1000':
+        cakes_qs = cakes_qs.filter(price__range=(400,1000))
+    elif price == '1000-2000':
+        cakes_qs = cakes_qs.filter(price__range=(1000,2000))
+    elif price == '2000-5000':
+        cakes_qs = cakes_qs.filter(price__range=(2000,5000))
     elif price == 'low-high':
         cakes_qs = cakes_qs.order_by('price')
-
     elif price == 'high-low':
         cakes_qs = cakes_qs.order_by('-price')
+
 
     paginator = Paginator(cakes_qs, 8)
     page_obj = paginator.get_page(request.GET.get("page"))
@@ -180,19 +177,17 @@ def shop(request):
 
 def cake_detail(request, id):
     cake = get_object_or_404(Cake, id=id)
+    return render(request, "cake_detail.html", {"cake": cake})
 
-    # ensure product exists in ProductSearch
-    product_search, created = ProductSearch.objects.get_or_create(
-        product_id=cake.id,
-        product_type='cake',
-        defaults={
-            'name': cake.name,
-            'price': cake.price,
-            'image': cake.image,
-        }
-    )
 
-    return render(request, 'cake_detail.html', {
-        'cake': cake,
-        'product': product_search
+def dessert_detail(request, id):
+    dessert = get_object_or_404(Dessert, id=id)
+    return render(request, "dessert_detail.html", {
+        "dessert": dessert
+    })
+    
+def pudding_detail(request, id):
+    pudding = get_object_or_404(Pudding, id=id)
+    return render(request, "pudding_detail.html", {
+        "pudding": pudding
     })

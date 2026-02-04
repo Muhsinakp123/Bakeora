@@ -259,14 +259,14 @@
     e.stopPropagation();
   });
 
-  // Close ONLY when clicking overlay
+  // Close overlay click
   overlay.addEventListener("click", () => {
     overlay.classList.remove("active");
     resultsBox.innerHTML = "";
     searchInput.blur();
   });
 
-  // ESC key close
+  // ESC close
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       overlay.classList.remove("active");
@@ -277,6 +277,7 @@
 
   /* LIVE SEARCH */
   let timer;
+
   searchInput.addEventListener("keyup", () => {
     clearTimeout(timer);
     const query = searchInput.value.trim();
@@ -292,16 +293,16 @@
         .then(data => {
           resultsBox.innerHTML = "";
 
-          if (!data.results.length) {
+          if (!data.length) {
             resultsBox.innerHTML =
               `<div class="search-empty">No results found</div>`;
             return;
           }
 
-          data.results.forEach(item => {
+          data.forEach(item => {
             resultsBox.innerHTML += `
               <div class="search-item"
-                onclick="window.location.href='/${item.type}/${item.id}/'">
+                onclick="window.location.href='${item.url}'">
                 <img src="${item.image}">
                 <div>
                   <strong>${item.name}</strong><br>
@@ -311,9 +312,9 @@
           });
         });
     }, 300);
+
   });
 </script>
-
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
