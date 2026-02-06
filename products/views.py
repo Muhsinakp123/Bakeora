@@ -16,7 +16,6 @@ def cakes(request):
     structure = request.GET.get('structure')
     price = request.GET.get('price')
 
-    # ---------- FILTERS ----------
     if category and category != "all":
         cakes_qs = cakes_qs.filter(category=category)
 
@@ -26,7 +25,6 @@ def cakes(request):
     if structure:
         cakes_qs = cakes_qs.filter(structure=structure)
 
-    # ---------- PRICE ----------
     if price == '400-1000':
         cakes_qs = cakes_qs.filter(price__range=(400,1000))
     elif price == '1000-2000':
@@ -38,9 +36,15 @@ def cakes(request):
     elif price == 'high-low':
         cakes_qs = cakes_qs.order_by('-price')
 
-
     paginator = Paginator(cakes_qs, 8)
     page_obj = paginator.get_page(request.GET.get("page"))
+
+    # ✅ attach ProductSearch id
+    for cake in page_obj:
+        cake.ps = ProductSearch.objects.filter(
+            product_type="cake",
+            product_id=cake.id
+        ).first()
 
     return render(request, "cakes.html", {
         "page_obj": page_obj,
@@ -48,6 +52,7 @@ def cakes(request):
         "flavors": Cake._meta.get_field("flavor").choices,
         "structures": Cake._meta.get_field("structure").choices,
     })
+
 
 def puddings(request):
     puddings = Pudding.objects.all()
@@ -81,7 +86,14 @@ def puddings(request):
     paginator = Paginator(puddings, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    
+    for p in page_obj:
+        p.ps = ProductSearch.objects.filter(
+            product_type="pudding",
+            product_id=p.id
+            ).first()
 
+    
     return render(request, "puddings.html", {
         "page_obj": page_obj
     })
@@ -121,6 +133,12 @@ def desserts(request):
     paginator = Paginator(desserts, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    
+    for d in page_obj:
+        d.ps = ProductSearch.objects.filter(
+            product_type="dessert",
+            product_id=d.id
+            ).first()
 
     return render(request, 'desserts.html', {
         'page_obj': page_obj
@@ -177,17 +195,42 @@ def shop(request):
 
 def cake_detail(request, id):
     cake = get_object_or_404(Cake, id=id)
-    return render(request, "cake_detail.html", {"cake": cake})
+
+    ps = ProductSearch.objects.filter(
+        product_type="cake",
+        product_id=id
+    ).first()
+
+    return render(request, "cake_detail.html", {
+        "cake": cake,
+        "ps": ps
+    })
+
 
 
 def dessert_detail(request, id):
     dessert = get_object_or_404(Dessert, id=id)
+
+    ps = ProductSearch.objects.filter(
+        product_type="dessert",
+        product_id=id
+    ).first()
+
     return render(request, "dessert_detail.html", {
-        "dessert": dessert
+        "dessert": dessert,
+        "ps": ps
     })
+
     
 def pudding_detail(request, id):
     pudding = get_object_or_404(Pudding, id=id)
+
+    ps = ProductSearch.objects.filter(
+        product_type="pudding",
+        product_id=id
+    ).first()
+
     return render(request, "pudding_detail.html", {
-        "pudding": pudding
+        "pudding": pudding,
+        "ps": ps
     })

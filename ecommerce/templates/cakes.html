@@ -117,88 +117,42 @@
   </div>
 </section>
 
-<!-- ================= CATEGORY BUBBLES ================= -->
+<!-- CATEGORY FILTER -->
 <section class="cakes-categories">
-  <div class="container">
-    <!-- SECTION TITLE -->
-    <div class="text-center ">
-      <h2 class="cakes-section-title">
-        Available Delights
-        <span class="cakes-title-divider"></span>
-      </h2>
+<div class="container">
+<div class="text-center">
+<h2 class="cakes-section-title">Available Delights <span class="cakes-title-divider"></span></h2>
+<p class="cakes-section-subtitle">Explore our freshly prepared dessert collection</p>
+</div>
 
-      <p class="cakes-section-subtitle">
-        Explore our freshly prepared dessert collection
-      </p>
-    </div>
-    <div class="cakes-category-row">
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=all#c-grid"
+<div class="cakes-category-row">
+
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=all#c-grid"
 class="cakes-category {% if not request.GET.category or request.GET.category == 'all' %}active{% endif %}">
-  <i class="fa-solid fa-gift"></i>
-  <span>All</span>
-</a>
+<i class="fa-solid fa-gift"></i><span>All</span></a>
 
-
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=wedding#c-grid"
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=wedding#c-grid"
 class="cakes-category {% if request.GET.category == 'wedding' %}active{% endif %}">
-  <i class="bi bi-heart"></i><span>Wedding</span>
-</a>
+<i class="bi bi-heart"></i><span>Wedding</span></a>
 
-
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=birthday#c-grid"
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=birthday#c-grid"
 class="cakes-category {% if request.GET.category == 'birthday' %}active{% endif %}">
-  <i class="bi bi-cake2"></i><span>Birthday</span>
-</a>
+<i class="bi bi-cake2"></i><span>Birthday</span></a>
 
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=bento#c-grid"
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=bento#c-grid"
 class="cakes-category {% if request.GET.category == 'bento' %}active{% endif %}">
-  <i class="bi bi-box"></i><span>Bento</span>
-</a>
+<i class="bi bi-box"></i><span>Bento</span></a>
 
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=vegan#c-grid"
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=vegan#c-grid"
 class="cakes-category {% if request.GET.category == 'vegan' %}active{% endif %}">
-  <i class="bi bi-leaf"></i><span>Vegan</span>
-</a>
+<i class="bi bi-leaf"></i><span>Vegan</span></a>
 
-
-<a href="?{% for k,v in request.GET.items %}
-{% if k != 'category' and k != 'page' %}
-{{k}}={{v}}&
-{% endif %}
-{% endfor %}
-category=kids#c-grid"
+<a href="?{% for k,v in request.GET.items %}{% if k != 'category' and k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}category=kids#c-grid"
 class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
-  <i class="bi bi-emoji-smile"></i><span>Kids</span>
-</a>
+<i class="bi bi-emoji-smile"></i><span>Kids</span></a>
 
-
-    </div>
-  </div>
+</div>
+</div>
 </section>
 
 <!-- ================= STICKY FILTER BAR ================= -->
@@ -254,38 +208,45 @@ class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
   </div>
 </section>
 
-<!-- ================= CAKE GRID ================= -->
+
+<!-- CAKE GRID -->
 <section class="cakes-grid" id="c-grid">
-  <div class="container">
-    <div class="row g-4">
+<div class="container">
+<div class="row g-4">
 
-      {% for cake in page_obj %}
-      <div class="col-12 col-sm-6 col-lg-3">
-        <div class="cake-card">
-          <a href="{% url 'cake_detail' cake.id %}">
-            <img src="{{ cake.image.url }}" alt="{{ cake.name }}">
-          </a>
-          <div class="cake-info">
-            <a href="{% url 'cake_detail' cake.id %}">
-              <h5>{{ cake.name }}</h5>
-            </a>
-            <span>₹{{ cake.price }}</span>
-            <button class="btn btn-sm add-to-cart-btn"
-                    data-product-id="{{ cake.id }}">
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      </div>
+{% for cake in page_obj %}
+<div class="col-12 col-sm-6 col-lg-3">
+<div class="cake-card">
 
-      {% empty %}
-      <div class="col-12 text-center py-5">
-        <h5>No cakes found for selected filters</h5>
-      </div>
-      {% endfor %}
+<a href="{% url 'cake_detail' cake.id %}">
+{% if cake.image %}
+<img src="{{ cake.image.url }}" alt="{{ cake.name }}">
+{% endif %}
+</a>
 
-    </div>
-  </div>
+<div class="cake-info">
+<a href="{% url 'cake_detail' cake.id %}">
+<h5>{{ cake.name }}</h5>
+</a>
+<span>₹{{ cake.price }}</span>
+
+{% if cake.ps %}
+<button class="btn btn-dark add-to-cart-btn"
+        data-url="{% url 'add_to_cart' cake.ps.id %}">
+    Add to Cart
+</button>
+{% else %}
+<span class="text-danger small">Unavailable</span>
+{% endif %}
+
+
+</div>
+</div>
+</div>
+{% endfor %}
+
+</div>
+</div>
 </section>
 
 
@@ -330,14 +291,15 @@ class="cakes-category {% if request.GET.category == 'kids' %}active{% endif %}">
 document.addEventListener("DOMContentLoaded", function () {
 
   document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+
     button.addEventListener('click', function () {
 
-      const productId = this.dataset.productId;
+      const url = this.dataset.url;
 
-      fetch(`/cart/add/${productId}/`, {
+      fetch(url, {
         method: "POST",
         headers: {
-          "X-CSRFToken": "{{ csrf_token }}",
+          "X-CSRFToken": getCookie("csrftoken"),
           "X-Requested-With": "XMLHttpRequest"
         }
       })
@@ -345,12 +307,16 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(data => {
         if (data.success) {
           alert("Added to cart ✅");
+
+          const badge = document.getElementById("cart-count");
+          if (badge) badge.textContent = data.cart_count;
         } else {
-          alert("Failed to add to cart ❌");
+          alert("Failed ❌");
         }
       });
 
     });
+
   });
 
 });

@@ -7,6 +7,7 @@
 
 <section class="container py-5">
   <div class="row">
+
     <!-- Cake Image -->
     <div class="col-md-6">
       <img src="{{ cake.image.url }}" class="img-fluid" alt="{{ cake.name }}">
@@ -17,40 +18,71 @@
       <h2>{{ cake.name }}</h2>
       <h4 class="text-success">₹{{ cake.price }}</h4>
 
-      <!-- Add to Cart -->
-      <button class="btn btn-dark mb-2 add-to-cart-btn" data-product-id="{{ cake.id }}">
-        Add to Cart
-      </button>
+{% if ps %}
+<button class="btn btn-dark mb-2 add-to-cart-btn"
+        data-url="{% url 'add_to_cart' ps.id %}">
+  Add to Cart
+</button>
+{% else %}
+<p class="text-danger">Cart unavailable</p>
+{% endif %}
 
-      <!-- Buy Now -->
+
       <a href="{% url 'buy_now' cake.id %}" class="btn btn-primary">Buy Now</a>
+
     </div>
   </div>
 </section>
 
-<script>
-document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-  button.addEventListener('click', function () {
-    const productId = this.dataset.productId;
 
-    fetch(`/cart/add/${productId}/`, {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-        "X-Requested-With": "XMLHttpRequest"
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    document.cookie.split(';').forEach(cookie => {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
       }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        const cartCountElem = document.getElementById("cart-count");
-        if (cartCountElem) cartCountElem.textContent = data.cart_count;
-      } else {
-        alert("Failed to add to cart ❌");
-      }
-    })
-    .catch(error => console.error("Error:", error));
+    });
+  }
+  return cookieValue;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+
+    button.addEventListener('click', function () {
+
+      const url = this.dataset.url;
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Added to cart ✅");
+
+          const cartCount = document.getElementById("cart-count");
+          if (cartCount && data.cart_count) {
+            cartCount.textContent = data.cart_count;
+          }
+        } else {
+          alert("Failed ❌");
+        }
+      })
+      .catch(() => alert("Server error ❌"));
+
+    });
+
   });
+
 });
 </script>
 

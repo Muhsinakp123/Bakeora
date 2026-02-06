@@ -84,9 +84,10 @@
             </span>
 
             {% if cart_count %}
-            <span class="cart-badge">
-              {{ cart_count }}
+            <span class="cart-badge" id="cart-count">
+              {{ cart_count|default:0 }}
             </span>
+
             {% endif %}
           </a>
 
@@ -237,36 +238,35 @@
   <div id="searchOverlay"></div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
   const searchInput = document.getElementById("searchInput");
   const overlay = document.getElementById("searchOverlay");
   const resultsBox = document.getElementById("searchResults");
   const searchBtn = document.querySelector(".search-btn");
   const searchWrapper = document.querySelector(".search-wrapper");
 
-  // Focus input when icon clicked
+  if (!searchInput) return; // safety guard
+
   searchBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     searchInput.focus();
   });
 
-  // Show overlay on focus
   searchInput.addEventListener("focus", () => {
     overlay.classList.add("active");
   });
 
-  // Prevent clicks inside search from closing overlay
   searchWrapper.addEventListener("click", (e) => {
     e.stopPropagation();
   });
 
-  // Close overlay click
   overlay.addEventListener("click", () => {
     overlay.classList.remove("active");
     resultsBox.innerHTML = "";
     searchInput.blur();
   });
 
-  // ESC close
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       overlay.classList.remove("active");
@@ -275,7 +275,6 @@
     }
   });
 
-  /* LIVE SEARCH */
   let timer;
 
   searchInput.addEventListener("keyup", () => {
@@ -312,8 +311,24 @@
           });
         });
     }, 300);
-
   });
+
+});
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 </script>
 
   <!-- Bootstrap JS -->

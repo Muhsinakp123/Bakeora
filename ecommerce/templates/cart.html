@@ -1,26 +1,166 @@
 {% extends 'master.html' %}
+{% load static %}
 {% block content %}
 
-<h3>My Cart</h3>
+<div class="container py-5">
+  <h3 class="mb-4">My Cart</h3>
 
-{% if session_cart %}
-  {% for id, item in session_cart.items %}
-    <p>{{ item.name }} – ₹{{ item.price }} × {{ item.quantity }}</p>
-    <a href="{% url 'remove_from_cart' id %}">Remove</a>
-  {% endfor %}
-  <h4>Total: ₹{{ total }}</h4>
+  {# ================= SESSION CART ================= #}
+  {% if not user.is_authenticated and session_cart %}
 
-{% elif db_cart %}
-  {% for item in db_cart.items.all %}
-    <p>{{ item.product.name }} – ₹{{ item.product.price }} × {{ item.quantity }}</p>
-    <a href="{% url 'remove_from_cart' item.product.id %}">Remove</a>
-  {% endfor %}
-  <h4>Total: ₹{{ db_cart.total_price }}</h4>
+    {% for product_id, item in session_cart.items %}
+    <div class="card mb-3 shadow-sm">
+      <div class="row g-0 align-items-center">
 
-{% else %}
-  <p>Your cart is empty</p>
-{% endif %}
+        <!-- Image (if stored in session later — safe fallback now) -->
+        <div class="col-md-2 text-center p-2">
+          {% if item.image %}
+            <img src="{{ item.image }}" class="img-fluid rounded">
+          {% else %}
+            <img src="{% static 'images/no-image.png' %}" class="img-fluid rounded">
+          {% endif %}
+        </div>
 
-<a href="{% url 'checkout' %}">Checkout</a>
+        <!-- Info -->
+        <div class="col-md-7">
+          <div class="card-body">
+            <h5>{{ item.name }}</h5>
+            <p class="mb-1">Price: ₹{{ item.price }}</p>
+            <p class="mb-1">Quantity: {{ item.quantity }}</p>
+            <p class="fw-bold">
+              Item Total: ₹{{ item.price|floatformat:2|add:"0"|floatformat:2 }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="col-md-3 text-end pe-4">
+          <a href="{% url 'remove_from_cart' product_id %}"
+             class="btn btn-sm btn-outline-danger">
+            Remove
+          </a>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="text-end">
+      <h4>Total: ₹{{ session_total }}</h4>
+    </div>
+
+
+  {# ================= DATABASE CART ================= #}
+  {% elif user.is_authenticated and db_cart and db_cart.items.exists %}
+
+    {% for item in db_cart.items.all %}
+    <div class="card mb-3 shadow-sm">
+      <div class="row g-0 align-items-center">
+
+        <!-- Product Image -->
+        <div class="col-md-2 text-center p-2">
+          <img src="{{ item.product.image.url }}"
+               class="img-fluid rounded">
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-6">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.product.name }}</h5>
+
+            <p class="mb-1">Price: ₹{{ item.product.price }}</p>
+
+            <p class="mb-1">
+              Quantity: {{ item.quantity }}
+            </p>
+
+            <p class="fw-bold">
+              Item Total: ₹{{ item.total_price }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Remove -->
+        <div class="col-md-4 text-end pe-4">
+          <a href="{% url 'remove_from_cart' item.product.id %}"
+             class="btn btn-sm btn-outline-danger">
+            Remove
+          </a>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Cart Summary -->
+    <div class="card p-4 mt-4 shadow-sm">
+      <div class="d-flex justify-content-between">
+        <h5>Cart Total</h5>
+        <h4>₹{{ db_cart.total_price }}</h4>
+      </div>
+    </div>
+
+
+  {# ================= EMPTY ================= #}
+  {% else %}
+    <div class="text-center py-5">
+      <h5>Your cart is empty 🛒</h5>
+      <a href="{% url 'cakes' %}" class="btn btn-dark mt-3">
+        Continue Shopping
+      </a>
+    </div>
+  {% endif %}
+
+  <!-- Checkout -->
+  {% if session_cart or db_cart.items.exists %}
+  <div class="text-end mt-4">
+    <a href="{% url 'checkout' %}" class="btn btn-dark btn-lg">
+      Proceed to Checkout
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+document.querySelectorAll(".qty-btn").forEach(btn => {
+  btn.addEventListener("click", function () {
+
+    const itemId = this.dataset.itemId;
+    const action = this.dataset.action;
+
+    fetch(`/cart/update/${itemId}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: JSON.stringify({ action: action })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        location.reload(); // simple version
+      }
+    });
+
+  });
+});
+</script>
+
 
 {% endblock %}

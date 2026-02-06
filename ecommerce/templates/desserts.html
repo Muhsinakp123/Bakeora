@@ -176,9 +176,15 @@
             <h5>{{ dessert.name }}</h5>
             <span>₹{{ dessert.price }}</span>
 
-            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ dessert.id }}">
-              Add to Cart
-            </button>
+{% if dessert.ps_id %}
+<button class="btn btn-sm add-to-cart-btn"
+        data-product-id="{{ dessert.ps_id }}">
+  Add to Cart
+</button>
+{% else %}
+<span class="text-danger">Unavailable</span>
+{% endif %}
+
           </div>
         </div>
       </div>
@@ -237,42 +243,39 @@
 
 <!-- ================= JS ================= -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-    /* filter submit with anchor */
-    document.querySelectorAll('.cakes-filter').forEach(select => {
-      select.addEventListener('change', function () {
-        const form = document.getElementById("filterForm");
-        const url = new URL(window.location.href);
-        const data = new FormData(form);
+  // ===== ADD TO CART =====
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const productId = this.dataset.productId;
 
-        for (const [k, v] of data.entries()) {
-          if (v) url.searchParams.set(k, v);
-          else url.searchParams.delete(k);
+      fetch(`/cart/add/${productId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
         }
-
-        url.searchParams.delete("page");
-        url.hash = "dessert-grid";
-        window.location.href = url.toString();
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) alert("Added to cart ✅");
+        else alert("Failed ❌");
       });
     });
-
-    /* add to cart */
-    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        fetch(`/cart/add/${this.dataset.productId}/`, {
-          method: "POST",
-          headers: {
-            "X-CSRFToken": "{{ csrf_token }}",
-            "X-Requested-With": "XMLHttpRequest"
-          }
-        })
-          .then(r => r.json())
-          .then(d => alert(d.success ? "Added to cart ✅" : "Failed ❌"));
-      });
-    });
-
   });
+
+  // ===== FILTER AUTO SUBMIT + SCROLL TARGET =====
+  const filterForm = document.getElementById("filterForm");
+
+  document.querySelectorAll("#filterForm select").forEach(select => {
+    select.addEventListener("change", () => {
+      const params = new URLSearchParams(new FormData(filterForm));
+      window.location = "?" + params.toString() + "#dessert-grid";
+    });
+  });
+
+});
 </script>
 
 {% endblock %}

@@ -1,18 +1,74 @@
 {% extends "master.html" %}
+
+{% block title %}{{ pudding.name }} | Bakeora{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
   <div class="row">
+
     <div class="col-md-6">
-      <img src="{{ pudding.image.url }}" class="img-fluid">
+      {% if pudding.image %}
+        <img src="{{ pudding.image.url }}" class="img-fluid">
+      {% endif %}
     </div>
 
     <div class="col-md-6">
       <h2>{{ pudding.name }}</h2>
       <h4>₹{{ pudding.price }}</h4>
-      <p>{{ pudding.description }}</p>
+
+      <!-- Add to Cart -->
+      <button class="btn btn-dark mb-2 add-to-cart-btn"
+              data-product-id="{{ pudding.ps_id }}">
+        Add to Cart
+      </button>
+
+      <!-- Buy Now -->
+      <a href="{% url 'buy_now' pudding.id %}"
+         class="btn btn-primary">
+         Buy Now
+      </a>
+
     </div>
+
   </div>
 </div>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    document.cookie.split(';').forEach(c => {
+      c = c.trim();
+      if (c.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    });
+  }
+  return cookieValue;
+}
+
+document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+  button.addEventListener('click', function () {
+
+    const productId = this.dataset.productId;
+
+    fetch(`/cart/add/${productId}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+        "X-Requested-With": "XMLHttpRequest"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Added to cart ✅");
+      }
+    });
+
+  });
+});
+</script>
 
 {% endblock %}

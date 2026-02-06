@@ -1,18 +1,78 @@
 {% extends "master.html" %}
+{% load static %}
+
+{% block title %}{{ dessert.name }} | Bakeora{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
   <div class="row">
+
     <div class="col-md-6">
-      <img src="{{ dessert.image.url }}" class="img-fluid">
+      {% if dessert.image %}
+        <img src="{{ dessert.image.url }}" class="img-fluid">
+      {% endif %}
     </div>
 
     <div class="col-md-6">
       <h2>{{ dessert.name }}</h2>
-      <h4>₹{{ dessert.price }}</h4>
+      <h4 class="text-success">₹{{ dessert.price }}</h4>
       <p>{{ dessert.description }}</p>
+
+{% if dessert.ps_id %}
+<button class="btn btn-dark mb-2 add-to-cart-btn"
+        data-product-id="{{ dessert.ps_id }}">
+  Add to Cart
+</button>
+
+<a href="{% url 'buy_now' dessert.ps_id %}" class="btn btn-primary">
+  Buy Now
+</a>
+{% else %}
+<p class="text-danger">Unavailable</p>
+{% endif %}
+
+
+      <a href="{% url 'buy_now' dessert.ps_id %}" class="btn btn-primary">
+        Buy Now
+      </a>
+
     </div>
+
   </div>
 </div>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+document.querySelector('.add-to-cart-btn')?.addEventListener('click', function () {
+  const productId = this.dataset.productId;
+
+  fetch(`/cart/add/${productId}/`, {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken"),
+      "X-Requested-With": "XMLHttpRequest"
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) alert("Added to cart ✅");
+  });
+});
+</script>
 
 {% endblock %}

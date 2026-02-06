@@ -18,23 +18,17 @@
       </p>
     </div>
 
-
-    <!-- ================= FILTER BAR (DESSERT STYLE) ================= -->
+    <!-- FILTER BAR -->
     <section class="cakes-filter-bar">
-      <div class="container">
         <form method="get" class="cakes-filter-inner" id="filterForm">
 
-          <!-- TYPE -->
           <select name="type" class="cakes-filter">
             <option value="" hidden>Product Type</option>
-
             <option value="cake" {% if selected_type == 'cake' %}selected{% endif %}>Cakes</option>
             <option value="dessert" {% if selected_type == 'dessert' %}selected{% endif %}>Desserts</option>
             <option value="pudding" {% if selected_type == 'pudding' %}selected{% endif %}>Puddings</option>
-
           </select>
 
-          <!-- PRICE -->
           <select name="price" class="cakes-filter">
             <option value="" hidden>Price</option>
 
@@ -57,28 +51,29 @@
           </select>
 
         </form>
-      </div>
     </section>
 
-
-    <!-- ================= PRODUCTS GRID ================= -->
+    <!-- PRODUCTS GRID -->
     <div class="row g-4 mt-4" id="shop-grid">
 
       {% for item in page_obj %}
       <div class="col-12 col-sm-6 col-lg-3">
 
-        <!-- USING YOUR EXISTING CAKE CARD STYLE -->
         <div class="cake-card">
+
+          {% if item.image %}
           <img src="{{ item.image.url }}" alt="{{ item.name }}">
+          {% endif %}
 
           <div class="cake-info">
             <h5>{{ item.name }}</h5>
             <span>₹{{ item.price }}</span>
 
-            <a href="{% url 'search_redirect' item.id %}"
-               class="btn btn-sm add-to-cart-btn">
-              View
-            </a>
+            <button class="btn btn-sm add-to-cart-btn"
+                    data-product-id="{{ item.id }}">
+              Add to Cart
+            </button>
+
           </div>
         </div>
 
@@ -92,8 +87,7 @@
   </div>
 </section>
 
-
-<!-- ================= PAGINATION (UNCHANGED LOGIC) ================= -->
+<!-- PAGINATION -->
 {% if page_obj.has_other_pages %}
 <div class="pagination-wrap text-center mb-5">
   <ul class="pagination justify-content-center">
@@ -106,17 +100,13 @@
       </a>
     </li>
     {% else %}
-    <li class="page-item disabled">
-      <span class="page-link">Prev</span>
-    </li>
+    <li class="page-item disabled"><span class="page-link">Prev</span></li>
     {% endif %}
 
 {% for num in page_obj.paginator.page_range %}
   {% if num <= 3 %}
     {% if page_obj.number == num %}
-      <li class="page-item active">
-        <span class="page-link">{{ num }}</span>
-      </li>
+      <li class="page-item active"><span class="page-link">{{ num }}</span></li>
     {% else %}
       <li class="page-item">
         <a class="page-link"
@@ -128,7 +118,6 @@
   {% endif %}
 {% endfor %}
 
-
     {% if page_obj.has_next %}
     <li class="page-item">
       <a class="page-link"
@@ -137,32 +126,53 @@
       </a>
     </li>
     {% else %}
-    <li class="page-item disabled">
-      <span class="page-link">Next</span>
-    </li>
+    <li class="page-item disabled"><span class="page-link">Next</span></li>
     {% endif %}
 
   </ul>
 </div>
 {% endif %}
 
-
-<!-- ================= FILTER AUTO SUBMIT JS ================= -->
+<!-- JS -->
 <script>
-document.querySelectorAll('.cakes-filter').forEach(select => {
-  select.addEventListener('change', function () {
-    const form = document.getElementById("filterForm");
-    const data = new FormData(form);
-    const url = new URL(window.location.href);
+document.addEventListener("DOMContentLoaded", function () {
 
-    for (const [k,v] of data.entries()) {
-      if (v) url.searchParams.set(k, v);
-      else url.searchParams.delete(k);
-    }
+  // FILTER AUTO SUBMIT
+  document.querySelectorAll('.cakes-filter').forEach(select => {
+    select.addEventListener('change', function () {
+      const form = document.getElementById("filterForm");
+      const data = new FormData(form);
+      const url = new URL(window.location.href);
 
-    url.searchParams.delete("page");
-    window.location.href = url.toString();
+      for (const [k,v] of data.entries()) {
+        if (v) url.searchParams.set(k, v);
+        else url.searchParams.delete(k);
+      }
+
+      url.searchParams.delete("page");
+      window.location.href = url.toString();
+    });
   });
+
+  // ADD TO CART
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const productId = this.dataset.productId;
+
+      fetch(`/cart/add/${productId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.success ? "Added to cart ✅" : "Failed ❌");
+      });
+    });
+  });
+
 });
 </script>
 
