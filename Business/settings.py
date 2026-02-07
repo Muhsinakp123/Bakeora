@@ -83,10 +83,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # ADD THIS LINE
+                'ecommerce.context_processors.cart_count',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'Business.wsgi.application'
 

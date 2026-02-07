@@ -165,8 +165,6 @@ def shop(request):
 
     else:
         products = list(chain(cakes, desserts, puddings))
-
-        # ✅ MIX ORDER
         random.shuffle(products)
 
     # ---------- PRICE FILTER ----------
@@ -181,6 +179,26 @@ def shop(request):
 
     elif selected_price == "high-low":
         products = sorted(products, key=lambda x: x.price, reverse=True)
+
+    # ---------- 🔥 ATTACH ProductSearch ----------
+    for p in products:
+        if isinstance(p, Cake):
+            p.ps = ProductSearch.objects.filter(
+                product_type="cake",
+                product_id=p.id
+            ).first()
+
+        elif isinstance(p, Dessert):
+            p.ps = ProductSearch.objects.filter(
+                product_type="dessert",
+                product_id=p.id
+            ).first()
+
+        elif isinstance(p, Pudding):
+            p.ps = ProductSearch.objects.filter(
+                product_type="pudding",
+                product_id=p.id
+            ).first()
 
     # ---------- PAGINATION ----------
     paginator = Paginator(products, 8)

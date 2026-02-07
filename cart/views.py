@@ -24,7 +24,7 @@ def cart_view(request):
 
     # ---------- USER ----------
     db_cart = get_or_create_cart(request.user)
-    items = db_cart.items.select_related("product")
+    items = db_cart.items.select_related("product").order_by("-created_at")
 
     db_cart.total_price = sum(
         i.total_price for i in items   # uses property correctly
@@ -43,7 +43,7 @@ def add_to_cart(request, product_id):
 
     product = get_object_or_404(ProductSearch, id=product_id)
 
-    # -------- GUEST --------
+    # ================= GUEST =================
     if not request.user.is_authenticated:
         cart = request.session.get("cart", {})
         pid = str(product.id)
@@ -61,17 +61,15 @@ def add_to_cart(request, product_id):
         request.session["cart"] = cart
         request.session.modified = True
 
-        cart_count = sum(i["quantity"] for i in cart.values())
+        # ✅ TOTAL QUANTITY (Amazon logic)
+        cart_count = sum(item["quantity"] for item in cart.values())
 
-        if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return JsonResponse({
-                "success": True,
-                "cart_count": cart_count
-            })
+        return JsonResponse({
+            "success": True,
+            "cart_count": cart_count
+        })
 
-        return redirect("cart")
-
-    # -------- USER --------
+    # ================= USER =================
     cart = get_or_create_cart(request.user)
 
     item, created = CartItem.objects.get_or_create(
@@ -83,15 +81,13 @@ def add_to_cart(request, product_id):
         item.quantity += 1
     item.save()
 
+    # ✅ TOTAL QUANTITY (Amazon logic)
     cart_count = sum(i.quantity for i in cart.items.all())
 
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        return JsonResponse({
-            "success": True,
-            "cart_count": cart_count
-        })
-
-    return redirect("cart")
+    return JsonResponse({
+        "success": True,
+        "cart_count": cart_count
+    })
 
 def update_cart_qty(request, product_id):
     action = request.POST.get("action")
