@@ -176,14 +176,15 @@
             <h5>{{ dessert.name }}</h5>
             <span>₹{{ dessert.price }}</span>
 
-{% if dessert.ps_id %}
+{% if dessert.ps %}
 <button class="btn btn-sm add-to-cart-btn"
-        data-product-id="{{ dessert.ps_id }}">
+        data-product-id="{{ dessert.ps.id }}">
   Add to Cart
 </button>
 {% else %}
 <span class="text-danger">Unavailable</span>
 {% endif %}
+
 
           </div>
         </div>

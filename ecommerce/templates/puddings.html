@@ -78,7 +78,7 @@
             <img src="{% static 'images/pudding3.jpg' %}" alt="">
             <div class="bs-card-info">
               <h5>Caramel Custard</h5>
-              <span>₹260</span>
+              <span>₹300</span>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
             <img src="{% static 'images/pudding1.jpg' %}" alt="">
             <div class="bs-card-info">
               <h5>Chocolate Lava Pudding</h5>
-              <span>₹280</span>
+              <span>₹700</span>
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@
             <img src="{% static 'images/pudding2.jpg' %}" alt="">
             <div class="bs-card-info">
               <h5>Mango Chia Pudding</h5>
-              <span>₹240</span>
+              <span>₹450</span>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
             <img src="{% static 'images/pudding4.jpg' %}" alt="">
             <div class="bs-card-info">
               <h5>Berry Cream Pudding</h5>
-              <span>₹300</span>
+              <span>₹790</span>
             </div>
           </div>
         </div>
@@ -229,7 +229,7 @@
             <h5>{{ pudding.name }}</h5>
             <span>₹{{ pudding.price }}</span>
 
-            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ pudding.id }}">
+            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ pudding.ps.id }}">
               Add to Cart
             </button>
           </div>

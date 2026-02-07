@@ -19,18 +19,19 @@
       <h4 class="text-success">₹{{ dessert.price }}</h4>
       <p>{{ dessert.description }}</p>
 
-{% if dessert.ps_id %}
+{% if dessert.ps %}
 <button class="btn btn-dark mb-2 add-to-cart-btn"
-        data-product-id="{{ dessert.ps_id }}">
+        data-url="{% url 'add_to_cart' dessert.ps.id %}">
   Add to Cart
 </button>
 
-<a href="{% url 'buy_now' dessert.ps_id %}" class="btn btn-primary">
+<a href="{% url 'buy_now' dessert.ps.id %}" class="btn btn-primary">
   Buy Now
 </a>
 {% else %}
 <p class="text-danger">Unavailable</p>
 {% endif %}
+
 
 
       <a href="{% url 'buy_now' dessert.ps_id %}" class="btn btn-primary">

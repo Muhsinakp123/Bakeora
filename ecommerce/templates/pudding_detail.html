@@ -18,10 +18,11 @@
       <h4>₹{{ pudding.price }}</h4>
 
       <!-- Add to Cart -->
-      <button class="btn btn-dark mb-2 add-to-cart-btn"
-              data-product-id="{{ pudding.ps_id }}">
-        Add to Cart
-      </button>
+<button class="btn btn-dark mb-2 add-to-cart-btn"
+        data-product-id="{{ pudding.ps.id }}">
+  Add to Cart
+</button>
+
 
       <!-- Buy Now -->
       <a href="{% url 'buy_now' pudding.id %}"
