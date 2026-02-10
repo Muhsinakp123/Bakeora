@@ -325,6 +325,64 @@ body {
   font-size: 16px;
   cursor: pointer;
 }
+/* ===== REMOVE DROPDOWN ARROWS (SHOP + USER) ===== */
+.navbar .dropdown-toggle::after {
+  display: none !important;
+}
+/* ===== DROPDOWN ANIMATION (PREMIUM FEEL) ===== */
+.navbar .dropdown-menu {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: block; /* required for animation */
+  pointer-events: none;
+}
+
+.navbar .dropdown:hover > .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+/* ===== PROFILE ICON UNDERLINE (AMAZON STYLE) ===== */
+.user-icon {
+  position: relative;
+}
+
+.user-icon::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #c59d5f;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+/* underline on hover */
+.dropdown:hover .user-icon::after {
+  width: 22px;
+}
+
+/* ===== USERNAME GOLD THEME (DROPDOWN) ===== */
+.user-greeting {
+  color: #e7c873;              /* Bakeora gold */
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* username stronger gold */
+.user-greeting strong {
+  color: #f3db97;              /* brighter gold */
+  font-weight: 600;
+}
+
+/* subtle luxury glow */
+.user-greeting {
+  text-shadow: 0 0 6px rgba(231, 200, 115, 0.35);
+}
 
 /* ================= HERO SECTION ================= */
 

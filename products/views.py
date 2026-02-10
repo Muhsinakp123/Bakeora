@@ -4,6 +4,7 @@ import random
 from .models import Cake,Dessert,Pudding
 from django.core.paginator import Paginator
 from products.models import ProductSearch
+from django.urls import reverse
 
 # Create your views here.
 
@@ -144,6 +145,7 @@ def desserts(request):
         'page_obj': page_obj
     })
 
+
 def shop(request):
 
     selected_type = request.GET.get("type")
@@ -180,25 +182,28 @@ def shop(request):
     elif selected_price == "high-low":
         products = sorted(products, key=lambda x: x.price, reverse=True)
 
-    # ---------- 🔥 ATTACH ProductSearch ----------
+    # ---------- 🔥 ATTACH ProductSearch + DETAIL URL ----------
     for p in products:
         if isinstance(p, Cake):
             p.ps = ProductSearch.objects.filter(
                 product_type="cake",
                 product_id=p.id
             ).first()
+            p.detail_url = reverse("cake_detail", args=[p.id])
 
         elif isinstance(p, Dessert):
             p.ps = ProductSearch.objects.filter(
                 product_type="dessert",
                 product_id=p.id
             ).first()
+            p.detail_url = reverse("dessert_detail", args=[p.id])
 
         elif isinstance(p, Pudding):
             p.ps = ProductSearch.objects.filter(
                 product_type="pudding",
                 product_id=p.id
             ).first()
+            p.detail_url = reverse("pudding_detail", args=[p.id])
 
     # ---------- PAGINATION ----------
     paginator = Paginator(products, 8)

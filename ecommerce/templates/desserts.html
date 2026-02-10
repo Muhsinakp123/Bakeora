@@ -170,21 +170,26 @@
       {% for dessert in page_obj %}
       <div class="col-12 col-sm-6 col-lg-3">
         <div class="cake-card">
-          <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
+          <a href="{% url 'dessert_detail' dessert.id %}">
+  <img src="{{ dessert.image.url }}" alt="{{ dessert.name }}">
+</a>
+
 
           <div class="cake-info">
-            <h5>{{ dessert.name }}</h5>
+            <a href="{% url 'dessert_detail' dessert.id %}">
+  <h5>{{ dessert.name }}</h5>
+</a>
+
             <span>₹{{ dessert.price }}</span>
 
 {% if dessert.ps %}
-<button class="btn btn-sm add-to-cart-btn"
-        data-product-id="{{ dessert.ps.id }}">
+<button class="btn btn-dark mb-2 add-to-cart-btn"
+        data-url="{% url 'add_to_cart' dessert.ps.id %}">
   Add to Cart
 </button>
 {% else %}
-<span class="text-danger">Unavailable</span>
+<p class="text-danger">Unavailable</p>
 {% endif %}
-
 
           </div>
         </div>
@@ -246,12 +251,12 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  // ===== ADD TO CART =====
   document.querySelectorAll('.add-to-cart-btn').forEach(button => {
     button.addEventListener('click', function () {
-      const productId = this.dataset.productId;
 
-      fetch(`/cart/add/${productId}/`, {
+      const url = this.dataset.url;
+
+      fetch(url, {
         method: "POST",
         headers: {
           "X-CSRFToken": getCookie("csrftoken"),
@@ -263,6 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.success) alert("Added to cart ✅");
         else alert("Failed ❌");
       });
+
     });
   });
 

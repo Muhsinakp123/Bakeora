@@ -11,6 +11,8 @@ def cart_view(request):
     # ---------- GUEST ----------
     if not request.user.is_authenticated:
         session_cart = request.session.get("cart", {})
+        session_cart = dict(reversed(list(session_cart.items())))
+
         session_total = sum(
             i["price"] * i["quantity"]
             for i in session_cart.values()
@@ -24,7 +26,7 @@ def cart_view(request):
 
     # ---------- USER ----------
     db_cart = get_or_create_cart(request.user)
-    items = db_cart.items.select_related("product").order_by("-created_at")
+    items = db_cart.items.select_related("product").order_by("-id")
 
     db_cart.total_price = sum(
         i.total_price for i in items   # uses property correctly
@@ -32,6 +34,7 @@ def cart_view(request):
 
     return render(request, "cart.html", {
         "db_cart": db_cart,
+        "items": items,
         "session_cart": None,
         "session_total": 0
     })

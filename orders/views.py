@@ -3,10 +3,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-
 from .models import CustomCakeOrder, Order, OrderItem, Address
 from cart.models import Cart,CartItem
-from products.models import Cake
+from products.models import Cake, Dessert, Pudding
 
 
 # ===================== CUSTOM CAKE =====================
@@ -108,17 +107,26 @@ def order_success(request, order_id):
 
 
 # ===================== PAYPAL BUY NOW =====================
-
 @login_required(login_url='login')
-def buy_now(request, cake_id):
-    cake = get_object_or_404(Cake, id=cake_id)
+def buy_now(request, product_type, product_id):
 
-    context = {
-        'cake': cake,
+    if product_type == "cake":
+        product = get_object_or_404(Cake, id=product_id)
+
+    elif product_type == "dessert":
+        product = get_object_or_404(Dessert, id=product_id)
+
+    elif product_type == "pudding":
+        product = get_object_or_404(Pudding, id=product_id)
+
+    else:
+        messages.error(request, "Invalid product")
+        return redirect("shop")
+
+    return render(request, 'payment_page.html', {
+        'product': product,
         'paypal_client_id': settings.PAYPAL_CLIENT_ID
-    }
-
-    return render(request, 'payment_page.html', context)
+    })
 
 
 @csrf_exempt

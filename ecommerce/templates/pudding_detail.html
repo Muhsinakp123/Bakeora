@@ -18,17 +18,22 @@
       <h4>₹{{ pudding.price }}</h4>
 
       <!-- Add to Cart -->
+{% if ps %}
 <button class="btn btn-dark mb-2 add-to-cart-btn"
-        data-product-id="{{ pudding.ps.id }}">
+        data-url="{% url 'add_to_cart' ps.id %}">
   Add to Cart
 </button>
+{% else %}
+<p class="text-danger">Cart unavailable</p>
+{% endif %}
+
 
 
       <!-- Buy Now -->
-      <a href="{% url 'buy_now' pudding.id %}"
-         class="btn btn-primary">
-         Buy Now
-      </a>
+<a href="{% url 'buy_now' 'pudding' pudding.id %}" class="btn btn-primary">
+  Buy Now
+</a>
+
 
     </div>
 
@@ -49,27 +54,30 @@ function getCookie(name) {
   return cookieValue;
 }
 
-document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-  button.addEventListener('click', function () {
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
 
-    const productId = this.dataset.productId;
+      const url = this.dataset.url;
 
-    fetch(`/cart/add/${productId}/`, {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": getCookie("csrftoken"),
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("Added to cart ✅");
-      }
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Added to cart ✅");
+        }
+      });
+
     });
-
   });
 });
 </script>
+
 
 {% endblock %}

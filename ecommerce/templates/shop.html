@@ -62,11 +62,15 @@
         <div class="cake-card">
 
           {% if item.image %}
-          <img src="{{ item.image.url }}" alt="{{ item.name }}">
+          <a href="{{ item.detail_url }}">
+  <img src="{{ item.image.url }}" alt="{{ item.name }}">
+</a>
           {% endif %}
 
           <div class="cake-info">
-            <h5>{{ item.name }}</h5>
+            <a href="{{ item.detail_url }}">
+  <h5>{{ item.name }}</h5>
+</a>
             <span>₹{{ item.price }}</span>
 
 <button

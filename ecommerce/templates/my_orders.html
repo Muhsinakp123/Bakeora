@@ -1,0 +1,15 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <h3 class="mb-4">Your Orders</h3>
+
+  <div class="alert alert-info">
+    You haven’t placed any orders yet.
+  </div>
+
+  <a href="{% url 'cakes' %}" class="btn btn-dark">
+    Start Shopping
+  </a>
+</div>
+{% endblock %}

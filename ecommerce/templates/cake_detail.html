@@ -28,7 +28,10 @@
 {% endif %}
 
 
-      <a href="{% url 'buy_now' cake.id %}" class="btn btn-primary">Buy Now</a>
+      <a href="{% url 'buy_now' 'cake' cake.id %}" class="btn btn-primary">
+  Buy Now
+</a>
+
 
     </div>
   </div>

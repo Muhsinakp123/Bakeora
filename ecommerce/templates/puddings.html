@@ -223,7 +223,9 @@
       {% for pudding in page_obj %}
       <div class="col-12 col-sm-6 col-lg-3">
         <div class="cake-card">
-          <img src="{{ pudding.image.url }}" alt="{{ pudding.name }}">
+          <a href="{% url 'pudding_detail' pudding.id %}">
+  <img src="{{ pudding.image.url }}" alt="{{ pudding.name }}">
+</a>
 
           <div class="cake-info">
             <h5>{{ pudding.name }}</h5>

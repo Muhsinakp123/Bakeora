@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Subscriber
+from .models import Subscriber,CustomerProfile
 
 # Create your views here.
 
@@ -27,6 +29,7 @@ def login_view(request):
 
     return render(request, "login.html")
 
+
 def register_view(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -36,12 +39,18 @@ def register_view(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
         else:
-            User.objects.create_user(
+            user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password
             )
-            messages.success(request, "Account created successfully")
+
+            # ✅ create customer profile
+            CustomerProfile.objects.create(user=user)
+
+            # ✅ IMPORTANT: specify backend
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
             return redirect('home')
 
     return render(request, "register.html")
@@ -61,3 +70,11 @@ def subscribe_email(request):
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
+@login_required
+def my_orders(request):
+    return render(request, "my_orders.html")
+
+
+@login_required
+def account_dashboard(request):
+    return render(request, "account_dashboard.html")

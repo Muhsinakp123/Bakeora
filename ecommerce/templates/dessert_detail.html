@@ -19,24 +19,21 @@
       <h4 class="text-success">₹{{ dessert.price }}</h4>
       <p>{{ dessert.description }}</p>
 
-{% if dessert.ps %}
+{% if ps %}
 <button class="btn btn-dark mb-2 add-to-cart-btn"
-        data-url="{% url 'add_to_cart' dessert.ps.id %}">
+        data-url="{% url 'add_to_cart' ps.id %}">
   Add to Cart
 </button>
-
-<a href="{% url 'buy_now' dessert.ps.id %}" class="btn btn-primary">
-  Buy Now
-</a>
 {% else %}
-<p class="text-danger">Unavailable</p>
+<p class="text-danger">Cart unavailable</p>
 {% endif %}
 
 
 
-      <a href="{% url 'buy_now' dessert.ps_id %}" class="btn btn-primary">
-        Buy Now
-      </a>
+      <a href="{% url 'buy_now' 'dessert' dessert.id %}" class="btn btn-primary">
+  Buy Now
+</a>
+
 
     </div>
 
@@ -47,33 +44,42 @@
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
+    document.cookie.split(';').forEach(cookie => {
       cookie = cookie.trim();
       if (cookie.startsWith(name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
       }
-    }
+    });
   }
   return cookieValue;
 }
 
-document.querySelector('.add-to-cart-btn')?.addEventListener('click', function () {
-  const productId = this.dataset.productId;
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
 
-  fetch(`/cart/add/${productId}/`, {
-    method: "POST",
-    headers: {
-      "X-CSRFToken": getCookie("csrftoken"),
-      "X-Requested-With": "XMLHttpRequest"
-    }
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) alert("Added to cart ✅");
+      const url = this.dataset.url;
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Added to cart ✅");
+        } else {
+          alert("Failed ❌");
+        }
+      });
+
+    });
   });
 });
 </script>
+
 
 {% endblock %}
