@@ -6,6 +6,9 @@ urlpatterns = [
     path('custom-checkout/<int:order_id>/', views.custom_checkout, name='custom_checkout'),
     path('checkout/', views.checkout, name='checkout'),
     path('buy-now/<str:product_type>/<int:product_id>/',views.buy_now,name='buy_now'),
+    path('buy-now/address/', views.buy_now_address, name='buy_now_address'),
+    path('buy-now/create-order/<int:address_id>/', views.buy_now_create_order, name='buy_now_create_order'),
+    path('add-address/', views.add_address, name='add_address'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('order-success/<int:order_id>/', views.order_success, name='order_success'),
 ]

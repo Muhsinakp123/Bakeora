@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-  
+
 <section class="container py-5">
 
   <h3 class="mb-4 fw-bold">Select Delivery Address</h3>
+
+  <div class="mb-4">
+      <strong>Product:</strong> {{ product.name }} <br>
+      <strong>Price:</strong> ₹{{ product.price }}
+  </div>
 
   {% if addresses %}
 
@@ -11,19 +16,20 @@
     <div class="card mb-3 shadow-sm p-3">
         <h5>{{ address.full_name }}</h5>
         <p class="mb-1">
-            {{ address.house_name }},
-            {{ address.city }},
-            {{ address.state }} - {{ address.pincode }}
+            {{ address.address_line }}<br>
+            {{ address.city }} - {{ address.pincode }}
         </p>
         <p class="mb-2">Phone: {{ address.phone }}</p>
 
-        <a href="{% url 'proceed_payment' address.id %}"
+        <!-- ✅ CORRECT URL -->
+        <a href="{% url 'buy_now_create_order' address.id %}"
            class="btn btn-warning btn-sm">
            Deliver Here
         </a>
     </div>
     {% endfor %}
 
+    <!-- ✅ CORRECT ADD ADDRESS LINK -->
     <a href="{% url 'add_address' %}" class="btn btn-outline-dark mt-3">
         Add New Address
     </a>
@@ -40,6 +46,5 @@
   {% endif %}
 
 </section>
-
 
 {% endblock %}

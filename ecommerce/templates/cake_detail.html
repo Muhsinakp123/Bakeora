@@ -6,37 +6,57 @@
 {% block content %}
 
 <section class="container py-5">
-  <div class="row">
+  <div class="row align-items-start">
 
-    <!-- Cake Image -->
-    <div class="col-md-6">
-      <img src="{{ cake.image.url }}" class="img-fluid" alt="{{ cake.name }}">
+    <!-- Image Section -->
+    <div class="col-md-5 mb-4 text-center">
+      <div class="border rounded p-3 bg-light">
+        <img src="{{ cake.image.url }}"
+             class="img-fluid rounded"
+             style="max-height: 500px; object-fit: contain;"
+             alt="{{ dessert.name }}">
+      </div>
     </div>
 
-    <!-- Cake Info -->
+    <!-- Product Info -->
     <div class="col-md-6">
-      <h2>{{ cake.name }}</h2>
-      <h4 class="text-success">₹{{ cake.price }}</h4>
 
-{% if ps %}
-<button class="btn btn-dark mb-2 add-to-cart-btn"
-        data-url="{% url 'add_to_cart' ps.id %}">
-  Add to Cart
-</button>
-{% else %}
-<p class="text-danger">Cart unavailable</p>
-{% endif %}
+      <h2 class="fw-bold mb-3">{{ cake.name }}</h2>
 
+      <h3 class="text-success fw-bold mb-3">
+        ₹{{ cake.price }}
+      </h3>
 
-      <a href="{% url 'buy_now' 'cake' cake.id %}" class="btn btn-primary">
-  Buy Now
-</a>
+      <p class="text-muted">
+        Flavor: {{ cake.get_flavor_display }} <br>
+        Category: {{ cake.get_category_display }} <br>
+        Structure: {{ cake.get_structure_display }}
+      </p>
 
+      <hr>
+
+      <!-- Purchase Card -->
+      <div class="card shadow-sm p-4 mt-3">
+
+        {% if ps %}
+        <button class="btn btn-outline-dark w-100 mb-3 add-to-cart-btn"
+                data-url="{% url 'add_to_cart' ps.id %}">
+          Add to Cart
+        </button>
+        {% else %}
+        <p class="text-danger">Cart unavailable</p>
+        {% endif %}
+
+        <a href="{% url 'buy_now' 'cake' cake.id %}"
+           class="btn btn-warning w-100 fw-bold">
+          Buy Now
+        </a>
+
+      </div>
 
     </div>
   </div>
 </section>
-
 
 <script>
 function getCookie(name) {

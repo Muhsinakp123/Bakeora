@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div class="card shadow-sm p-4">
+
+        <h4 class="mb-4 text-center">Add Delivery Address</h4>
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phone" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Address Line</label>
+            <textarea name="address_line" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">City</label>
+            <input type="text" id="city" name="city" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Pincode</label>
+            <input type="text" name="pincode" class="form-control" required>
+          </div>
+
+          <!-- Autofill Location Button -->
+          <div class="mb-3 text-center">
+            <button type="button" onclick="getLocation()" class="btn btn-outline-secondary btn-sm">
+              📍 Use Current Location
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-warning w-100 fw-bold">
+            Save Address
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("city").value = data.address.city || data.address.town || data.address.village || "";
+        });
+}
+</script>
+
+{% endblock %}
