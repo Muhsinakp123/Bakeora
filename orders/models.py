@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from products.models import ProductSearch
 
 User = settings.AUTH_USER_MODEL
 
@@ -56,48 +55,50 @@ class OrderItem(models.Model):
     def get_total(self):
         return self.price * self.quantity
 
+class CustomCake(models.Model):
 
-class CustomCakeOrder(models.Model):
-
-    CAKE_TYPE_CHOICES = [
-        ('birthday', 'Birthday Cake'),
-        ('wedding', 'Wedding Cake'),
-        ('bento', 'Bento Cake'),
-        ('kids', 'Kids Cake'),
-        ('custom', 'Fully Custom'),
+    SIZE_CHOICES = [
+        ('500g', '500g'),
+        ('1kg', '1kg'),
+        ('2kg', '2kg'),
+        ('custom', 'Custom Size'),
     ]
 
     FLAVOR_CHOICES = [
         ('chocolate', 'Chocolate'),
         ('vanilla', 'Vanilla'),
-        ('redvelvet', 'Red Velvet'),
-        ('butterscotch', 'Butterscotch'),
-        ('fruit', 'Fruit'),
+        ('red_velvet', 'Red Velvet'),
+        ('custom', 'Custom Flavor'),
     ]
 
-    SIZE_CHOICES = [
-        ('0.5kg', '0.5 Kg'),
-        ('1kg', '1 Kg'),
-        ('2kg', '2 Kg'),
-        ('3kg', '3 Kg'),
+    CREAM_CHOICES = [
+        ('buttercream', 'Buttercream'),
+        ('whipped', 'Whipped Cream'),
+        ('fondant', 'Fondant'),
+        ('custom', 'Custom Cream'),
     ]
 
-    order = models.OneToOneField(
-        Order,
-        on_delete=models.CASCADE,
-        related_name='custom_cake'
-    )
+    # Structured selections
+    cake_size = models.CharField(max_length=20, choices=SIZE_CHOICES)
+    flavor = models.CharField(max_length=30, choices=FLAVOR_CHOICES)
+    cream_type = models.CharField(max_length=30, choices=CREAM_CHOICES)
 
-    cake_type = models.CharField(max_length=20, choices=CAKE_TYPE_CHOICES)
-    flavor = models.CharField(max_length=20, choices=FLAVOR_CHOICES)
-    size = models.CharField(max_length=10, choices=SIZE_CHOICES)
+    # Custom fields (only used if "custom" selected)
+    custom_size = models.CharField(max_length=20, blank=True, null=True)
+    custom_flavor = models.CharField(max_length=50, blank=True, null=True)
+    custom_cream = models.CharField(max_length=50, blank=True, null=True)
 
-    message_on_cake = models.CharField(max_length=100, blank=True)
-    delivery_date = models.DateField()
-    notes = models.TextField(blank=True)
+    # Optional photo
+    reference_photo = models.ImageField(upload_to='cake_photos/', blank=True, null=True)
 
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    # Message
+    message_on_cake = models.CharField(max_length=200)
+
+    # Delivery
+    delivery_datetime = models.DateTimeField()
+    delivery_address = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Custom Cake for Order #{self.order.id}"
-
+        return f"{self.flavor} - {self.cake_size}"

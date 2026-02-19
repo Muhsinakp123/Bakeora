@@ -2,25 +2,26 @@
 {% block title %}Custom Cake Order | Bakeora{% endblock %}
 
 {% block content %}
-<section class="py-5 mt-5">
+
+<section class="custom-cake-section py-5 mt-5">
   <div class="container">
     <div class="row justify-content-center">
 
-      <div class="col-md-7">
-        <div class="card shadow p-4">
+      <div class="col-md-8">
+        <div class="custom-cake-card p-5">
 
-          <h3 class="fw-bold text-center mb-4">
-            Customize Your Cake 🎂
+          <h3 class="custom-cake-title text-center mb-4">
+            Design Your Dream Cake 
           </h3>
 
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <!-- Cake Type -->
-            <div class="mb-3">
-              <label class="form-label">Cake Type</label>
-              <select name="cake_type" class="form-select" required>
-                <option value="">Select</option>
+            <div class="mb-4">
+              <label class="form-label custom-label">Cake Type</label>
+              <select name="cake_type" class="form-control custom-input" required>
+                <option value="">Select Cake Type</option>
                 <option value="birthday">Birthday Cake</option>
                 <option value="wedding">Wedding Cake</option>
                 <option value="bento">Bento Cake</option>
@@ -29,54 +30,82 @@
               </select>
             </div>
 
-            <!-- Flavor -->
-            <div class="mb-3">
-              <label class="form-label">Flavor</label>
-              <select name="flavor" class="form-select" required>
-                <option value="">Select</option>
-                <option value="chocolate">Chocolate</option>
-                <option value="vanilla">Vanilla</option>
-                <option value="redvelvet">Red Velvet</option>
-                <option value="butterscotch">Butterscotch</option>
-                <option value="fruit">Fruit</option>
-              </select>
+            <!-- Size -->
+            <div class="mb-4">
+              <label class="form-label custom-label">Cake Size</label>
+              <input type="text"
+                     name="size"
+                     class="form-control custom-input"
+                     placeholder="Enter size (e.g. 1kg, 1.5kg, 500g)"
+                     required>
             </div>
 
-            <!-- Size -->
-            <div class="mb-3">
-              <label class="form-label">Cake Size</label>
-              <select name="size" class="form-select" required>
-                <option value="">Select</option>
-                <option value="0.5kg">0.5 Kg</option>
-                <option value="1kg">1 Kg</option>
-                <option value="2kg">2 Kg</option>
-                <option value="3kg">3 Kg</option>
-              </select>
+            <!-- Flavor -->
+            <div class="mb-4">
+              <label class="form-label custom-label">Flavor</label>
+              <input type="text"
+                     name="flavor"
+                     class="form-control custom-input"
+                     placeholder="Chocolate, Vanilla, Red Velvet..."
+                     required>
+            </div>
+
+            <!-- Cream Type -->
+            <div class="mb-4">
+              <label class="form-label custom-label">Cream Type</label>
+              <input type="text"
+                     name="cream_type"
+                     class="form-control custom-input"
+                     placeholder="Buttercream, Whipped, Fondant..."
+                     required>
             </div>
 
             <!-- Message -->
-            <div class="mb-3">
-              <label class="form-label">Message on Cake</label>
-              <input type="text" name="message" class="form-control"
-                     placeholder="Happy Birthday Anna 🎉">
+            <div class="mb-4">
+              <label class="form-label custom-label">Message on Cake</label>
+              <input type="text"
+                     name="message_on_cake"
+                     class="form-control custom-input"
+                     placeholder="Happy Birthday Anna ">
+            </div>
+
+            <!-- Photo Upload -->
+            <div class="mb-4">
+              <label class="form-label custom-label">Upload Reference Photo (Optional)</label>
+              <input type="file"
+                     name="reference_image"
+                     class="form-control custom-input">
             </div>
 
             <!-- Delivery Date -->
-            <div class="mb-3">
-              <label class="form-label">Delivery Date</label>
-              <input type="date" name="delivery_date"
-                     class="form-control" required>
+            <div class="mb-4">
+              <label class="form-label custom-label">Delivery Date & Time</label>
+              <input type="datetime-local"
+                     name="delivery_date"
+                     class="form-control custom-input"
+                     required>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-4">
+              <label class="form-label custom-label">Delivery Address</label>
+              <textarea name="delivery_address"
+                        rows="3"
+                        class="form-control custom-input"
+                        placeholder="Full address with landmark..."
+                        required></textarea>
             </div>
 
             <!-- Notes -->
             <div class="mb-4">
-              <label class="form-label">Special Instructions</label>
-              <textarea name="notes" rows="3"
-                        class="form-control"
+              <label class="form-label custom-label">Special Instructions</label>
+              <textarea name="notes"
+                        rows="3"
+                        class="form-control custom-input"
                         placeholder="Eggless, less sugar, theme color..."></textarea>
             </div>
 
-            <button class="btn w-100 order-btn">
+            <button class="btn w-100 order-btn mt-3">
               Place Custom Order
             </button>
 
@@ -88,4 +117,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}

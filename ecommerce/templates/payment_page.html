@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Pay for {{ cake.name }} | Bakeora{% endblock %}
+{% block title %}Pay | Bakeora{% endblock %}
 
 {% block content %}
 <div class="container py-5 text-center">
-  <h2>Pay for {{ cake.name }}</h2>
-  <p class="fs-5">Amount: ₹{{ cake.price }}</p>
+
+  <h2 class="mb-3">Complete Your Payment</h2>
+
+  <h4>Order #{{ order.id }}</h4>
+  <p class="fs-5">Amount: ₹{{ order.total_amount }}</p>
 
   <div id="paypal-button-container" class="mt-4"></div>
+
 </div>
 
 <!-- PayPal SDK -->
@@ -18,7 +22,7 @@ paypal.Buttons({
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: "{{ cake.price }}"
+                    value: "{{ order.total_amount }}"
                 }
             }]
         });
@@ -30,4 +34,5 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 </script>
+
 {% endblock %}

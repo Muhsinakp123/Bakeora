@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from .models import CustomCakeOrder, Order, OrderItem, Address
+from .models import CustomCake, Order, OrderItem, Address
 from cart.models import Cart,CartItem
 from products.models import Cake, Dessert, Pudding
 
@@ -13,7 +13,7 @@ from products.models import Cake, Dessert, Pudding
 @login_required(login_url='login')
 def custom_order(request):
     if request.method == "POST":
-        order = CustomCakeOrder.objects.create(
+        order = CustomCake.objects.create(
             user=request.user,
             cake_type=request.POST['cake_type'],
             flavor=request.POST['flavor'],
@@ -29,12 +29,12 @@ def custom_order(request):
 
 @login_required(login_url='login')
 def custom_checkout(request, order_id):
-    order = get_object_or_404(CustomCakeOrder, id=order_id, user=request.user)
+    order = get_object_or_404(CustomCake, id=order_id, user=request.user)
 
     if request.method == "POST":
         order.status = 'paid'
         order.save()
-        messages.success(request, "🎉 Custom cake order placed successfully!")
+        messages.success(request, " Custom cake order placed successfully!")
         return redirect('home')
 
     return render(request, 'custom_checkout.html', {'order': order})
@@ -109,79 +109,65 @@ def order_success(request, order_id):
 @login_required(login_url='login')
 def buy_now(request, product_type, product_id):
 
-    if product_type == "cake":
-        product = get_object_or_404(Cake, id=product_id)
-
-    elif product_type == "dessert":
-        product = get_object_or_404(Dessert, id=product_id)
-
-    elif product_type == "pudding":
-        product = get_object_or_404(Pudding, id=product_id)
-
-    else:
-        messages.error(request, "Invalid product")
-        return redirect("shop")
-
-    # Store product in session
-    request.session['buy_product_type'] = product_type
+    # Save product info in session
+    request.session['buy_product_type'] = product_type.strip().lower()
     request.session['buy_product_id'] = product_id
 
-    # Redirect to address selection page
-    return redirect("buy_now_address")
+    return redirect("buy_now_address_with_product", product_type=product_type, product_id=product_id)
 
 
 @login_required(login_url='login')
-def buy_now_address(request):
+def buy_now_address(request, product_type, product_id):
 
-    product_type = request.session.get('buy_product_type')
-    product_id = request.session.get('buy_product_id')
+    MODEL_MAP = {
+        "cake": Cake,
+        "dessert": Dessert,
+        "pudding": Pudding,
+    }
 
-    if not product_type or not product_id:
-        return redirect('shop')
+    model = MODEL_MAP.get(product_type.strip().lower())
 
-    if product_type == "cake":
-        product = get_object_or_404(Cake, id=product_id)
-    elif product_type == "dessert":
-        product = get_object_or_404(Dessert, id=product_id)
-    elif product_type == "pudding":
-        product = get_object_or_404(Pudding, id=product_id)
+    if not model:
+        return redirect("shop")
 
+    product = get_object_or_404(model, id=product_id)
     addresses = Address.objects.filter(user=request.user)
 
     return render(request, "buy_now_address.html", {
         "product": product,
-        "addresses": addresses
+        "addresses": addresses,
+        "product_type": product_type,
+        "product_id": product_id
     })
 
 
+
 @login_required(login_url='login')
-def buy_now_create_order(request, address_id):
+def buy_now_create_order(request, address_id, product_type, product_id):
 
-    product_type = request.session.get('buy_product_type')
-    product_id = request.session.get('buy_product_id')
+    if request.method != "POST":
+        return redirect("shop")
 
-    if product_type == "cake":
-        product = get_object_or_404(Cake, id=product_id)
-    elif product_type == "dessert":
-        product = get_object_or_404(Dessert, id=product_id)
-    elif product_type == "pudding":
-        product = get_object_or_404(Pudding, id=product_id)
+    MODEL_MAP = {
+        "cake": Cake,
+        "dessert": Dessert,
+        "pudding": Pudding,
+    }
 
+    model = MODEL_MAP.get(product_type.strip().lower())
+
+    if not model:
+        return redirect("shop")
+
+    product = get_object_or_404(model, id=product_id)
     address = get_object_or_404(Address, id=address_id, user=request.user)
 
-    # Location validation (reuse your logic)
-    if address.city.lower() not in settings.ALLOWED_DISTRICTS:
-        messages.error(request, "Delivery not available in your location")
-        return redirect("buy_now_address")
-
-    # Create order
     order = Order.objects.create(
         user=request.user,
         address=address,
         total_amount=product.price
     )
 
-    # Create order item
     OrderItem.objects.create(
         order=order,
         product_name=product.name,
@@ -193,8 +179,13 @@ def buy_now_create_order(request, address_id):
 
     return redirect("payment_page")
 
+
 @login_required(login_url='login')
 def add_address(request):
+
+    product_type = request.session.get('buy_product_type')
+    product_id = request.session.get('buy_product_id')
+
     if request.method == "POST":
 
         Address.objects.create(
@@ -206,10 +197,15 @@ def add_address(request):
             address_line=request.POST.get("address_line"),
         )
 
-        return redirect("buy_now_address")
+        # ✅ If coming from Buy Now flow
+        if product_type and product_id:
+            return redirect("buy_now_address_with_product", product_type=product_type, product_id=product_id)
+
+
+        # Otherwise normal flow
+        return redirect("checkout")
 
     return render(request, "add_address.html")
-
 
 
 @csrf_exempt
@@ -229,17 +225,22 @@ def payment_success(request):
     return redirect('order_success', order_id=order.id)
 
 
-@login_required
+@login_required(login_url='login')
 def payment_page(request):
+
     order_id = request.session.get('order_id')
+
+    if not order_id:
+        messages.error(request, "No order found.")
+        return redirect("shop")
+
     order = get_object_or_404(Order, id=order_id, user=request.user)
 
-    if order.address.city.lower() not in settings.ALLOWED_DISTRICTS:
-        messages.error(request, "Delivery not available in your location")
-        return redirect('checkout')
-
-    return render(request, 'payment_page.html', {
-        'order': order,
-        'paypal_client_id': settings.PAYPAL_CLIENT_ID
+    return render(request, "payment_page.html", {
+        "order": order,
+        "paypal_client_id": settings.PAYPAL_CLIENT_ID
     })
+
+
+
 

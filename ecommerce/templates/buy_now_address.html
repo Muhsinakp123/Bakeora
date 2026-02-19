@@ -21,11 +21,13 @@
         </p>
         <p class="mb-2">Phone: {{ address.phone }}</p>
 
-        <!-- ✅ CORRECT URL -->
-        <a href="{% url 'buy_now_create_order' address.id %}"
-           class="btn btn-warning btn-sm">
-           Deliver Here
-        </a>
+<form method="POST" action="{% url 'buy_now_create_order' address.id product_type product_id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning btn-sm">
+        Deliver Here
+    </button>
+</form>
+
     </div>
     {% endfor %}
 

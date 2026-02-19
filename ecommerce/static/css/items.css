@@ -677,3 +677,44 @@
   margin-bottom: 12px;
 }
 
+/* ================= CUSTOM CAKE PAGE ================= */
+
+.custom-cake-card {
+  background: #2b0f14;
+  margin-top: -70px;
+  border-radius: 24px;
+  border: 3px solid #c9a24d;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+.custom-cake-title {
+  font-family: "Playfair Display", serif;
+  color: #f4d48a;
+  font-size: 2.2rem;
+}
+
+.custom-label {
+  color: #e7c873;
+  font-weight: 600;
+  letter-spacing: .4px;
+}
+
+.custom-input {
+  background: #4a0e1c;
+  border: 2px solid rgba(231,200,115,0.35);
+  border-radius: 14px;
+  color: #fff;
+  padding: 12px;
+  transition: .3s;
+}
+
+.custom-input::placeholder {
+  color: #d9c7a2;
+}
+
+.custom-input:focus {
+  background: #5c1324;
+  border-color: #d4af37;
+  box-shadow: 0 0 12px rgba(212,175,55,.35);
+  color: #fff;
+}
