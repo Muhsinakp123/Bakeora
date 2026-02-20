@@ -105,6 +105,42 @@ body {
   color: #e7c873;
 }
 
+.position-relative{
+  text-decoration: none;
+}
+
+.notification-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(231, 200, 115, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #e7c873;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+.notification-circle:hover {
+  background: rgba(231, 200, 115, 0.1);
+  border-color: #e7c873;
+  box-shadow: 0 0 0 3px rgba(231, 200, 115, 0.35);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #c97b63;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+}
 
 /* ================= USER PROFILE ICON ================= */
 

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">My Notifications</h2>
+
+    {% if notifications %}
+        {% for notif in notifications %}
+            <div class="alert 
+                {% if 'EMERGENCY' in notif.title %}
+                    alert-danger
+                {% elif notif.is_read %}
+                    alert-light
+                {% else %}
+                    alert-info
+                {% endif %}
+                shadow-sm mb-3">
+
+                <div class="d-flex justify-content-between">
+                    <h5>{{ notif.title }}</h5>
+                    <small>{{ notif.created_at|date:"M d, Y H:i" }}</small>
+                </div>
+
+                <p class="mb-1">{{ notif.message }}</p>
+
+                {% if not notif.is_read %}
+                    <span class="badge bg-primary">New</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-secondary">
+            No notifications yet 
+        </div>
+    {% endif %}
+</div>
+
+<script>
+setInterval(function () {
+  fetch("{% url 'notification_count' %}")
+    .then(response => response.json())
+    .then(data => {
+
+      const badge = document.querySelector(".notification-badge");
+
+      if (data.count > 0) {
+        if (badge) {
+          badge.textContent = data.count;
+        } else {
+          const wrapper = document.querySelector(".notification-icon-wrapper");
+          const span = document.createElement("span");
+          span.className = "notification-badge";
+          span.textContent = data.count;
+          wrapper.appendChild(span);
+        }
+      } else {
+        if (badge) badge.remove();
+      }
+    });
+}, 5000);  // every 5 seconds
+</script>
+
+{% endblock %}

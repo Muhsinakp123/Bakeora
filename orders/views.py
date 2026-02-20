@@ -15,29 +15,43 @@ def custom_order(request):
     if request.method == "POST":
         order = CustomCake.objects.create(
             user=request.user,
-            cake_type=request.POST['cake_type'],
-            flavor=request.POST['flavor'],
-            size=request.POST['size'],
-            message_on_cake=request.POST.get('message'),
-            delivery_date=request.POST['delivery_date'],
-            notes=request.POST.get('notes')
+            cake_type=request.POST.get('cake_type'),
+            size=request.POST.get('size'),
+            flavor=request.POST.get('flavor'),
+            cream_type=request.POST.get('cream_type'),
+            message_on_cake=request.POST.get('message_on_cake'),
+            reference_photo=request.FILES.get('reference_image'),
+            delivery_datetime=request.POST.get('delivery_date'),
+            delivery_address=request.POST.get('delivery_address'),
+            notes=request.POST.get('notes'),
+            status="pending"
         )
+
+        # ✅ USE DATABASE ID
         return redirect('custom_checkout', order_id=order.id)
 
     return render(request, 'custom_order.html')
 
 
-@login_required(login_url='login')
+@login_required
 def custom_checkout(request, order_id):
     order = get_object_or_404(CustomCake, id=order_id, user=request.user)
 
-    if request.method == "POST":
-        order.status = 'paid'
+    if order.status == "quoted" and request.method == "POST":
+        order.status = "confirmed"
         order.save()
-        messages.success(request, " Custom cake order placed successfully!")
-        return redirect('home')
+        return redirect('custom_checkout', order_id=order.pk)
 
-    return render(request, 'custom_checkout.html', {'order': order})
+    return render(request, "custom_checkout.html", {"order": order})
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(
+        CustomCake,
+        id=order_id,
+        user=request.user
+    )
+    return render(request, "order_detail.html", {"order": order})
 
 
 # ===================== CART CHECKOUT =====================

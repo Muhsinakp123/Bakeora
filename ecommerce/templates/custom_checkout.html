@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Custom Order Checkout | Bakeora{% endblock %}
+
+{% block content %}
+
+<section class="custom-cake-section py-5 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-md-8">
+        <div class="custom-cake-card p-5">
+
+          <h3 class="custom-cake-title text-center mb-4">
+            Order Summary
+          </h3>
+
+          <div class="mb-4">
+            <p><strong>Order ID:</strong>{{ order.reference_number }}</p>
+            <p><strong>Status:</strong> 
+              <span class="badge bg-warning text-dark">
+                {{ order.get_status_display }}
+              </span>
+            </p>
+          </div>
+
+          <hr>
+
+          <h5 class="mb-3">Cake Details</h5>
+
+          <p><strong>Cake Type:</strong> {{ order.cake_type }}</p>
+          <p><strong>Size:</strong> {{ order.size }}</p>
+          <p><strong>Flavor:</strong> {{ order.flavor }}</p>
+          <p><strong>Cream:</strong> {{ order.cream_type }}</p>
+
+          {% if order.message_on_cake %}
+          <p><strong>Message:</strong> {{ order.message_on_cake }}</p>
+          {% endif %}
+
+          {% if order.reference_photo %}
+          <div class="mb-3">
+            <strong>Reference Image:</strong><br>
+            <img src="{{ order.reference_photo.url }}"
+                 class="img-fluid rounded shadow mt-2"
+                 style="max-height: 200px;">
+          </div>
+          {% endif %}
+
+          <hr>
+
+          <h5 class="mb-3">Delivery Details</h5>
+
+          <p><strong>Delivery Date:</strong> {{ order.delivery_datetime }}</p>
+          <p><strong>Address:</strong> {{ order.delivery_address }}</p>
+
+          {% if order.notes %}
+          <p><strong>Notes:</strong> {{ order.notes }}</p>
+          {% endif %}
+
+          <hr>
+
+          <!-- PRICE SECTION -->
+          {% if order.price %}
+            <div class="alert alert-success text-center">
+              <h4>Total Price: ₹{{ order.price }}</h4>
+            </div>
+
+            {% if order.status == "quoted" %}
+            <form method="post">
+              {% csrf_token %}
+              <button class="btn btn-success w-100 mt-3">
+                Confirm & Pay
+              </button>
+            </form>
+            {% endif %}
+
+          {% else %}
+            <div class="alert alert-info text-center">
+              Your order is under review.  
+              We will update the price soon.
+            </div>
+          {% endif %}
+
+          <!-- Estimated Ready Time -->
+          {% if order.estimated_ready_time %}
+          <div class="mt-4 text-center">
+            <p><strong>Estimated Ready Time:</strong></p>
+            <p class="text-success fw-bold">
+              {{ order.estimated_ready_time }}
+            </p>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

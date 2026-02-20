@@ -43,11 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ecommerce',
+    'ecommerce.apps.EcommerceConfig',
     'products',
     'cart',
-    'accounts',
-    'orders',
+    'accounts.apps.AccountsConfig',
+    'orders.apps.OrdersConfig',
     'adminpanel',
     
     'django.contrib.sites',
@@ -86,6 +86,7 @@ TEMPLATES = [
 
                 # ADD THIS LINE
                 'ecommerce.context_processors.cart_count',
+                'accounts.context_processors.notification_count',
             ],
         },
     },

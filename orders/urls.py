@@ -6,7 +6,6 @@ urlpatterns = [
     path('custom-checkout/<int:order_id>/', views.custom_checkout, name='custom_checkout'),
     path('checkout/', views.checkout, name='checkout'),
 
-    # ✅ ADD THIS BACK
     path(
         'buy-now/<str:product_type>/<int:product_id>/',
         views.buy_now,

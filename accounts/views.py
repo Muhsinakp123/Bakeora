@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.backends import ModelBackend
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Subscriber,CustomerProfile
+from .models import Subscriber,CustomerProfile,Notifications
 
 # Create your views here.
 
@@ -74,6 +74,26 @@ def subscribe_email(request):
 def my_orders(request):
     return render(request, "my_orders.html")
 
+@login_required
+def notifications(request):
+    notifications = Notifications.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
+
+    notifications.filter(is_read=False).update(is_read=True)
+
+    return render(request, "notifications.html", {
+        "notifications": notifications
+    })
+
+@login_required
+def get_notification_count(request):
+    count = Notifications.objects.filter(
+        user=request.user,
+        is_read=False
+    ).count()
+
+    return JsonResponse({"count": count})    
 
 @login_required
 def account_dashboard(request):
