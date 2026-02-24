@@ -5,6 +5,9 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Subscriber,CustomerProfile,Notifications
+from orders.models import Address, Order, CustomCake
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -94,3 +97,52 @@ def get_notification_count(request):
 @login_required
 def account_dashboard(request):
     return render(request, "account_dashboard.html")
+
+
+@login_required
+def profile(request):
+    user = request.user
+
+    if request.method == "POST":
+        user.username = request.POST.get("username")
+        user.email = request.POST.get("email")
+        user.save()
+        messages.success(request, "Profile updated successfully!")
+
+    total_orders = Order.objects.filter(user=user).count()
+    custom_orders = CustomCake.objects.filter(user=user).count()
+    total_addresses = Address.objects.filter(user=user).count()
+
+    context = {
+        "total_orders": total_orders,
+        "custom_orders": custom_orders,
+        "total_addresses": total_addresses,
+    }
+
+    return render(request, "profile.html", context)
+
+@login_required
+def address_list(request):
+    addresses = Address.objects.filter(user=request.user)
+    return render(request, "address_list.html", {"addresses": addresses})
+
+@login_required
+def custom_cake_orders(request):
+    orders = CustomCake.objects.filter(user=request.user).order_by("-created_at")
+    return render(request, "custom_cake_order.html", {"orders": orders})
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Password updated successfully!")
+            return redirect("profile")
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, "change_password.html", {"form": form})

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5 bakeora-profile-page">
+
+  <h2 class="text-center mb-5">My Profile</h2>
+
+  <div class="row g-4">
+
+    <!-- LEFT SIDE - ACCOUNT SUMMARY -->
+    <div class="col-lg-4">
+      <div class="profile-summary-card p-4 text-center">
+        <div class="profile-avatar mb-3">
+          {{ request.user.first_name|first|upper }}
+        </div>
+
+        <h5>{{ request.user.get_full_name }}</h5>
+        <p class="text-muted small">{{ request.user.email }}</p>
+
+        <hr>
+
+        <div class="profile-stats">
+          <div>
+            <strong>{{ total_orders }}</strong>
+            <small>Total Orders</small>
+          </div>
+          <div>
+            <strong>{{ custom_orders }}</strong>
+            <small>Custom Cakes</small>
+          </div>
+          <div>
+            <strong>{{ total_addresses }}</strong>
+            <small>Addresses</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE - EDIT FORM -->
+    <div class="col-lg-8">
+      <div class="profile-edit-card p-4">
+
+        <h5 class="mb-4">Edit Personal Information</h5>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="row g-3">
+
+<div class="col-12">
+  <label class="form-label">Username</label>
+  <input type="text" name="username"
+         value="{{ request.user.username }}"
+         class="form-control">
+</div>  
+
+            <div class="col-12">
+              <label class="form-label">Email Address</label>
+              <input type="email" name="email"
+                     value="{{ request.user.email }}"
+                     class="form-control">
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-save mt-4">
+            Save Changes
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

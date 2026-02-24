@@ -1136,4 +1136,120 @@ body {
   }
 }
 
+/* ================= BAKEORA NOTIFICATIONS ================= */
 
+.notification-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.6rem;
+  color: #c9a24d;
+  position: relative;
+}
+
+.notification-title::after {
+  content: "";
+  display: block;
+  width: 23%;
+  height: 2px;
+  margin-top: 12px;
+  background: linear-gradient(to right, transparent, #c9a24d, transparent);
+}
+
+.notification-subtitle {
+  color: #7a6a55;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+/* Wrapper */
+.notification-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* CARD */
+.notification-card {
+  background: linear-gradient(180deg, #2b0f14, #1c090c);
+  border-radius: 18px;
+  padding: 22px;
+  border: 2px solid rgba(231,200,115,0.25);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+  transition: all 0.3s ease;
+}
+
+.notification-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+}
+
+/* Top Row */
+.notification-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-card h5 {
+  color: #f4d48a;
+  font-weight: 600;
+  margin: 0;
+}
+
+.notif-date {
+  color: #d9c7a2;
+  font-size: 0.8rem;
+}
+
+/* Message */
+.notification-message {
+  margin-top: 12px;
+  color: #f1e6d2;
+  font-size: 0.95rem;
+}
+
+/* NEW badge */
+.notif-badge {
+  background: linear-gradient(135deg, #f3d27a, #b88a2a);
+  color: #2b0a12;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* UNREAD */
+.notif-unread {
+  border-left: 4px solid #e7c873;
+}
+
+/* READ */
+.notif-read {
+  opacity: 0.75;
+}
+
+/* EMERGENCY */
+.notif-emergency {
+  border-left: 4px solid #c97b63;
+  box-shadow: 0 0 18px rgba(201,123,99,0.4);
+}
+
+/* EMPTY STATE */
+.no-notification-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px dashed #c9a24d;
+  color: #7a6a55;
+}
+
+.no-notification-card i {
+  font-size: 2rem;
+  color: #c9a24d;
+  margin-bottom: 12px;
+}

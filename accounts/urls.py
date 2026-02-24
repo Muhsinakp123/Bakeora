@@ -56,5 +56,9 @@ path(
     path('notifications/', views.notifications, name='notifications'),
     path("notifications/count/", views.get_notification_count, name="notification_count"),
     path("account/", views.account_dashboard, name="account_dashboard"),
+    path('profile/', views.profile, name='profile'),
+    path('addresses/', views.address_list, name='address_list'),
+    path('custom-cake-orders/', views.custom_cake_orders, name='custom_cake_orders'),
+    path('change-password/', views.change_password, name='change_password'),
 
 ]
