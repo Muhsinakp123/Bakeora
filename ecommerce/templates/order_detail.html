@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Order Details</h2>
+    <hr>
+
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+    <hr>
+
+    <h4>Items</h4>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.get_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h5>Total Amount: ₹{{ order.total_amount }}</h5>
+
+    <hr>
+
+    <h4>Delivery Address</h4>
+    <p>
+        {{ order.address.full_name }} <br>
+        {{ order.address.street }} <br>
+        {{ order.address.city }} <br>
+        {{ order.address.state }} <br>
+        {{ order.address.pincode }}
+    </p>
+
+</div>
+
+{% endblock %}

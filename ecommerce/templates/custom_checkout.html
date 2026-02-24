@@ -15,8 +15,8 @@
           </h3>
 
           <div class="mb-4">
-            <p><strong>Order ID:</strong>{{ order.reference_number }}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Order ID:</strong> {{ order.reference_number }}</p>
+            <p><strong>Status:</strong>
               <span class="badge bg-warning text-dark">
                 {{ order.get_status_display }}
               </span>
@@ -58,29 +58,40 @@
 
           <hr>
 
-          <!-- PRICE SECTION -->
-          {% if order.price %}
+          <!-- ================= PRICE & PAYMENT SECTION ================= -->
+
+          {% if order.status == "quoted" and order.price and order.payment_status == "pending" %}
+
             <div class="alert alert-success text-center">
               <h4>Total Price: ₹{{ order.price }}</h4>
             </div>
 
-            {% if order.status == "quoted" %}
-            <form method="post">
-              {% csrf_token %}
-              <button class="btn btn-success w-100 mt-3">
-                Confirm & Pay
-              </button>
-            </form>
-            {% endif %}
+            <a href="{% url 'custom_pay_now' order.id %}"
+               class="btn btn-success w-100 mt-3">
+               Accept & Pay Now
+            </a>
+
+          {% elif order.payment_status == "paid" %}
+
+            <div class="alert alert-success text-center">
+              <h4>Total Price: ₹{{ order.price }}</h4>
+            </div>
+
+            <div class="alert alert-success text-center">
+              Payment Completed Successfully 
+            </div>
 
           {% else %}
+
             <div class="alert alert-info text-center">
-              Your order is under review.  
+              Your order is under review.
               We will update the price soon.
             </div>
+
           {% endif %}
 
-          <!-- Estimated Ready Time -->
+          <!-- ================= ESTIMATED READY TIME ================= -->
+
           {% if order.estimated_ready_time %}
           <div class="mt-4 text-center">
             <p><strong>Estimated Ready Time:</strong></p>

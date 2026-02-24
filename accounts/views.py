@@ -71,10 +71,6 @@ def subscribe_email(request):
 
 
 @login_required
-def my_orders(request):
-    return render(request, "my_orders.html")
-
-@login_required
 def notifications(request):
     notifications = Notifications.objects.filter(
         user=request.user

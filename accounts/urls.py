@@ -53,7 +53,6 @@ path(
         name='password_reset_complete'
     ),
     
-    path("my-orders/", views.my_orders, name="my_orders"),
     path('notifications/', views.notifications, name='notifications'),
     path("notifications/count/", views.get_notification_count, name="notification_count"),
     path("account/", views.account_dashboard, name="account_dashboard"),

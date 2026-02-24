@@ -27,6 +27,12 @@ urlpatterns = [
     path('add-address/', views.add_address, name='add_address'),
     path('payment-page/', views.payment_page, name='payment_page'),
     path('payment-success/', views.payment_success, name='payment_success'),
+    path("proceed-payment/<int:address_id>/",views.proceed_payment,name="proceed_payment"),
     path('order-success/<int:order_id>/', views.order_success, name='order_success'),
+    
+    path("my-orders/", views.my_orders, name="my_orders"),
+    path("my-orders/<int:order_id>/", views.order_detail, name="order_detail"),
+    path("custom-pay/<int:order_id>/", views.custom_pay_now, name="custom_pay_now"),
+    
 ]
 

@@ -33,7 +33,12 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    address = models.ForeignKey(
+    Address,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(
         max_length=20,
@@ -96,6 +101,16 @@ class CustomCake(models.Model):
     notes = models.TextField(blank=True)
 
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    PAYMENT_STATUS = (
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+    )
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS,
+        default='pending'
+    )
     estimated_ready_time = models.DateTimeField(null=True, blank=True)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
