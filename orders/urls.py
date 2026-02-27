@@ -34,5 +34,6 @@ urlpatterns = [
     path("my-orders/<int:order_id>/", views.order_detail, name="order_detail"),
     path("custom-pay/<int:order_id>/", views.custom_pay_now, name="custom_pay_now"),
     
+    path('generate-ai-preview/', views.generate_ai_preview, name='generate_ai_preview'),
 ]
 

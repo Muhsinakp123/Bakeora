@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .ai_service import generate_cake_suggestion
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from .models import CustomCake, Order, OrderItem, Address
 from cart.models import Cart, CartItem
 from products.models import Cake, Dessert, Pudding
@@ -173,25 +174,36 @@ def add_address(request):
 
     if request.method == "POST":
 
-        city = request.POST.get("city", "").strip().lower()
+        country = request.POST.get("country", "").strip().lower()
+        state = request.POST.get("state", "").strip().lower()
+        district = request.POST.get("district", "").strip().lower()
 
-        #  Validate allowed districts
-        if city not in settings.ALLOWED_DISTRICTS:
+        # Multi-level validation
+        if country != settings.ALLOWED_COUNTRY:
+            messages.error(request, "We currently deliver only in India.")
+            return redirect("add_address")
+
+        if state != settings.ALLOWED_STATE:
+            messages.error(request, "Delivery available only in Kerala.")
+            return redirect("add_address")
+
+        if district not in settings.ALLOWED_DISTRICTS:
             messages.error(
                 request,
-                "Sorry! Bakeora currently delivers only to "
-                "Kozhikode, Kannur, Malappuram, and Wayanad."
+                "Bakeora delivers only to Kozhikode, Kannur, Malappuram and Wayanad."
             )
             return redirect("add_address")
 
-        # Save only if valid
         Address.objects.create(
             user=request.user,
             full_name=request.POST.get("full_name"),
             phone=request.POST.get("phone"),
-            city=request.POST.get("city"),
-            pincode=request.POST.get("pincode"),
             address_line=request.POST.get("address_line"),
+            city=request.POST.get("city"),
+            district=request.POST.get("district"),
+            state=request.POST.get("state"),
+            country=request.POST.get("country"),
+            pincode=request.POST.get("pincode"),
         )
 
         if product_type and product_id:
@@ -356,3 +368,26 @@ def proceed_payment(request, address_id):
     request.session['order_id'] = order.id
 
     return redirect("payment_page")
+
+def generate_ai_preview(request):
+
+    if request.method == "POST":
+
+        cake_type = request.POST.get("cake_type")
+        size = request.POST.get("size")
+        flavor = request.POST.get("flavor")
+        cream_type = request.POST.get("cream_type")
+        message = request.POST.get("message_on_cake")
+
+        # Generate AI text
+        preview_text = generate_cake_suggestion(
+            cake_type=cake_type,
+            size=size,
+            flavor=flavor,
+            cream_type=cream_type,
+            message=message
+        )
+
+        return JsonResponse({"preview": preview_text})
+
+    return JsonResponse({"error": "Invalid request"})

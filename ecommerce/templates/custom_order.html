@@ -105,10 +105,15 @@
                         placeholder="Eggless, less sugar, theme color..."></textarea>
             </div>
 
-            <button class="btn w-100 order-btn mt-3">
-              Place Custom Order
-            </button>
+            <button type="button" id="previewBtn" class="btn btn-warning w-100 mb-3">
+  Generate AI Preview 
+</button>
 
+<div id="previewResult" class="mt-3 text-success fw-bold"></div>
+
+<button type="submit" class="btn w-100 order-btn mt-3">
+  Place Custom Order
+</button>
           </form>
 
         </div>
@@ -117,5 +122,40 @@
     </div>
   </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    document.getElementById("previewBtn").addEventListener("click", function() {
+
+        let formData = new FormData(document.querySelector("form"));
+
+        fetch("{% url 'generate_ai_preview' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if(data.error){
+                document.getElementById("previewResult").innerHTML =
+                    "<span style='color:red'>" + data.error + "</span>";
+            } else {
+                document.getElementById("previewResult").innerHTML =
+                    " AI Suggestion: " + data.preview;
+            }
+
+        })
+        .catch(error => {
+            console.log("Error:", error);
+        });
+
+    });
+
+});
+</script>
 
 {% endblock %}

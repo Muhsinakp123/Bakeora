@@ -198,4 +198,8 @@ ALLOWED_DISTRICTS = [
     'wayanad',
     'kozhikode',
 ]
+ALLOWED_COUNTRY = "india"
 
+ALLOWED_STATE = "kerala"
+
+HF_API_KEY = os.getenv("HF_API_KEY")

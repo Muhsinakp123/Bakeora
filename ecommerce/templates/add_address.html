@@ -2,43 +2,55 @@
 {% block content %}
 
 <div class="container py-5">
-
   <div class="row justify-content-center">
     <div class="col-md-6">
 
       <div class="card shadow-sm p-4">
-
         <h4 class="mb-4 text-center">Add Delivery Address</h4>
 
         <form method="POST">
           {% csrf_token %}
 
           <div class="mb-3">
-            <label class="form-label">Full Name</label>
+            <label>Full Name</label>
             <input type="text" name="full_name" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Phone Number</label>
+            <label>Phone</label>
             <input type="text" name="phone" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Address Line</label>
-            <textarea name="address_line" class="form-control" rows="3" required></textarea>
+            <label>Address Line</label>
+            <textarea name="address_line" class="form-control" required></textarea>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">City</label>
+            <label>City</label>
             <input type="text" id="city" name="city" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Pincode</label>
-            <input type="text" name="pincode" class="form-control" required>
+            <label>District</label>
+            <input type="text" id="district" name="district" class="form-control" required readonly>
           </div>
 
-          <!-- Autofill Location Button -->
+          <div class="mb-3">
+            <label>State</label>
+            <input type="text" id="state" name="state" class="form-control" required readonly>
+          </div>
+
+          <div class="mb-3">
+            <label>Country</label>
+            <input type="text" id="country" name="country" class="form-control" required readonly>
+          </div>
+
+          <div class="mb-3">
+            <label>Pincode</label>
+            <input type="text" id="pincode" name="pincode" class="form-control" required readonly>
+          </div>
+
           <div class="mb-3 text-center">
             <button type="button" onclick="getLocation()" class="btn btn-outline-secondary btn-sm">
               📍 Use Current Location
@@ -50,12 +62,10 @@
           </button>
 
         </form>
-
       </div>
 
     </div>
   </div>
-
 </div>
 
 <script>
@@ -63,15 +73,31 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-        alert("Geolocation is not supported by this browser.");
+        alert("Geolocation not supported.");
     }
 }
 
 function showPosition(position) {
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            document.getElementById("city").value = data.address.city || data.address.town || data.address.village || "";
+
+            const addr = data.address;
+
+            document.getElementById("city").value =
+                addr.city || addr.town || addr.village || "";
+
+            document.getElementById("district").value =
+                addr.state_district || "";
+
+            document.getElementById("state").value =
+                addr.state || "";
+
+            document.getElementById("country").value =
+                addr.country || "";
+
+            document.getElementById("pincode").value =
+                addr.postcode || "";
         });
 }
 </script>
