@@ -103,7 +103,6 @@ class CustomCake(models.Model):
     reference_photo = models.ImageField(upload_to='cake_photos/', blank=True, null=True)
 
     delivery_datetime = models.DateTimeField()
-    delivery_address = models.TextField()
     notes = models.TextField(blank=True)
 
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

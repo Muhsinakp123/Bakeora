@@ -1,52 +1,143 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="container py-5">
+<section class="container">
 
-  <h3 class="mb-4 fw-bold">Select Delivery Address</h3>
+  <div class="row">
 
-  <div class="mb-4">
-      <strong>Product:</strong> {{ product.name }} <br>
-      <strong>Price:</strong> ₹{{ product.price }}
+    <!-- LEFT SIDE -->
+    <div class="col-lg-8">
+
+      <h4 class="fw-bold mb-3">Select a delivery address</h4>
+
+      <!-- Warning -->
+      <div class="alert alert-warning border shadow-sm">
+        <strong>⚠ One-time password required at time of delivery</strong><br>
+        Please ensure someone will be available to receive this delivery.
+      </div>
+
+      {% if addresses %}
+
+        {% for address in addresses %}
+        <div class="card mb-3 shadow-sm address-card p-3">
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="selected_address"
+                   id="address{{ address.id }}"
+                   {% if forloop.first %}checked{% endif %}>
+
+            <label class="form-check-label w-100" for="address{{ address.id }}">
+              <h6 class="fw-bold mb-1">{{ address.full_name }}</h6>
+
+              <p class="mb-1">
+                {{ address.address_line }}<br>
+                {{ address.city }}, {{ address.state }} - {{ address.pincode }}
+              </p>
+
+              <p class="mb-2">Phone number: {{ address.phone }}</p>
+            </label>
+          </div>
+
+          <!-- BUY NOW FORM -->
+          <div class="mt-2">
+            <form method="POST"
+                  action="{% url 'buy_now_create_order' address.id product_type product_id %}">
+              {% csrf_token %}
+              <button type="submit"
+                      class="btn btn-warning btn-sm px-4">
+                Deliver to this address
+              </button>
+            </form>
+          </div>
+
+        </div>
+        {% endfor %}
+
+        <a href="{% url 'add_address' %}"
+           class="btn btn-outline-secondary mt-3">
+           + Add a new delivery address
+        </a>
+
+      {% else %}
+
+        <div class="card p-4 text-center shadow-sm">
+          <p>No saved address found.</p>
+          <a href="{% url 'add_address' %}" class="btn btn-warning">
+            Add Address
+          </a>
+        </div>
+
+      {% endif %}
+
+    </div>
+
+
+    <!-- RIGHT SIDE - PRODUCT SUMMARY -->
+    <div class="col-lg-4">
+
+      <div class="card shadow-sm p-4 summary-box">
+
+        <h6 class="fw-bold mb-3">Order Summary</h6>
+
+        <p class="mb-2">
+          <strong>{{ product.name }}</strong>
+        </p>
+
+        <p class="mb-1 d-flex justify-content-between">
+          <span>Price:</span>
+          <span>₹{{ product.price }}</span>
+        </p>
+
+        <p class="mb-1 d-flex justify-content-between">
+          <span>Delivery:</span>
+          <span class="text-success">FREE</span>
+        </p>
+
+        <hr>
+
+        <h5 class="d-flex justify-content-between fw-bold">
+          <span>Order Total:</span>
+          <span>₹{{ product.price }}</span>
+        </h5>
+
+      </div>
+
+    </div>
+
   </div>
 
-  {% if addresses %}
-
-    {% for address in addresses %}
-    <div class="card mb-3 shadow-sm p-3">
-        <h5>{{ address.full_name }}</h5>
-        <p class="mb-1">
-            {{ address.address_line }}<br>
-            {{ address.city }} - {{ address.pincode }}
-        </p>
-        <p class="mb-2">Phone: {{ address.phone }}</p>
-
-<form method="POST" action="{% url 'buy_now_create_order' address.id product_type product_id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-warning btn-sm">
-        Deliver Here
-    </button>
-</form>
-
-    </div>
-    {% endfor %}
-
-    <!-- ✅ CORRECT ADD ADDRESS LINK -->
-    <a href="{% url 'add_address' %}" class="btn btn-outline-dark mt-3">
-        Add New Address
-    </a>
-
-  {% else %}
-
-    <div class="card p-4 text-center shadow-sm">
-        <p>No saved address found.</p>
-        <a href="{% url 'add_address' %}" class="btn btn-warning">
-            Add Address
-        </a>
-    </div>
-
-  {% endif %}
-
 </section>
+
+
+<!-- SAME STYLING AS CHECKOUT PAGE -->
+<style>
+.address-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.address-card:hover {
+  border-color: #f0c14b;
+  background-color: #fffdf7;
+}
+
+.summary-box {
+  border-radius: 10px;
+  position: sticky;
+  top: 100px;
+}
+
+.btn-warning {
+  background-color: #ffd814;
+  border: none;
+  font-weight: 600;
+}
+
+.btn-warning:hover {
+  background-color: #f7ca00;
+}
+</style>
 
 {% endblock %}

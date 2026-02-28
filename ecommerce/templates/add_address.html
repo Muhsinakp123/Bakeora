@@ -1,77 +1,124 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<style>
+body {
+    background-color: #f3f3f3;
+}
 
-      <div class="card shadow-sm p-4">
-        <h4 class="mb-4 text-center">Add Delivery Address</h4>
+.address-wrapper {
+    max-width: 750px;
+    margin: 40px auto;
+}
+
+.address-card {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.autofill-box {
+    background: #e7f3f8;
+    border: 1px solid #cce3ec;
+    padding: 15px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-amazon {
+    background-color: #ffd814;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-amazon:hover {
+    background-color: #f7ca00;
+}
+</style>
+
+<div class="address-wrapper">
+
+    <div class="address-card">
+
+        <h4 class="fw-bold mb-3">Enter a new delivery address</h4>
+
+        <!-- Autofill Box -->
+        <div class="autofill-box mb-4">
+            <div>Save time. Autofill your current location.</div>
+            <button type="button" onclick="getLocation()" 
+                class="btn btn-outline-secondary btn-sm">
+                Autofill
+            </button>
+        </div>
 
         <form method="POST">
-          {% csrf_token %}
+            {% csrf_token %}
 
-          <div class="mb-3">
-            <label>Full Name</label>
-            <input type="text" name="full_name" class="form-control" required>
-          </div>
+            <div class="mb-3">
+                <label class="form-label">Full name (First and Last name)</label>
+                <input type="text" name="full_name" class="form-control" required>
+            </div>
 
-          <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" required>
-          </div>
+            <div class="mb-3">
+                <label class="form-label">Mobile number</label>
+                <input type="text" name="phone" class="form-control" required>
+            </div>
 
-          <div class="mb-3">
-            <label>Address Line</label>
-            <textarea name="address_line" class="form-control" required></textarea>
-          </div>
+            <div class="mb-3">
+                <label class="form-label">Address Line</label>
+                <textarea name="address_line" class="form-control" rows="3" required></textarea>
+            </div>
 
-          <div class="mb-3">
-            <label>City</label>
-            <input type="text" id="city" name="city" class="form-control" required>
-          </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" id="city" name="city" class="form-control" required>
+                </div>
 
-          <div class="mb-3">
-            <label>District</label>
-            <input type="text" id="district" name="district" class="form-control" required readonly>
-          </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">District</label>
+                    <input type="text" id="district" name="district" class="form-control" required>
+                </div>
+            </div>
 
-          <div class="mb-3">
-            <label>State</label>
-            <input type="text" id="state" name="state" class="form-control" required readonly>
-          </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">State</label>
+                    <input type="text" id="state" name="state" class="form-control" required>
+                </div>
 
-          <div class="mb-3">
-            <label>Country</label>
-            <input type="text" id="country" name="country" class="form-control" required readonly>
-          </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Pincode</label>
+                    <input type="text" id="pincode" name="pincode" class="form-control" required>
+                </div>
+            </div>
 
-          <div class="mb-3">
-            <label>Pincode</label>
-            <input type="text" id="pincode" name="pincode" class="form-control" required readonly>
-          </div>
+            <div class="mb-4">
+                <label class="form-label">Country</label>
+                <input type="text" id="country" name="country" class="form-control" required>
+            </div>
 
-          <div class="mb-3 text-center">
-            <button type="button" onclick="getLocation()" class="btn btn-outline-secondary btn-sm">
-              📍 Use Current Location
+            <button type="submit" class="btn btn-amazon w-100">
+                Use this address
             </button>
-          </div>
-
-          <button type="submit" class="btn btn-warning w-100 fw-bold">
-            Save Address
-          </button>
 
         </form>
-      </div>
 
     </div>
-  </div>
 </div>
 
 <script>
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
         alert("Geolocation not supported.");
     }
@@ -99,6 +146,10 @@ function showPosition(position) {
             document.getElementById("pincode").value =
                 addr.postcode || "";
         });
+}
+
+function showError(error) {
+    alert("Location permission denied or unavailable.");
 }
 </script>
 

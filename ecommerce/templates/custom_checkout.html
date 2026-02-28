@@ -3,23 +3,31 @@
 
 {% block content %}
 
-<section class="custom-cake-section py-5 mt-5">
+<section class="custom-cake-section">
   <div class="container">
     <div class="row justify-content-center">
 
       <div class="col-md-8">
         <div class="custom-cake-card p-5">
 
-          <h3 class="custom-cake-title text-center mb-4">
-            Order Summary
-          </h3>
+          <h3 class="custom-cake-title text-center mb-2">
+  Order Summary
+</h3>
+<p class="text-center text-muted mb-4">
+  Thank you for choosing Bakeora. Here are your order details.
+</p>
 
           <div class="mb-4">
             <p><strong>Order ID:</strong> {{ order.reference_number }}</p>
             <p><strong>Status:</strong>
-              <span class="badge bg-warning text-dark">
-                {{ order.get_status_display }}
-              </span>
+              <span class="badge
+{% if order.status == 'pending' %} bg-warning text-dark
+{% elif order.status == 'quoted' %} bg-primary
+{% elif order.status == 'confirmed' %} bg-success
+{% elif order.status == 'cancelled' %} bg-danger
+{% endif %}">
+  {{ order.get_status_display }}
+</span>
             </p>
           </div>
 
@@ -50,7 +58,6 @@
           <h5 class="mb-3">Delivery Details</h5>
 
           <p><strong>Delivery Date:</strong> {{ order.delivery_datetime }}</p>
-          <p><strong>Address:</strong> {{ order.delivery_address }}</p>
 
           {% if order.notes %}
           <p><strong>Notes:</strong> {{ order.notes }}</p>

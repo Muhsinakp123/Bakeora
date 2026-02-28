@@ -1,45 +1,128 @@
 {% extends "base.html" %}
 {% block content %}
-  
-<section class="container py-5">
 
-  <h3 class="mb-4 fw-bold">Select Delivery Address</h3>
+<section class="container">
 
-  {% if addresses %}
+  <div class="row">
 
-    {% for address in addresses %}
-    <div class="card mb-3 shadow-sm p-3">
-        <h5>{{ address.full_name }}</h5>
-        <p class="mb-1">
-            {{ address.house_name }},
-            {{ address.city }},
-            {{ address.state }} - {{ address.pincode }}
-        </p>
-        <p class="mb-2">Phone: {{ address.phone }}</p>
+    <!-- LEFT SIDE - ADDRESS SECTION -->
+    <div class="col-lg-8">
 
-        <a href="{% url 'proceed_payment' address.id %}"
-           class="btn btn-warning btn-sm">
-           Deliver Here
+      <h4 class="fw-bold mb-3">Select a delivery address</h4>
+
+      <!-- Warning Box -->
+      <div class="alert alert-warning border shadow-sm">
+        <strong>⚠ One-time password required at time of delivery</strong><br>
+        Please ensure someone will be available to receive this delivery.
+      </div>
+
+      {% if addresses %}
+
+        {% for address in addresses %}
+        <div class="card mb-3 shadow-sm address-card p-3">
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" 
+                   name="selected_address" 
+                   id="address{{ address.id }}"
+                   {% if forloop.first %}checked{% endif %}>
+
+            <label class="form-check-label w-100" for="address{{ address.id }}">
+              <h6 class="fw-bold mb-1">{{ address.full_name }}</h6>
+              <p class="mb-1">
+  {% if address.house_name %}{{ address.house_name }}, {% endif %}
+  {{ address.city }}, {{ address.state }} - {{ address.pincode }}
+</p>
+              <p class="mb-2">Phone number: {{ address.phone }}</p>
+            </label>
+          </div>
+
+          <div class="mt-2">
+            <a href="{% url 'proceed_payment' address.id %}" 
+               class="btn btn-warning btn-sm px-4">
+               Deliver to this address
+            </a>
+          </div>
+
+        </div>
+        {% endfor %}
+
+        <a href="{% url 'add_address' %}" 
+           class="btn btn-outline-secondary mt-3">
+           + Add a new delivery address
         </a>
-    </div>
-    {% endfor %}
 
-    <a href="{% url 'add_address' %}" class="btn btn-outline-dark mt-3">
-        Add New Address
-    </a>
+      {% else %}
 
-  {% else %}
-
-    <div class="card p-4 text-center shadow-sm">
-        <p>No saved address found.</p>
-        <a href="{% url 'add_address' %}" class="btn btn-warning">
+        <div class="card p-4 text-center shadow-sm">
+          <p>No saved address found.</p>
+          <a href="{% url 'add_address' %}" class="btn btn-warning">
             Add Address
-        </a>
+          </a>
+        </div>
+
+      {% endif %}
+
     </div>
 
-  {% endif %}
+
+    <!-- RIGHT SIDE - ORDER SUMMARY -->
+    <div class="col-lg-4">
+
+      <div class="card shadow-sm p-4 summary-box">
+
+        <p class="mb-1 d-flex justify-content-between">
+          <span>Items:</span>
+          <span>₹{{ total }}</span>
+        </p>
+
+        <p class="mb-1 d-flex justify-content-between">
+          <span>Delivery:</span>
+          <span class="text-success">FREE</span>
+        </p>
+
+        <hr>
+
+        <h5 class="d-flex justify-content-between fw-bold">
+          <span>Order Total:</span>
+          <span>₹{{ total }}</span>
+        </h5>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
+
+<!-- Custom Styling -->
+<style>
+.address-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.address-card:hover {
+  border-color: #f0c14b;
+  background-color: #fffdf7;
+}
+
+.summary-box {
+  border-radius: 10px;
+  position: sticky;
+  top: 100px;
+}
+
+.btn-warning {
+  background-color: #ffd814;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #f7ca00;
+}
+</style>
 
 {% endblock %}

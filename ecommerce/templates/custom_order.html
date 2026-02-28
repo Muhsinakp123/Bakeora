@@ -2,16 +2,13 @@
 {% block title %}Custom Cake Order | Bakeora{% endblock %}
 
 {% block content %}
-
 <section class="custom-cake-section py-5 mt-5">
   <div class="container">
     <div class="row justify-content-center">
-
       <div class="col-md-8">
         <div class="custom-cake-card p-5">
-
           <h3 class="custom-cake-title text-center mb-4">
-            Design Your Dream Cake 
+            Design Your Dream Cake
           </h3>
 
           <form method="post" enctype="multipart/form-data">
@@ -33,87 +30,61 @@
             <!-- Size -->
             <div class="mb-4">
               <label class="form-label custom-label">Cake Size</label>
-              <input type="text"
-                     name="size"
-                     class="form-control custom-input"
-                     placeholder="Enter size (e.g. 1kg, 1.5kg, 500g)"
-                     required>
+              <input type="text" name="size" class="form-control custom-input"
+                placeholder="Enter size (e.g. 1kg, 1.5kg, 500g)" required>
             </div>
 
             <!-- Flavor -->
             <div class="mb-4">
               <label class="form-label custom-label">Flavor</label>
-              <input type="text"
-                     name="flavor"
-                     class="form-control custom-input"
-                     placeholder="Chocolate, Vanilla, Red Velvet..."
-                     required>
+              <input type="text" name="flavor" class="form-control custom-input"
+                placeholder="Chocolate, Vanilla, Red Velvet..." required>
             </div>
 
             <!-- Cream Type -->
             <div class="mb-4">
               <label class="form-label custom-label">Cream Type</label>
-              <input type="text"
-                     name="cream_type"
-                     class="form-control custom-input"
-                     placeholder="Buttercream, Whipped, Fondant..."
-                     required>
+              <input type="text" name="cream_type" class="form-control custom-input"
+                placeholder="Buttercream, Whipped, Fondant..." required>
             </div>
 
             <!-- Message -->
             <div class="mb-4">
               <label class="form-label custom-label">Message on Cake</label>
-              <input type="text"
-                     name="message_on_cake"
-                     class="form-control custom-input"
-                     placeholder="Happy Birthday Anna ">
+              <input type="text" name="message_on_cake" class="form-control custom-input"
+                placeholder="Happy Birthday Anna ">
             </div>
 
             <!-- Photo Upload -->
             <div class="mb-4">
               <label class="form-label custom-label">Upload Reference Photo (Optional)</label>
-              <input type="file"
-                     name="reference_image"
-                     class="form-control custom-input">
+              <input type="file" name="reference_image" class="form-control custom-input">
             </div>
 
             <!-- Delivery Date -->
             <div class="mb-4">
               <label class="form-label custom-label">Delivery Date & Time</label>
-              <input type="datetime-local"
-                     name="delivery_date"
-                     class="form-control custom-input"
-                     required>
-            </div>
-
-            <!-- Address -->
-            <div class="mb-4">
-              <label class="form-label custom-label">Delivery Address</label>
-              <textarea name="delivery_address"
-                        rows="3"
-                        class="form-control custom-input"
-                        placeholder="Full address with landmark..."
-                        required></textarea>
+              <input type="datetime-local" name="delivery_date" class="form-control custom-input" required>
             </div>
 
             <!-- Notes -->
             <div class="mb-4">
               <label class="form-label custom-label">Special Instructions</label>
-              <textarea name="notes"
-                        rows="3"
-                        class="form-control custom-input"
-                        placeholder="Eggless, less sugar, theme color..."></textarea>
+              <textarea name="notes" rows="3" class="form-control custom-input"
+                placeholder="Eggless, less sugar, theme color..."></textarea>
             </div>
 
-            <button type="button" id="previewBtn" class="btn btn-warning w-100 mb-3">
-  Generate AI Preview 
-</button>
+            <!-- <button type="button" id="previewBtn" class="btn btn-warning w-100 mb-3">
+              Generate AI Preview
+            </button> -->
 
-<div id="previewResult" class="mt-3 text-success fw-bold"></div>
+            <!-- AI Image Result -->
+            <!-- <div id="previewResult" class="text-center mt-4"></div> -->
 
-<button type="submit" class="btn w-100 order-btn mt-3">
-  Place Custom Order
-</button>
+            <button type="submit" class="btn w-100 order-btn mt-3">
+              Place Custom Order
+            </button>
+
           </form>
 
         </div>
@@ -124,38 +95,51 @@
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
 
-    document.getElementById("previewBtn").addEventListener("click", function() {
+    const previewBtn = document.getElementById("previewBtn");
 
-        let formData = new FormData(document.querySelector("form"));
+    previewBtn.addEventListener("click", function () {
 
-        fetch("{% url 'generate_ai_preview' %}", {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            body: formData
-        })
+      const form = document.getElementById("cakeForm");
+      const formData = new FormData(form);
+
+      document.getElementById("previewResult").innerHTML =
+        "<p style='color:orange'>Generating AI Preview... Please wait</p>";
+
+      fetch("{% url 'generate_ai_preview' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: formData
+      })
         .then(response => response.json())
         .then(data => {
+          console.log(data);
 
-            if(data.error){
-                document.getElementById("previewResult").innerHTML =
-                    "<span style='color:red'>" + data.error + "</span>";
-            } else {
-                document.getElementById("previewResult").innerHTML =
-                    " AI Suggestion: " + data.preview;
-            }
+          if (data.error) {
+            document.getElementById("previewResult").innerHTML =
+              "<p style='color:red'>" + data.error + "</p>";
+          } else {
+
+            document.getElementById("previewResult").innerHTML = `
+                    <h5 class="text-success mb-3">AI Generated Preview</h5>
+                    <img src="${data.image_url}" 
+                         class="img-fluid rounded shadow"
+                         style="max-height:400px;">
+                `;
+          }
 
         })
         .catch(error => {
-            console.log("Error:", error);
+          document.getElementById("previewResult").innerHTML =
+            "<p style='color:red'>Something went wrong!</p>";
+          console.log(error);
         });
 
     });
-
-});
+  });
 </script>
 
 {% endblock %}

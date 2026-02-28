@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .ai_service import generate_cake_suggestion
+from .ai_service import generate_cake_image
+import cloudinary.uploader
 from django.conf import settings
 from django.http import JsonResponse
 from .models import CustomCake, Order, OrderItem, Address
@@ -23,7 +24,6 @@ def custom_order(request):
             message_on_cake=request.POST.get('message_on_cake'),
             reference_photo=request.FILES.get('reference_image'),
             delivery_datetime=request.POST.get('delivery_date'),
-            delivery_address=request.POST.get('delivery_address'),
             notes=request.POST.get('notes'),
             status="pending"
         )
@@ -370,24 +370,35 @@ def proceed_payment(request, address_id):
     return redirect("payment_page")
 
 def generate_ai_preview(request):
-
     if request.method == "POST":
 
         cake_type = request.POST.get("cake_type")
         size = request.POST.get("size")
         flavor = request.POST.get("flavor")
         cream_type = request.POST.get("cream_type")
-        message = request.POST.get("message_on_cake")
+        message = request.POST.get("message")
+        special_instructions = request.POST.get("special_instructions")
 
-        # Generate AI text
-        preview_text = generate_cake_suggestion(
+        uploaded_image = request.FILES.get("reference_image")
+
+        image_url = None
+
+        # Upload image to Cloudinary if exists
+        if uploaded_image:
+            upload_result = cloudinary.uploader.upload(uploaded_image)
+            image_url = upload_result["secure_url"]
+
+        # Send everything to AI function
+        generated_image = generate_cake_image(
             cake_type=cake_type,
             size=size,
             flavor=flavor,
             cream_type=cream_type,
-            message=message
+            message=message,
+            special_instructions=special_instructions,
+            reference_image_url=image_url
         )
-
-        return JsonResponse({"preview": preview_text})
-
-    return JsonResponse({"error": "Invalid request"})
+        return JsonResponse({
+    "image_url": generated_image,
+    "debug_type": str(type(generated_image))
+})

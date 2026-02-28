@@ -1,55 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container mt-5">
+<div class="container bakeora-order-details-page mb-5">
 
-    <h2>Order Details</h2>
-    <hr>
+    <h2 class="text-center mb-4">Order Details</h2>
 
-    <p><strong>Order ID:</strong> {{ order.id }}</p>
-    <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
-    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+    <div class="order-details-card p-5">
 
-    <hr>
+    <!-- Top Header Row -->
+    <div class="order-top d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="mb-1">Order {{ order.id }}</h5>
+            <small>{{ order.created_at|date:"M d, Y • H:i" }}</small>
+        </div>
 
-    <h4>Items</h4>
+        <div>
+            <span class="status-badge 
+                {% if order.status == 'paid' %}paid
+                {% elif order.status == 'pending' %}pending
+                {% elif order.status == 'cancelled' %}cancelled
+                {% endif %}">
+                {{ order.get_status_display }}
+            </span>
+        </div>
+    </div>
 
-    <table class="table table-bordered">
-        <thead class="table-light">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in order.items.all %}
-            <tr>
-                <td>{{ item.product_name }}</td>
-                <td>₹{{ item.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>₹{{ item.get_total }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Items -->
+    <div class="items-box p-4 mb-4">
+        {% for item in order.items.all %}
+        <div class="item-row d-flex justify-content-between align-items-center">
+            <div>
+                <h6 class="mb-1">{{ item.product_name }}</h6>
+                <small>Qty: {{ item.quantity }}</small>
+            </div>
+            <div class="text-end">
+                <div>₹{{ item.price }}</div>
+                <strong>₹{{ item.get_total }}</strong>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-    <hr>
+    <!-- Total -->
+    <div class="total-box d-flex justify-content-between align-items-center p-4 mb-4">
+        <span>Total Amount</span>
+        <h4 class="mb-0">₹{{ order.total_amount }}</h4>
+    </div>
 
-    <h5>Total Amount: ₹{{ order.total_amount }}</h5>
-
-    <hr>
-
-    <h4>Delivery Address</h4>
-    <p>
+    <!-- Address -->
+    <div class="address-box p-4">
+        <h6 class="mb-3">Delivery Address</h6>
         {{ order.address.full_name }} <br>
         {{ order.address.street }} <br>
-        {{ order.address.city }} <br>
-        {{ order.address.state }} <br>
+        {{ order.address.city }}, {{ order.address.state }} <br>
         {{ order.address.pincode }}
-    </p>
+    </div>
 
+</div>
 </div>
 
 {% endblock %}

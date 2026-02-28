@@ -202,4 +202,13 @@ ALLOWED_COUNTRY = "india"
 
 ALLOWED_STATE = "kerala"
 
-HF_API_KEY = os.getenv("HF_API_KEY")
+
+REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
