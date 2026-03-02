@@ -1,0 +1,121 @@
+/* ===== PROFILE PAGE WRAPPER ===== */
+.bakeora-profile-page h2 {
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+}
+
+/* ===== LEFT CARD (SUMMARY) ===== */
+.profile-summary-card {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    transition: 0.3s ease;
+}
+
+.profile-summary-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Avatar Circle */
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+    color: #fff;
+    font-size: 32px;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(255,105,180,0.3);
+}
+
+/* Stats section */
+.profile-stats {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.profile-stats div {
+    flex: 1;
+}
+
+.profile-stats strong {
+    display: block;
+    font-size: 18px;
+    color: #d63384;
+}
+
+.profile-stats small {
+    color: #888;
+    font-size: 12px;
+}
+
+/* ===================================
+   RIGHT CARD (EDIT FORM)
+=================================== */
+.profile-edit-card {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    border-top: 4px solid #caa24d; /* gold top accent */
+}
+
+.profile-edit-card h5 {
+    color: #5a0f1c;
+    font-weight: 600;
+}
+
+/* Form styling */
+.profile-edit-card .form-label {
+    color: #5a0f1c;
+    font-weight: 500;
+}
+
+.profile-edit-card .form-control {
+    border-radius: 12px;
+    padding: 10px 14px;
+    border: 1px solid #e6d8b5; /* soft gold border */
+    transition: 0.3s;
+}
+
+.profile-edit-card .form-control:focus {
+    border-color: #caa24d;
+    box-shadow: 0 0 0 0.15rem rgba(202, 162, 77, 0.2);
+}
+
+
+/* ===================================
+   SAVE BUTTON
+=================================== */
+.btn-save {
+    background: linear-gradient(135deg, #f5d27a, #caa24d);
+    color: #5a0f1c;
+    padding: 10px 26px;
+    border-radius: 25px;
+    font-weight: 600;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(202,162,77,0.35);
+}
+
+/* Success Alert */
+.alert-success {
+    background-color: #fff8e8;
+    border-left: 4px solid #caa24d;
+    color: #5a0f1c;
+}
+.bakeora-profile-page h2,
+.profile-summary-card h5,
+.profile-edit-card h5 {
+    font-family: 'Playfair Display', serif;
+}

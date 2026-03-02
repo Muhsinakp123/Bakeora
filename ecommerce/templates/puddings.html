@@ -228,13 +228,16 @@
 </a>
 
           <div class="cake-info">
-            <h5>{{ pudding.name }}</h5>
-            <span>₹{{ pudding.price }}</span>
+  <a href="{% url 'pudding_detail' pudding.id %}">
+    <h5>{{ pudding.name }}</h5>
+  </a>
+  <span>₹{{ pudding.price }}</span>
 
-            <button class="btn btn-sm add-to-cart-btn" data-product-id="{{ pudding.ps.id }}">
-              Add to Cart
-            </button>
-          </div>
+  <button class="btn btn-sm add-to-cart-btn"
+          data-product-id="{{ pudding.ps.id }}">
+    Add to Cart
+  </button>
+</div>
         </div>
       </div>
       {% empty %}
