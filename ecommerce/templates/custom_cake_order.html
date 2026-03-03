@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container mt-5 bakeora-custom-orders">
+<div class="container mt-5 bakeora-orders-page">
 
-  <h2 class="mb-4">Custom Cake Orders</h2>
+  <h2 class="account-heading">Custom Cake Orders</h2>
 
   {% if orders %}
     <div class="table-responsive">
-      <table class="table table-bordered align-middle">
-        <thead class="table-warning">
+      <table class="table align-middle">
+        <thead>
           <tr>
             <th>Reference</th>
             <th>Date</th>
@@ -43,7 +43,7 @@
       </table>
     </div>
   {% else %}
-    <div class="alert alert-info">
+    <div class="alert">
       No custom cake orders yet.
     </div>
   {% endif %}

@@ -2,16 +2,30 @@
 {% block title %}Pay | Bakeora{% endblock %}
 
 {% block content %}
-<div class="container py-5 text-center">
 
-  <h2 class="mb-3">Complete Your Payment</h2>
+<section class="bakeora-payment-section">
+  <div class="container d-flex justify-content-center">
 
-  <h4>Order #{{ order.id }}</h4>
-  <p class="fs-5">Amount: ₹{{ order.total_amount }}</p>
+    <div class="bakeora-payment-card text-center">
 
-  <div id="paypal-button-container" class="mt-4"></div>
+      <h2 class="bakeora-payment-title">
+        Complete Your Payment
+      </h2>
 
-</div>
+      <p class="order-id">Order {{ order.id }}</p>
+
+      <div class="payment-amount">
+        ₹{{ order.total_amount }}
+      </div>
+
+      <div class="paypal-wrapper mt-4">
+        <div id="paypal-button-container"></div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=USD"></script>

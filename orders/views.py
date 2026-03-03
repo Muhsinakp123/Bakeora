@@ -177,13 +177,12 @@ def add_address(request):
         country = request.POST.get("country", "").strip().lower()
         state = request.POST.get("state", "").strip().lower()
         district = request.POST.get("district", "").strip().lower()
-
-        # Multi-level validation
-        if country != settings.ALLOWED_COUNTRY:
+        
+        if country != "india":
             messages.error(request, "We currently deliver only in India.")
             return redirect("add_address")
 
-        if state != settings.ALLOWED_STATE:
+        if state != "kerala":
             messages.error(request, "Delivery available only in Kerala.")
             return redirect("add_address")
 
@@ -327,36 +326,42 @@ def custom_pay_now(request, order_id):
 @login_required
 def proceed_payment(request, address_id):
 
+    if request.method != "POST":
+        return redirect("checkout")
+
     cart = Cart.objects.filter(user=request.user).first()
 
     if not cart or not cart.items.exists():
-        messages.warning(request, "Your cart is empty")
-        return redirect('cart')
+        messages.warning(request, "Your cart is empty.")
+        return redirect("cart")
 
     address = get_object_or_404(Address, id=address_id, user=request.user)
 
-    # ✅ District validation
-    if address.city.strip().lower() not in settings.ALLOWED_DISTRICTS:
+    # ✅ Proper District Validation
+    allowed = [d.lower() for d in settings.ALLOWED_DISTRICTS]
+
+    if address.district.strip().lower() not in allowed:
         messages.error(
             request,
-            " Sorry! Bakeora currently delivers only to "
-            "Kozhikode, Kannur, Malappuram, and Wayanad."
+            "Sorry! Bakeora currently delivers only to Kozhikode, Kannur, Malappuram, and Wayanad."
         )
         return redirect("checkout")
 
+    # ✅ Calculate Total
     total = sum(
         item.product.price * item.quantity
         for item in cart.items.all()
     )
 
-    # ✅ Create order
+    # ✅ Create Order
     order = Order.objects.create(
         user=request.user,
         address=address,
-        total_amount=total
+        total_amount=total,
+        status="pending"
     )
 
-    # ✅ Create order items
+    # ✅ Create Order Items
     for item in cart.items.all():
         OrderItem.objects.create(
             order=order,
@@ -365,6 +370,7 @@ def proceed_payment(request, address_id):
             quantity=item.quantity
         )
 
+    # Save order ID in session
     request.session['order_id'] = order.id
 
     return redirect("payment_page")

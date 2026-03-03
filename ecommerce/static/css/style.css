@@ -7,7 +7,24 @@ body {
   padding-top: 80px; /* EXACT navbar height */
   margin: 0;
 }
+/* ================= DELIVERY BAR ================= */
 
+.delivery-bar {
+  background: #fff3cd;
+  color: #856404;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #f0c14b;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1050;
+}
+
+/* Push navbar below delivery bar */
+.bakeora-navbar {
+  top: 34px;
+}
 /* ================= NAVBAR ================= */
 
 .navbar {

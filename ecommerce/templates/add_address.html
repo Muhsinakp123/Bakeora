@@ -12,6 +12,7 @@ body {
 }
 
 .address-card {
+    margin-top: -60px;
     background: #ffffff;
     padding: 35px;
     border-radius: 8px;
@@ -78,33 +79,40 @@ body {
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">City</label>
-                    <input type="text" id="city" name="city" class="form-control" required>
-                </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">City</label>
+        <input type="text" id="city" name="city" class="form-control" required>
+    </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">District</label>
-                    <input type="text" id="district" name="district" class="form-control" required>
-                </div>
-            </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Pincode</label>
+        <input type="text" id="pincode" name="pincode" class="form-control" required>
+    </div>
+</div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">State</label>
-                    <input type="text" id="state" name="state" class="form-control" required>
-                </div>
+<div class="mb-3">
+    <label class="form-label">District</label>
+    <select id="district" name="district" class="form-select" required>
+        <option value="">Select District</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Kannur">Kannur</option>
+        <option value="Malappuram">Malappuram</option>
+        <option value="Wayanad">Wayanad</option>
+    </select>
+    <small id="districtError" class="text-danger"></small>
+</div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Pincode</label>
-                    <input type="text" id="pincode" name="pincode" class="form-control" required>
-                </div>
-            </div>
+<div class="mb-3">
+    <label class="form-label">State</label>
+    <input type="hidden" name="state" value="Kerala">
+    <p class="form-control bg-light">Kerala</p>
+</div>
 
-            <div class="mb-4">
-                <label class="form-label">Country</label>
-                <input type="text" id="country" name="country" class="form-control" required>
-            </div>
+<div class="mb-4">
+    <label class="form-label">Country</label>
+    <input type="hidden" name="country" value="India">
+    <p class="form-control bg-light">India</p>
+</div>
 
             <button type="submit" class="btn btn-amazon w-100">
                 Use this address
@@ -117,34 +125,82 @@ body {
 
 <script>
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
+    if (!navigator.geolocation) {
         alert("Geolocation not supported.");
+        return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+        showPosition,
+        showError,
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
 }
 
 function showPosition(position) {
-    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
         .then(res => res.json())
         .then(data => {
 
+            if (!data.address) {
+                alert("Unable to fetch address details.");
+                return;
+            }
+
             const addr = data.address;
 
+            // Autofill City
             document.getElementById("city").value =
                 addr.city || addr.town || addr.village || "";
 
-            document.getElementById("district").value =
-                addr.state_district || "";
-
-            document.getElementById("state").value =
-                addr.state || "";
-
-            document.getElementById("country").value =
-                addr.country || "";
-
+            // Autofill Pincode
             document.getElementById("pincode").value =
                 addr.postcode || "";
+
+            // Validate State
+            const detectedState = (addr.state || "").toLowerCase();
+            if (!detectedState.includes("kerala")) {
+                document.getElementById("districtError").innerText =
+                    "We currently deliver only within Kerala.";
+                document.getElementById("district").value = "";
+                return;
+            }
+
+            // Autofill District (Dropdown Matching)
+            const detectedDistrict = (addr.state_district || "").toLowerCase();
+            const districtSelect = document.getElementById("district");
+
+            const allowedDistricts = [
+                "kozhikode",
+                "kannur",
+                "malappuram",
+                "wayanad"
+            ];
+
+            let matched = false;
+
+            allowedDistricts.forEach(d => {
+                if (detectedDistrict.includes(d)) {
+                    districtSelect.value =
+                        d.charAt(0).toUpperCase() + d.slice(1);
+                    matched = true;
+                }
+            });
+
+            if (!matched) {
+                districtSelect.value = "";
+                document.getElementById("districtError").innerText =
+                    "Sorry, we don't deliver to your current location.";
+            } else {
+                document.getElementById("districtError").innerText = "";
+            }
+
+        })
+        .catch(() => {
+            alert("Error retrieving location data.");
         });
 }
 
@@ -152,5 +208,4 @@ function showError(error) {
     alert("Location permission denied or unavailable.");
 }
 </script>
-
 {% endblock %}

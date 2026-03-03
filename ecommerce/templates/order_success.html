@@ -1,9 +1,63 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5 text-center">
-  <h2>Order Placed Successfully 🎉</h2>
-  <p>Your Order ID is <strong>#{{ order.id }}</strong></p>
-  <p>Status: {{ order.status|title }}</p>
-</div>
+
+<section class="bakeora-success-section">
+  <div class="container d-flex justify-content-center">
+
+    <div class="bakeora-success-card text-center">
+
+      <!-- Success Icon -->
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <!-- Title -->
+      <h2 class="success-title">
+        Order Placed Successfully!
+      </h2>
+
+      <p class="success-subtitle">
+        Thank you for choosing <strong>Bakeora</strong> 
+      </p>
+
+      <!-- Order Details Box -->
+      <div class="order-summary-box">
+
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+
+        <p><strong>Status:</strong>
+          <span class="status-badge">
+            {{ order.status|title }}
+          </span>
+        </p>
+
+        {% if order.total_amount %}
+        <p><strong>Total Paid:</strong> ₹{{ order.total_amount }}</p>
+        {% endif %}
+
+      </div>
+
+      <!-- Info Message -->
+      <p class="info-text">
+        A confirmation email has been sent to your registered email address.
+        Our team will start preparing your delicious order soon.
+      </p>
+
+      <!-- Buttons -->
+      <div class="success-buttons mt-4">
+        <a href="{% url 'my_orders' %}" class="btn btn-view">
+          View My Orders
+        </a>
+
+        <a href="{% url 'shop' %}" class="btn btn-continue">
+          Continue Shopping
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
 {% endblock %}
