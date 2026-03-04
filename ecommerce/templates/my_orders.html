@@ -1,6 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+/* ================= TABLE ALIGNMENT FIX ================= */
+.bakeora-orders-page th,
+.bakeora-orders-page td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Left align first column */
+.bakeora-orders-page td:first-child,
+.bakeora-orders-page th:first-child {
+    text-align: left;
+}
+
+/* Prevent action buttons from breaking into new line */
+.bakeora-orders-page td:last-child {
+    white-space: nowrap;
+}
+
+/* Small spacing between buttons */
+.bakeora-orders-page td .btn {
+    margin: 3px;
+}
+</style>
+
+
 <div class="container bakeora-orders-page">
     <h2 class="mb-4">My Orders</h2>
 
@@ -24,17 +50,40 @@
                     <tr>
                         <td>{{ order.id }}</td>
                         <td>{{ order.created_at|date:"M d, Y" }}</td>
+
                         <td>
-                            <span class="badge bg-info">
-                                {{ order.get_status_display }}
-                            </span>
+                            {% if order.status == "pending" %}
+                                <span class="badge bg-warning text-dark">Pending Payment</span>
+                            {% elif order.status == "paid" %}
+                                <span class="badge bg-success">Paid</span>
+                            {% elif order.status == "cancelled" %}
+                                <span class="badge bg-danger">Cancelled</span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    {{ order.get_status_display }}
+                                </span>
+                            {% endif %}
                         </td>
+
                         <td>₹{{ order.total_amount }}</td>
+
                         <td>
                             <a href="{% url 'order_detail' order.id %}" 
-                               class="btn btn-sm btn-primary">
-                                View Details
+                               class="btn btn-sm btn-primary px-3">
+                                View
                             </a>
+
+                            {% if order.status == "pending" %}
+                            <a href="{% url 'retry_payment' order.id %}" 
+                               class="btn btn-sm btn-pay px-3">
+                                Pay Now
+                            </a>
+
+                            <a href="{% url 'cancel_order' order.id %}" 
+                               class="btn btn-sm btn-danger px-3">
+                                Cancel
+                            </a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -54,7 +103,7 @@
     {% if custom_orders %}
         <div class="table-responsive">
             <table class="table table-bordered align-middle">
-                <thead class="table-warning">
+                <thead class="table-dark">
                     <tr>
                         <th>Reference No</th>
                         <th>Date</th>
@@ -69,11 +118,13 @@
                     <tr>
                         <td>{{ order.reference_number }}</td>
                         <td>{{ order.created_at|date:"M d, Y" }}</td>
+
                         <td>
                             <span class="badge bg-warning text-dark">
                                 {{ order.get_status_display }}
                             </span>
                         </td>
+
                         <td>
                             {% if order.price %}
                                 ₹{{ order.price }}
@@ -81,6 +132,7 @@
                                 --
                             {% endif %}
                         </td>
+
                         <td>
                             {% if order.payment_status == "paid" %}
                                 <span class="badge bg-success">Paid</span>
@@ -88,9 +140,10 @@
                                 <span class="badge bg-secondary">Pending</span>
                             {% endif %}
                         </td>
+
                         <td>
                             <a href="{% url 'custom_checkout' order.id %}" 
-                               class="btn btn-sm btn-success">
+                               class="btn btn-sm btn-primary px-3">
                                 View
                             </a>
                         </td>

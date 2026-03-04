@@ -32,7 +32,11 @@ urlpatterns = [
     
     path("my-orders/", views.my_orders, name="my_orders"),
     path("my-orders/<int:order_id>/", views.order_detail, name="order_detail"),
+    path("cancel-order/<int:order_id>/", views.cancel_order, name="cancel_order"),
     path("custom-pay/<int:order_id>/", views.custom_pay_now, name="custom_pay_now"),
+    
+    path("cancel-custom/<int:order_id>/",views.cancel_custom_order,name="cancel_custom_order"),
+    path("retry-payment/<int:order_id>/",views.retry_payment,name="retry_payment"),
     
     path('generate-ai-preview/', views.generate_ai_preview, name='generate_ai_preview'),
 ]

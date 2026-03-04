@@ -31,6 +31,22 @@ def custom_order(request):
 
     return render(request, 'custom_order.html')
 
+@login_required
+def cancel_custom_order(request, order_id):
+    custom_order = get_object_or_404(
+        CustomCake,
+        id=order_id,
+        user=request.user
+    )
+
+    if custom_order.status in ["pending", "quoted"] and custom_order.payment_status == "pending":
+        custom_order.status = "cancelled"
+        custom_order.save()
+        messages.success(request, "Custom cake cancelled successfully.")
+    else:
+        messages.error(request, "Cake already in baking process.")
+
+    return redirect("my_orders")
 
 @login_required
 def custom_checkout(request, order_id):
@@ -82,6 +98,32 @@ def checkout(request):
 def order_success(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'order_success.html', {'order': order})
+
+@login_required
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.status in ["pending", "paid"]:
+        order.status = "cancelled"
+        order.save()
+        messages.success(request, "Order cancelled successfully.")
+    else:
+        messages.error(request, "Order already in preparation. Cannot cancel.")
+
+    return redirect("my_orders")
+
+@login_required
+def retry_payment(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.status != "pending":
+        messages.error(request, "Payment not allowed.")
+        return redirect("my_orders")
+
+    # 🔥 Just reuse your existing flow
+    request.session["order_id"] = order.id
+
+    return redirect("payment_page")
 
 
 # ===================== BUY NOW FLOW =====================
@@ -163,7 +205,6 @@ def buy_now_create_order(request, address_id, product_type, product_id):
 
     # ✅ Proper linking for Custom Cake
     if product_type == "custom":
-        product.status = "confirmed"
         product.order = order   # Correct linking
         product.save()
 

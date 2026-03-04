@@ -685,6 +685,8 @@
     border-radius: 18px;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     border: 1px solid #f0f0f0;
+    margin-top: -50px;
+    margin-bottom: 50px;
 }
 
 /* ===== Heading ===== */
@@ -969,6 +971,29 @@
   font-weight: 500;
 }
 
+/* Align all table cells properly */
+.bakeora-orders-page th,
+.bakeora-orders-page td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Left align first column only */
+.bakeora-orders-page td:first-child,
+.bakeora-orders-page th:first-child {
+  text-align: left;
+}
+
+/* Prevent action buttons from breaking line */
+.bakeora-orders-page td:last-child {
+  white-space: nowrap;
+}
+
+/* Add spacing between buttons */
+.bakeora-orders-page td .btn {
+  margin: 3px;
+}
+
 /* Buttons */
 .bakeora-orders-page .btn-primary,
 .bakeora-orders-page .btn-success {
@@ -1216,6 +1241,14 @@
   border-radius: 999px;
   padding: 6px 12px;
   font-weight: 500;
+}
+.btn-pay {
+  background: rgb(59, 108, 59);
+  color: white;
+}
+.btn-pay:hover {
+  background: rgb(74, 144, 74);
+  color: white;
 }
 .cake-info a {
     text-decoration: none;
