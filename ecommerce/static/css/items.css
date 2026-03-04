@@ -681,7 +681,7 @@
 
 /* ===== Card Styling ===== */
 .custom-cake-card {
-    background: #ffffff;
+    background:linear-gradient(180deg, #2b0f14 0%, #1c090c 100%);
     border-radius: 18px;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
     border: 1px solid #f0f0f0;
@@ -896,6 +896,11 @@
 }
 /* ================= BAKEORA ORDERS PAGE ================= */
 
+.bakeora-orders-page {
+  margin-bottom: 40px;
+  margin-top: -40px;
+}
+
 .bakeora-orders-page h2 {
   font-family: "Playfair Display", serif;
   font-size: 2.5rem;
@@ -916,7 +921,7 @@
 .bakeora-orders-page h4 {
   font-family: "Playfair Display", serif;
   color: #7a6a55;
-  margin-top: 40px;
+  
 }
 
 /* Table Container */
@@ -1051,6 +1056,7 @@
 .address-card {
   background: #fff;
   border-radius: 18px;
+  border: 3px solid #c9a24d;
   box-shadow: 0 15px 40px rgba(0,0,0,0.05);
 }
 
@@ -1218,4 +1224,13 @@
 
 .cake-info a:hover {
     color: #5e323a; 
+}
+.custom-cake-section h3,
+.custom-cake-section h5 ,
+.custom-cake-section p , 
+.custom-cake-section strong {
+    color: #C5A253;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Playfair Display', serif;
 }

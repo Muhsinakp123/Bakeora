@@ -64,10 +64,16 @@ def checkout(request):
         item.product.price * item.quantity
         for item in cart.items.all()
     )
+    
+    total_items = sum(
+        item.quantity
+        for item in cart.items.all()
+    )
 
     return render(request, 'checkout.html', {
         'cart_items': cart.items.all(),
         'total': total,
+        'total_items':total_items,
         'addresses': addresses,
     })
 
