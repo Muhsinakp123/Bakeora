@@ -422,36 +422,29 @@ def proceed_payment(request, address_id):
 
     return redirect("payment_page")
 
+from django.http import JsonResponse
+from .ai_service import generate_cake_image
+
+
 def generate_ai_preview(request):
+
     if request.method == "POST":
 
         cake_type = request.POST.get("cake_type")
         size = request.POST.get("size")
         flavor = request.POST.get("flavor")
         cream_type = request.POST.get("cream_type")
-        message = request.POST.get("message")
-        special_instructions = request.POST.get("special_instructions")
+        message = request.POST.get("message_on_cake")
+        special_instructions = request.POST.get("notes")
 
-        uploaded_image = request.FILES.get("reference_image")
-
-        image_url = None
-
-        # Upload image to Cloudinary if exists
-        if uploaded_image:
-            upload_result = cloudinary.uploader.upload(uploaded_image)
-            image_url = upload_result["secure_url"]
-
-        # Send everything to AI function
-        generated_image = generate_cake_image(
-            cake_type=cake_type,
-            size=size,
-            flavor=flavor,
-            cream_type=cream_type,
-            message=message,
-            special_instructions=special_instructions,
-            reference_image_url=image_url
+        preview = generate_cake_image(
+            cake_type,
+            size,
+            flavor,
+            cream_type,
+            message,
+            special_instructions
         )
         return JsonResponse({
-    "image_url": generated_image,
-    "debug_type": str(type(generated_image))
-})
+            "image_url": preview
+            })

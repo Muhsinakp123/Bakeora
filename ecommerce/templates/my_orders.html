@@ -120,9 +120,16 @@
                         <td>{{ order.created_at|date:"M d, Y" }}</td>
 
                         <td>
-                            <span class="badge bg-warning text-dark">
-                                {{ order.get_status_display }}
-                            </span>
+              <span class="badge 
+                {% if order.status == 'pending' %}bg-warning text-dark
+                {% elif order.status == 'quoted' %}bg-info
+                {% elif order.status == 'confirmed' %}bg-primary
+                {% elif order.status == 'baking' %}bg-dark
+                {% elif order.status == 'delivered' %}bg-success
+                {% elif order.status == 'cancelled' %}bg-danger
+                {% endif %}">
+                {{ order.get_status_display }}
+              </span>
                         </td>
 
                         <td>
@@ -146,6 +153,13 @@
                                class="btn btn-sm btn-primary px-3">
                                 View
                             </a>
+                              <!-- CANCEL -->
+  {% if order.payment_status == "pending" and order.status|lower != "cancelled" %}
+    <a href="{% url 'cancel_custom_order' order.id %}"
+       class="btn btn-sm btn-danger px-3 ms-2">
+       Cancel
+    </a>
+    {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

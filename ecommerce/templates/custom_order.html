@@ -11,7 +11,7 @@
             Design Your Dream Cake
           </h3>
 
-          <form method="post" enctype="multipart/form-data">
+          <form id="cakeForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <!-- Cake Type -->
@@ -74,12 +74,12 @@
                 placeholder="Eggless, less sugar, theme color..."></textarea>
             </div>
 
-            <!-- <button type="button" id="previewBtn" class="btn btn-warning w-100 mb-3">
+            <button type="button" id="previewBtn" class="btn btn-warning w-100 mb-3">
               Generate AI Preview
-            </button> -->
+            </button>
 
             <!-- AI Image Result -->
-            <!-- <div id="previewResult" class="text-center mt-4"></div> -->
+            <div id="previewResult" class="text-center mt-4"></div>
 
             <button type="submit" class="btn w-100 order-btn mt-3">
               Place Custom Order
@@ -95,51 +95,65 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     const previewBtn = document.getElementById("previewBtn");
+    const resultBox = document.getElementById("previewResult");
+    const form = document.getElementById("cakeForm");
 
     previewBtn.addEventListener("click", function () {
 
-      const form = document.getElementById("cakeForm");
-      const formData = new FormData(form);
+        const formData = new FormData(form);
 
-      document.getElementById("previewResult").innerHTML =
-        "<p style='color:orange'>Generating AI Preview... Please wait</p>";
+        resultBox.innerHTML =
+            "<p style='color:orange'>Generating AI Preview... Please wait</p>";
 
-      fetch("{% url 'generate_ai_preview' %}", {
-        method: "POST",
-        headers: {
-          "X-CSRFToken": "{{ csrf_token }}"
-        },
-        body: formData
-      })
+        fetch("{% url 'generate_ai_preview' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: formData
+        })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
 
-          if (data.error) {
-            document.getElementById("previewResult").innerHTML =
-              "<p style='color:red'>" + data.error + "</p>";
-          } else {
+            console.log("AI Response:", data);
 
-            document.getElementById("previewResult").innerHTML = `
+            if (data.error) {
+
+                resultBox.innerHTML =
+                    `<p style="color:red">${data.error}</p>`;
+
+            } else if (data.image_url) {
+
+                resultBox.innerHTML = `
                     <h5 class="text-success mb-3">AI Generated Preview</h5>
                     <img src="${data.image_url}" 
                          class="img-fluid rounded shadow"
                          style="max-height:400px;">
                 `;
-          }
+
+            } else {
+
+                resultBox.innerHTML =
+                    "<p style='color:red'>AI could not generate image.</p>";
+
+            }
 
         })
         .catch(error => {
-          document.getElementById("previewResult").innerHTML =
-            "<p style='color:red'>Something went wrong!</p>";
-          console.log(error);
+
+            console.error("Fetch Error:", error);
+
+            resultBox.innerHTML =
+                "<p style='color:red'>Server Error. Check console.</p>";
+
         });
 
     });
-  });
+
+});
 </script>
 
 {% endblock %}

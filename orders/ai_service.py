@@ -1,7 +1,11 @@
 import os
-import replicate
+import google.generativeai as genai
+from dotenv import load_dotenv
 
-os.environ["REPLICATE_API_TOKEN"] = os.getenv("REPLICATE_API_TOKEN")
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
 
 def generate_cake_image(
     cake_type,
@@ -9,34 +13,28 @@ def generate_cake_image(
     flavor,
     cream_type,
     message,
-    special_instructions,
-    reference_image_url=None
+    special_instructions
 ):
 
     prompt = f"""
-    A realistic professional bakery photo of a {size} {flavor} {cake_type} cake.
-    Frosting: {cream_type}.
-    Message on cake: "{message}".
-    Special instructions: {special_instructions}.
-    High quality, detailed, soft lighting.
+    Create a realistic bakery cake design.
+
+    Cake type: {cake_type}
+    Size: {size}
+    Flavor: {flavor}
+    Cream: {cream_type}
+    Message on cake: {message}
+    Instructions: {special_instructions}
+
+    Describe the cake visually like a bakery catalog product photo.
     """
 
-    input_data = {
-        "prompt": prompt,
-        "width": 768,
-        "height": 768
-    }
-
     try:
-        output = replicate.run(
-            "stability-ai/sdxl:7762fd07cf82e0a2b50d1f94a639a6a39aea66e68132c0a918645ed90e299887",
-            input=input_data
-        )
+        model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
-        if isinstance(output, list) and len(output) > 0:
-            return output[0]
-        else:
-            return "No image generated"
+        response = model.generate_content(prompt)
+
+        return response.text
 
     except Exception as e:
         return f"Error: {str(e)}"

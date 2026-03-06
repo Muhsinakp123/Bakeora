@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 18px rgba(255,105,180,0.3);
+    box-shadow: 0 6px 18px #854c55;
 }
 
 /* Stats section */
