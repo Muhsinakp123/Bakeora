@@ -60,5 +60,7 @@ path(
     path('addresses/', views.address_list, name='address_list'),
     path('custom-cake-orders/', views.custom_cake_orders, name='custom_cake_orders'),
     path('change-password/', views.change_password, name='change_password'),
+    
+    path("chatbot/",views.bakeora_ai_chatbot, name="chatbot"),
 
 ]

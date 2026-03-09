@@ -1270,3 +1270,93 @@ body {
   color: #c9a24d;
   margin-bottom: 12px;
 }
+
+#bakeora-chat-toggle{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#5a0f1c;
+color:white;
+width:55px;
+height:55px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:pointer;
+z-index:9999;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+#bakeora-chat-window{
+position:fixed;
+bottom:90px;
+right:25px;
+width:320px;
+height:420px;
+background:white;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+display:none;
+flex-direction:column;
+z-index:9999;
+overflow:hidden;
+}
+#chat-close{
+  cursor: pointer;
+}
+
+.chat-header{
+background:#5a0f1c;
+color:white;
+padding:12px;
+font-weight:600;
+display:flex;
+justify-content:space-between;
+}
+
+#chat-messages{
+flex:1;
+padding:10px;
+overflow-y:auto;
+font-size:14px;
+}
+
+.chat-input-area{
+display:flex;
+border-top:1px solid #eee;
+}
+
+#chat-input{
+flex:1;
+border:none;
+padding:10px;
+outline:none;
+}
+
+.chat-input-area button{
+background:#5a0f1c;
+color:white;
+border:none;
+padding:10px 15px;
+cursor:pointer;
+}
+
+.chat-msg-bot{
+background:#f7f7f7;
+padding:8px 12px;
+border-radius:8px;
+margin-bottom:6px;
+font-size:14px;
+}
+
+.chat-msg-user{
+text-align:right;
+margin-bottom:6px;
+}
+
+.bot-label{
+font-weight:600;
+color:#8B0000;
+}

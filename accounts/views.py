@@ -6,8 +6,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Subscriber,CustomerProfile,Notifications
 from orders.models import Address, Order, CustomCake
+from products.models import Cake, Dessert, Pudding, ProductSearch
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+
+import json
+from groq import Groq
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.db.models import Q
+import re
 
 # Create your views here.
 
@@ -146,3 +154,157 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
 
     return render(request, "change_password.html", {"form": form})
+
+
+
+client = Groq(api_key=settings.GROQ_API_KEY)
+
+
+@csrf_exempt
+def bakeora_ai_chatbot(request):
+
+    if request.method != "POST":
+        return JsonResponse({"reply": "Invalid request."})
+
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+        message = data.get("message", "").strip()
+        message_lower = message.lower()
+
+    except:
+        return JsonResponse({"reply": "Invalid message format."})
+
+    try:
+
+        # ---------------- GREETING ----------------
+        if message_lower in ["hi", "hello", "hey"]:
+            return JsonResponse({
+                "reply": "Hello! Welcome to Bakeora 🍰 How can I help you today?"
+            })
+
+        # ---------------- ORDER TRACK ----------------
+        if "track" in message_lower or "order status" in message_lower:
+
+            if request.user.is_authenticated:
+
+                order = Order.objects.filter(
+                    user=request.user
+                ).order_by("-created_at").first()
+
+                if order:
+                    reply = f"📦 Your latest order #{order.id} is currently {order.status}."
+                else:
+                    reply = "You don't have any orders yet."
+
+            else:
+                reply = "Please login to check your order status."
+
+            return JsonResponse({"reply": reply})
+
+
+        # ---------------- CUSTOM CAKE ----------------
+        if "custom cake" in message_lower:
+
+            reply = (
+                "🎂 You can order a custom cake from our Custom Cake page. "
+                "Choose flavor, size and upload your design reference."
+            )
+
+            return JsonResponse({"reply": reply})
+
+
+        # ---------------- PRICE SEARCH ----------------
+        price_match = re.search(r"\d+", message_lower)
+
+        if price_match:
+
+            price = int(price_match.group())
+
+            products = ProductSearch.objects.filter(
+                price__lte=price
+            )[:5]
+
+            if products.exists():
+
+                reply = f"🛒 Here are some items under ₹{price}:\n\n"
+
+                for p in products:
+                    reply += f"• {p.name} – ₹{p.price}\n"
+
+            else:
+                reply = "Sorry, I couldn't find items in that price range."
+
+            return JsonResponse({"reply": reply})
+
+
+        # ---------------- PRODUCT SEARCH ----------------
+        stop_words = [
+            "i", "want", "a", "an", "the", "me",
+            "show", "please", "give", "do",
+            "you", "have", "need", "for"
+        ]
+
+        keywords = [
+            word for word in message_lower.split()
+            if word not in stop_words
+        ]
+
+        products = None
+
+        if keywords:
+
+            query = Q()
+
+            for word in keywords:
+                query |= Q(name__icontains=word)
+
+            products = ProductSearch.objects.filter(query)[:5]
+
+
+        # ---------------- AI RESPONSE ----------------
+        product_text = ""
+
+        if products and products.exists():
+
+            for p in products:
+                product_text += f"{p.name} – ₹{p.price}\n"
+
+        ai_prompt = f"""
+User message:
+{message}
+
+Products found in bakery database:
+{product_text}
+
+Instructions:
+- Reply like a friendly bakery assistant.
+- If products exist, recommend them naturally.
+- If not, just chat normally.
+- Keep reply short and clean.
+"""
+
+        chat = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are Bakeora bakery AI assistant."
+                },
+                {
+                    "role": "user",
+                    "content": ai_prompt
+                }
+            ]
+        )
+
+        reply = chat.choices[0].message.content.strip()
+
+        return JsonResponse({"reply": reply})
+
+    except Exception as e:
+
+        print("AI ERROR:", e)
+
+        return JsonResponse({
+            "reply": "Sorry, the AI is temporarily unavailable."
+        })

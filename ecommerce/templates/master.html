@@ -414,6 +414,83 @@ document.getElementById("toast-cancel")?.addEventListener("click", () => {
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- ================= BAKEORA AI CHATBOT ================= -->
+
+<div id="bakeora-chat-toggle">
+  <i class="fa-solid fa-comment-dots"></i>
+</div>
+
+<div id="bakeora-chat-window">
+
+  <div class="chat-header">
+    Bakeora AI Assistant
+    <span id="chat-close">✕</span>
+  </div>
+
+  <div id="chat-messages"></div>
+
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Ask about cakes..." />
+    <button onclick="sendChat()">Send</button>
+  </div>
+
+</div>
+<script>
+
+const chatToggle = document.getElementById("bakeora-chat-toggle");
+const chatWindow = document.getElementById("bakeora-chat-window");
+const chatClose = document.getElementById("chat-close");
+
+chatToggle.onclick = () => {
+  chatWindow.style.display = "flex";
+}
+
+chatClose.onclick = () => {
+  chatWindow.style.display = "none";
+}
+
+function sendChat(){
+
+let input = document.getElementById("chat-input");
+let message = input.value.trim();
+
+if(!message) return;
+
+let chatBox = document.getElementById("chat-messages");
+
+chatBox.innerHTML += `<div class="chat-msg-user"><b>You:</b> ${message}</div>`;
+
+fetch("/chatbot/",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"X-CSRFToken": getCookie("csrftoken")
+},
+body:JSON.stringify({message:message})
+})
+.then(res=>res.json())
+.then(data=>{
+
+chatBox.innerHTML += `
+<div class="chat-msg-bot">
+    <span class="bot-label">Bakeora AI</span>
+    <p>${data.reply}</p>
+</div>
+`;
+
+chatBox.scrollTop = chatBox.scrollHeight;
+
+});
+
+input.value="";
+}
+document.getElementById("chat-input").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendChat();
+    }
+});
+</script>
+
 </body>
 
 </html>
