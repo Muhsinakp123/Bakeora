@@ -1,169 +1,227 @@
-{% extends 'adminpanel/base.html' %}
-{% block title %}Bakeora | Admin Dashboard{% endblock %}
+{% extends "adminpanel/base.html" %}
 
 {% block content %}
-<div class="min-h-screen bg-[#0b0e14] text-white font-sans p-6">
-  <div class="flex justify-between items-center mb-8">
-    <div class="flex flex-col">
-      <p class="text-gray-400 text-sm">Total Revenue</p>
-      <div class="flex items-center gap-4">
-        <h1 class="text-3xl font-bold font-mono">$ {{ total_revenue }}</h1>
-        <span class="text-rose-500 text-xs">▼ $1,294</span>
-        <span class="text-emerald-500 text-xs">▲ $1,294</span>
-      </div>
-    </div>
 
-    <div class="flex items-center gap-4">
-      <div class="relative">
-        <input type="text" placeholder="Search"
-          class="bg-[#1a1f37] border-none rounded-xl px-10 py-2 w-64 focus:ring-2 focus:ring-purple-500">
-        <span class="absolute left-3 top-2.5 text-gray-500">🔍</span>
-      </div>
-      <div class="flex gap-3">
-        <div class="bg-[#1a1f37] p-2 rounded-xl cursor-pointer hover:bg-gray-700">💬</div>
-        <div class="bg-[#1a1f37] p-2 rounded-xl cursor-pointer hover:bg-gray-700">🔔</div>
-        <img src="https://ui-avatars.com/api/?name=Admin&background=random"
-          class="w-10 h-10 rounded-xl object-cover border border-gray-600">
-      </div>
-    </div>
-  </div>
+<!-- STAT CARDS -->
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div
-      class="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-[2rem] flex justify-between items-center shadow-lg shadow-blue-500/20 relative overflow-hidden">
-      <div class="z-10">
-        <h3 class="font-bold text-lg">Shipped orders</h3>
-      </div>
-      <span class="text-6xl font-bold z-10">{{ shipped_count }}</span>
-      <div class="absolute -left-4 -bottom-4 opacity-10 text-8xl">🚚</div>
-    </div>
+<div class="grid grid-cols-5 gap-5 mb-8">
 
-    <div
-      class="bg-gradient-to-r from-rose-400 to-rose-500 p-6 rounded-[2rem] flex justify-between items-center shadow-lg shadow-rose-500/20 relative overflow-hidden">
-      <div class="z-10">
-        <h3 class="font-bold text-lg text-white">Pending orders</h3>
-      </div>
-      <span class="text-6xl font-bold z-10">0{{ pending_count }}</span>
-      <div class="absolute -left-4 -bottom-4 opacity-10 text-8xl">🛒</div>
-    </div>
-
-    <div
-      class="bg-gradient-to-r from-purple-500 to-fuchsia-500 p-6 rounded-[2rem] flex justify-between items-center shadow-lg shadow-purple-500/20 relative overflow-hidden">
-      <div class="z-10">
-        <h3 class="font-bold text-lg">New orders</h3>
-      </div>
-      <span class="text-6xl font-bold z-10">{{ new_orders }}</span>
-      <div class="absolute -left-4 -bottom-4 opacity-10 text-8xl">🛍️</div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-    <div class="lg:col-span-2 space-y-6">
-      <div class="bg-[#14152a] p-6 rounded-[2rem] border border-gray-800 shadow-xl">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-xl font-bold">Inbox</h3>
-          <a href="#" class="text-blue-400 text-sm">View details</a>
-        </div>
-        <div class="space-y-4">
-          {% for msg in inbox_messages %}
-          <div class="border-b border-gray-800 pb-4">
-            <div class="flex justify-between text-xs text-gray-500 mb-1">
-              <span>Group: Support ({{ msg.cake_type }})</span>
-              <span>{{ msg.created_at|time }}</span>
-            </div>
-            <p class="text-sm font-medium">Req from {{ msg.user.username }}</p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="bg-[#14152a] p-6 rounded-[2rem] border border-gray-800 shadow-xl">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-xl font-bold">Recent Activity</h3>
-          <a href="#" class="text-blue-400 text-sm">View all</a>
-        </div>
-        <div class="space-y-4">
-          {% for order in recent_activity %}
-          <div class="flex items-center justify-between group">
-            <div class="flex items-center gap-3">
-              <div
-                class="w-3 h-3 rounded-full {% if order.status == 'placed' %}bg-blue-500 shadow-[0_0_8px_#3b82f6]{% else %}bg-gray-600{% endif %}">
-              </div>
-              <span class="text-sm">Order #{{ order.id }} update</span>
-            </div>
-            <span
-              class="px-3 py-1 rounded-lg text-[10px] font-bold 
-                            {% if order.status == 'placed' %}bg-yellow-400 text-black{% else %}bg-gray-700 text-gray-300{% endif %}">
-              {% if order.status == 'placed' %}URGENT{% else %}DEFAULT{% endif %}
-            </span>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <div class="lg:col-span-3 bg-[#14152a] p-6 rounded-[2rem] border border-gray-800 shadow-xl flex flex-col">
-      <div class="flex justify-between items-center mb-6">
-        <div>
-          <h3 class="text-xl font-bold">Today's Sales</h3>
-          <p class="text-gray-500 text-xs">24 Jan 2026</p>
-        </div>
-        <div class="flex gap-4 text-xs">
-          <div class="flex items-center gap-2"><span class="w-3 h-1 bg-blue-500"></span> Today</div>
-          <div class="flex items-center gap-2"><span class="w-3 h-1 bg-rose-500"></span> Yesterday</div>
-        </div>
-      </div>
-      <div class="flex-1 min-h-[300px]">
-        <canvas id="salesChart"></canvas>
-      </div>
-    </div>
-  </div>
+<div class="card p-5 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">450</h2>
+<p class="text-gray-400">Revenue</p>
+</div>
+<i class="fa-solid fa-money-bill text-purple-400 text-2xl"></i>
 </div>
 
-{{ chart_labels|json_script:"chart-labels" }}
-{{ chart_values|json_script:"chart-values" }}
+<div class="card p-5 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">955</h2>
+<p class="text-gray-400">Orders</p>
+</div>
+<i class="fa-solid fa-cart-shopping text-purple-400 text-2xl"></i>
+</div>
+
+<div class="card p-5 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">$50K</h2>
+<p class="text-gray-400">Avg Order Value</p>
+</div>
+<i class="fa-solid fa-chart-line text-purple-400 text-2xl"></i>
+</div>
+
+<div class="card p-5 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">0</h2>
+<p class="text-gray-400">Stock Alerts</p>
+</div>
+<i class="fa-solid fa-triangle-exclamation text-purple-400 text-2xl"></i>
+</div>
+
+<div class="card p-5 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">30</h2>
+<p class="text-gray-400">Top Products</p>
+</div>
+<i class="fa-solid fa-box text-purple-400 text-2xl"></i>
+</div>
+
+</div>
+
+
+<!-- SECOND ROW -->
+
+<div class="grid grid-cols-3 gap-6 mb-8">
+
+<!-- ORDER SUMMARY -->
+
+<div class="card p-6 rounded-lg col-span-1">
+
+<h3 class="mb-6">Order Summary</h3>
+
+<div class="flex justify-around text-center">
+
+<div>
+<canvas id="deliveryChart" width="100" height="100"></canvas>
+<p class="text-sm mt-2">On Delivery</p>
+</div>
+
+<div>
+<canvas id="prepareChart" width="100" height="100"></canvas>
+<p class="text-sm mt-2">Preparing</p>
+</div>
+
+<div>
+<canvas id="cancelChart" width="100" height="100"></canvas>
+<p class="text-sm mt-2">Canceled</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DISTRICT REVENUE -->
+
+<div class="card p-6 rounded-lg">
+
+<h3 class="mb-4">Weekly Revenue</h3>
+
+<canvas id="districtChart"></canvas>
+
+</div>
+
+
+<!-- TOP PRODUCTS -->
+
+<div class="card p-6 rounded-lg">
+
+<h3 class="mb-4">Top Selling Items</h3>
+
+<ul class="space-y-2 text-gray-300">
+
+<li class="flex justify-between"><span>Red Velvet Cake</span><span>136</span></li>
+<li class="flex justify-between"><span>Tiramisu Pudding</span><span>136</span></li>
+<li class="flex justify-between"><span>Chocolate Lava Cake</span><span>96</span></li>
+<li class="flex justify-between"><span>Chicken Cake</span><span>16</span></li>
+<li class="flex justify-between"><span>Hot Sauce</span><span>7</span></li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- THIRD ROW -->
+
+<div class="grid grid-cols-2 gap-6">
+
+<div class="card p-6 rounded-lg">
+
+<h3 class="mb-4">Sales Volume</h3>
+
+<canvas id="salesChart"></canvas>
+
+</div>
+
+<div class="card p-6 rounded-lg">
+
+<h3 class="mb-4">Total Revenue</h3>
+
+<canvas id="revenueChart"></canvas>
+
+</div>
+
+</div>
 
 
 <script>
-    const labels = JSON.parse(
-        document.getElementById('chart-labels').textContent
-    );
-    const values = JSON.parse(
-        document.getElementById('chart-values').textContent
-    );
 
-    const ctx = document.getElementById('salesChart').getContext('2d');
+/* CIRCLE CHARTS */
 
-    const blueGradient = ctx.createLinearGradient(0, 0, 0, 400);
-    blueGradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
-    blueGradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+function circleChart(id,value){
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Today',
-                data: values,
-                borderColor: '#3b82f6',
-                borderWidth: 3,
-                fill: true,
-                backgroundColor: blueGradient,
-                tension: 0.5,
-                pointRadius: 0,
-                pointHoverRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { display: false } },
-                x: { grid: { display: false }, ticks: { color: '#4b5563' } }
-            }
-        }
-    });
+new Chart(document.getElementById(id),{
+
+type:'doughnut',
+
+data:{
+datasets:[{
+data:[value,100-value],
+backgroundColor:['#a855f7','#2e2243'],
+borderWidth:0
+}]
+},
+
+options:{
+cutout:'70%',
+plugins:{legend:{display:false}}
+}
+
+})
+
+}
+
+circleChart("deliveryChart",25)
+circleChart("prepareChart",85)
+circleChart("cancelChart",7)
+
+
+/* DISTRICT CHART */
+
+new Chart(document.getElementById('districtChart'),{
+
+type:'doughnut',
+
+data:{
+labels:["Kozhikode","Malappuram","Kannur"],
+datasets:[{
+data:[35,30,30],
+backgroundColor:["#9333ea","#7c3aed","#60a5fa"]
+}]
+}
+
+})
+
+
+/* SALES BAR */
+
+new Chart(document.getElementById('salesChart'),{
+
+type:'bar',
+
+data:{
+labels:["Kannur","Malappuram","Wayanad","Kozhikode"],
+datasets:[{
+label:"This week",
+data:[120,150,80,200],
+backgroundColor:"#a855f7"
+}]
+}
+
+})
+
+
+/* REVENUE LINE */
+
+new Chart(document.getElementById('revenueChart'),{
+
+type:'line',
+
+data:{
+labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+datasets:[{
+data:[20,30,35,45,60,40,30,35,50,70],
+borderColor:"#c084fc",
+backgroundColor:"rgba(192,132,252,0.2)",
+fill:true
+}]
+}
+
+})
+
 </script>
+
 
 {% endblock %}

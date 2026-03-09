@@ -1,42 +1,27 @@
-body.dark {
-    background: #0b1020;
-    color: white;
-    font-family: 'Segoe UI';
+.sidebar{
+background:#1d142c;
 }
 
-.dashboard {
-    padding: 30px;
+/* SUBMENU */
+
+.submenu{
+display:none;
+margin-left:28px;
+border-left:1px solid #4c3a6d;
+padding-left:12px;
+margin-top:4px;
 }
 
-.stats {
-    display: flex;
-    gap: 20px;
+.submenu li{
+margin:6px 0;
 }
 
-.card {
-    flex: 1;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+.submenu a{
+font-size:14px;
+color:#bfb3d9;
+display:block;
 }
 
-.blue { background: linear-gradient(135deg,#3b82f6,#06b6d4); }
-.red { background: linear-gradient(135deg,#ef4444,#ec4899); }
-.purple { background: linear-gradient(135deg,#8b5cf6,#d946ef); }
-
-.revenue {
-    margin-top: 30px;
-    padding: 20px;
-    background: #111827;
-    border-radius: 15px;
+.submenu a:hover{
+color:#c084fc;
 }
-
-.recent {
-    margin-top: 30px;
-    background: #111827;
-    padding: 20px;
-    border-radius: 15px;
-}
-
-.status.delivered { color: #22c55e; }
-.status.pending { color: #facc15; }

@@ -1,0 +1,35 @@
+{% extends "adminpanel/base.html" %}
+
+{% block content %}
+
+<h4>Products</h4>
+
+<div class="card p-4">
+
+<h5>Cakes</h5>
+
+<table class="table table-dark">
+
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Category</th>
+</tr>
+
+{% for cake in cakes %}
+
+<tr>
+
+<td>{{cake.name}}</td>
+<td>₹ {{cake.price}}</td>
+<td>{{cake.category}}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

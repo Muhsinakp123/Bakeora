@@ -1,41 +1,229 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Bakeora Admin{% endblock %}</title>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="{% static 'adminpanel/css/admin.css' %}">
+<meta charset="UTF-8">
+<title>Bakeora Admin</title>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'adminpanel/css/admin.css' %}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+background:#140f1f;
+color:white;
+}
+
+.sidebar{
+background:#1d142c;
+}
+
+.card{
+background:#241734;
+}
+
+</style>
+
 </head>
 
-<body class="bg-[#0b0b1a] text-gray-200 min-h-screen">
+
+<body>
 
 <div class="flex">
 
-  <!-- SIDEBAR -->
-  <aside class="w-64 bg-[#11112a] min-h-screen p-6 hidden md:block">
-    <h1 class="text-2xl font-bold text-purple-400 mb-8">BAKEORA</h1>
+<!-- SIDEBAR -->
 
-    <nav class="space-y-4 text-sm">
-      <a href="#" class="block text-purple-300 font-semibold">Dashboard</a>
-      <a href="#" class="block hover:text-purple-300">Products</a>
-      <a href="#" class="block hover:text-purple-300">Orders</a>
-      <a href="#" class="block hover:text-purple-300">Users</a>
-    </nav>
-  </aside>
+<div class="sidebar w-64 h-screen fixed p-6 overflow-y-auto">
 
-  <!-- MAIN CONTENT -->
-  <main class="flex-1 p-8">
-    {% block content %}{% endblock %}
-  </main>
+<h2 class="text-purple-400 text-2xl font-bold mb-10 flex items-center gap-2">
+<i class="fa-solid fa-cake-candles"></i> BAKEORA
+</h2>
+
+<ul class="text-gray-300 space-y-1 text-[15px]">
+
+<!-- DASHBOARD ACTIVE -->
+
+<li>
+<a href="{% url 'admin_dashboard' %}" 
+class="flex items-center gap-3 px-4 py-3 rounded-md bg-purple-700/40 border-l-4 border-purple-400">
+
+<i class="fa-solid fa-house text-purple-400"></i>
+Dashboard
+
+</a>
+</li>
+
+
+<!-- ORDERS -->
+
+<li>
+
+<button onclick="toggleMenu('ordersMenu',this)"
+class="w-full flex items-center justify-between px-4 py-3 rounded-md hover:bg-purple-700/30">
+
+<span class="flex items-center gap-3">
+<i class="fa-solid fa-receipt"></i>
+Orders
+</span>
+
+<i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+
+</button>
+
+<ul id="ordersMenu" class="submenu">
+
+<li><a href="/adminpanel/orders/">All Orders</a></li>
+<li><a href="/adminpanel/orders/pending/">Pending</a></li>
+<li><a href="/adminpanel/orders/preparing/">Preparing</a></li>
+<li><a href="/adminpanel/orders/delivered/">Delivered</a></li>
+
+</ul>
+
+</li>
+
+
+<!-- CUSTOM CAKES -->
+
+<li>
+
+<button onclick="toggleMenu('cakesMenu',this)"
+class="w-full flex items-center justify-between px-4 py-3 rounded-md hover:bg-purple-700/30">
+
+<span class="flex items-center gap-3">
+<i class="fa-solid fa-cake-candles"></i>
+Custom Cakes
+</span>
+
+<i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+
+</button>
+
+<ul id="cakesMenu" class="submenu">
+
+<li><a href="/adminpanel/custom-cakes/">New requests</a></li>
+<li><a href="/adminpanel/custom-cakes/quoted/">Quoted</a></li>
+<li><a href="/adminpanel/custom-cakes/confirmed/">Confirmed</a></li>
+
+</ul>
+
+</li>
+
+
+<!-- PRODUCTS -->
+
+<li>
+
+<button onclick="toggleMenu('productsMenu',this)"
+class="w-full flex items-center justify-between px-4 py-3 rounded-md hover:bg-purple-700/30">
+
+<span class="flex items-center gap-3">
+<i class="fa-solid fa-box"></i>
+Products
+</span>
+
+<i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+
+</button>
+
+<ul id="productsMenu" class="submenu">
+
+<li><a href="/adminpanel/products/cakes/">Cakes</a></li>
+<li><a href="/adminpanel/products/desserts/">Desserts</a></li>
+<li><a href="/adminpanel/products/puddings/">Puddings</a></li>
+
+</ul>
+
+</li>
+
+
+<!-- OTHERS -->
+
+<li>
+<a href="/adminpanel/customers/" 
+class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
+<i class="fa-solid fa-users"></i>
+Customers
+</a>
+</li>
+
+<li>
+<a href="/adminpanel/subscribers/" 
+class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
+<i class="fa-solid fa-envelope"></i>
+Subscribers
+</a>
+</li>
+
+<li>
+<a href="/adminpanel/notifications/" 
+class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
+<i class="fa-solid fa-bell"></i>
+Notifications
+</a>
+</li>
+
+<li>
+<a href="/logout/" 
+class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-red-500/70">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+</li>
+
+</ul>
 
 </div>
 
+
+<!-- MAIN -->
+
+<div class="ml-64 w-full p-8">
+
+<div class="flex justify-between items-center mb-10">
+
+<h1 class="text-2xl font-bold">Dashboard</h1>
+
+<div class="flex gap-6 text-xl">
+
+<i class="fa-solid fa-bell"></i>
+<i class="fa-solid fa-comment"></i>
+<i class="fa-solid fa-circle-user"></i>
+
+</div>
+
+</div>
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+</div>
+<script>
+
+function toggleMenu(menuId,btn){
+
+let menu=document.getElementById(menuId)
+let icon=btn.querySelector("i:last-child")
+
+menu.style.display =
+menu.style.display==="block" ? "none" : "block"
+
+icon.classList.toggle("rotate-180")
+
+}
+
+</script>
+
 </body>
 </html>
-

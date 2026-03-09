@@ -203,8 +203,6 @@ ALLOWED_COUNTRY = "india"
 ALLOWED_STATE = "kerala"
 
 
-REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
-
 import cloudinary
 
 cloudinary.config(

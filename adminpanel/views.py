@@ -5,7 +5,8 @@ from django.utils import timezone
 from django.db.models.functions import TruncDate
 import json
 
-from orders.models import Order
+from orders.models import Order,CustomCake
+from products.models import Cake, Dessert, Pudding
 
 
 def admin_dashboard(request):
@@ -57,3 +58,36 @@ def admin_dashboard(request):
     }
 
     return render(request, 'adminpanel/dashboard.html', context)
+
+
+def orders_list(request):
+
+    orders = Order.objects.select_related('user').order_by('-created_at')
+
+    return render(request,"adminpanel/orders.html",{
+        "orders":orders
+    })
+    
+
+def products_list(request):
+
+    cakes = Cake.objects.all()
+    desserts = Dessert.objects.all()
+    puddings = Pudding.objects.all()
+
+    context = {
+        "cakes": cakes,
+        "desserts": desserts,
+        "puddings": puddings,
+    }
+
+    return render(request,"adminpanel/products.html",context)
+
+
+def custom_cakes(request):
+
+    cakes = CustomCake.objects.select_related("user").order_by("-created_at")
+
+    return render(request,"adminpanel/custom_cakes.html",{
+        "cakes":cakes
+    })
