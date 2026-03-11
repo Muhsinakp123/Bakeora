@@ -417,7 +417,7 @@ document.getElementById("toast-cancel")?.addEventListener("click", () => {
   <!-- ================= BAKEORA AI CHATBOT ================= -->
 
 <div id="bakeora-chat-toggle">
-  <i class="fa-solid fa-comment-dots"></i>
+  <div id="chatbot-button">💬</div>
 </div>
 
 <div id="bakeora-chat-window">
@@ -458,7 +458,31 @@ if(!message) return;
 
 let chatBox = document.getElementById("chat-messages");
 
-chatBox.innerHTML += `<div class="chat-msg-user"><b>You:</b> ${message}</div>`;
+/* USER MESSAGE */
+
+chatBox.innerHTML += `
+<div class="chat-msg-user">
+${message}
+</div>
+`;
+
+/* TYPING INDICATOR */
+
+let typingId = "typing-"+Date.now();
+
+chatBox.innerHTML += `
+<div class="typing-container" id="${typingId}">
+<span></span>
+<span></span>
+<span></span>
+</div>
+`;
+
+chatBox.scrollTop = chatBox.scrollHeight;
+
+input.value="";
+
+/* SEND TO DJANGO */
 
 fetch("/chatbot/",{
 method:"POST",
@@ -471,18 +495,23 @@ body:JSON.stringify({message:message})
 .then(res=>res.json())
 .then(data=>{
 
+/* REMOVE TYPING */
+
+let typingDiv = document.getElementById(typingId);
+typingDiv.remove();
+
+/* BOT MESSAGE */
+
 chatBox.innerHTML += `
 <div class="chat-msg-bot">
-    <span class="bot-label">Bakeora AI</span>
-    <p>${data.reply}</p>
+<span class="bot-label">Bakeora AI</span>
+${data.reply}
 </div>
 `;
 
 chatBox.scrollTop = chatBox.scrollHeight;
 
 });
-
-input.value="";
 }
 document.getElementById("chat-input").addEventListener("keypress", function(e) {
     if (e.key === "Enter") {

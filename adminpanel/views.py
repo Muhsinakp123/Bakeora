@@ -4,12 +4,16 @@ from django.db.models import Sum
 from django.utils import timezone
 from django.db.models.functions import TruncDate
 import json
-
+from django.contrib.auth.models import User
+from products.models import ProductSearch
 from orders.models import Order,CustomCake
 from products.models import Cake, Dessert, Pudding
 
 
 def admin_dashboard(request):
+    
+    customers = User.objects.count()
+    products = ProductSearch.objects.count()
 
     # 1️⃣ Total Revenue (Delivered only)
     total_revenue = (
@@ -22,7 +26,7 @@ def admin_dashboard(request):
     shipped_orders = Order.objects.filter(status='delivered').count()
 
     pending_orders = Order.objects.filter(
-        status__in=['placed', 'preparing']
+        status__in=['pending','paid','preparing']
     ).count()
 
     new_orders_today = Order.objects.filter(
@@ -55,6 +59,8 @@ def admin_dashboard(request):
         'recent_activity': recent_activity,
         'chart_labels': json.dumps(chart_labels),
         'chart_values': json.dumps(chart_values),
+        'customers': customers,
+        'products': products,
     }
 
     return render(request, 'adminpanel/dashboard.html', context)

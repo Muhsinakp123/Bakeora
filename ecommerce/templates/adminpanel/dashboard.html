@@ -4,46 +4,54 @@
 
 <!-- STAT CARDS -->
 
-<div class="grid grid-cols-5 gap-5 mb-8">
+<div class="grid grid-cols-6 gap-5 mb-8">
 
-<div class="card p-5 rounded-lg flex justify-between items-center">
+<div class="card p-6 rounded-lg flex justify-between items-center">
 <div>
-<h2 class="text-2xl font-bold">450</h2>
+<h2 class="text-2xl font-bold">₹{{ total_revenue }}</h2>
 <p class="text-gray-400">Revenue</p>
 </div>
 <i class="fa-solid fa-money-bill text-purple-400 text-2xl"></i>
 </div>
 
-<div class="card p-5 rounded-lg flex justify-between items-center">
+<div class="card p-6 rounded-lg flex justify-between items-center">
 <div>
-<h2 class="text-2xl font-bold">955</h2>
-<p class="text-gray-400">Orders</p>
+<h2 class="text-2xl font-bold">{{ shipped_orders }}</h2>
+<p class="text-gray-400">Delivered Orders</p>
 </div>
 <i class="fa-solid fa-cart-shopping text-purple-400 text-2xl"></i>
 </div>
 
-<div class="card p-5 rounded-lg flex justify-between items-center">
+<div class="card p-6 rounded-lg flex justify-between items-center">
 <div>
-<h2 class="text-2xl font-bold">$50K</h2>
-<p class="text-gray-400">Avg Order Value</p>
+<h2 class="text-2xl font-bold">{{ pending_orders }}</h2>
+<p class="text-gray-400">Pending Orders</p>
 </div>
 <i class="fa-solid fa-chart-line text-purple-400 text-2xl"></i>
 </div>
 
-<div class="card p-5 rounded-lg flex justify-between items-center">
+<div class="card p-6 rounded-lg flex justify-between items-center">
 <div>
-<h2 class="text-2xl font-bold">0</h2>
-<p class="text-gray-400">Stock Alerts</p>
+<h2 class="text-2xl font-bold">{{ new_orders_today }}</h2>
+<p class="text-gray-400">Orders Today</p>
 </div>
 <i class="fa-solid fa-triangle-exclamation text-purple-400 text-2xl"></i>
 </div>
 
-<div class="card p-5 rounded-lg flex justify-between items-center">
+<div class="card p-6 rounded-lg flex justify-between items-center">
 <div>
-<h2 class="text-2xl font-bold">30</h2>
-<p class="text-gray-400">Top Products</p>
+<h2 class="text-2xl font-bold">{{ products }}</h2>
+<p class="text-gray-400">Total Products</p>
 </div>
 <i class="fa-solid fa-box text-purple-400 text-2xl"></i>
+</div>
+
+<div class="card p-6 rounded-lg flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold">{{ customers }}</h2>
+<p class="text-gray-400">Customers</p>
+</div>
+<i class="fa-solid fa-users text-purple-400 text-2xl"></i>
 </div>
 
 </div>
@@ -94,7 +102,7 @@
 
 <!-- TOP PRODUCTS -->
 
-<div class="card p-6 rounded-lg">
+<div class="card p-6 rounded-lg"
 
 <h3 class="mb-4">Top Selling Items</h3>
 
@@ -135,6 +143,26 @@
 
 </div>
 
+<!-- RECENT ORDERS -->
+
+<div class="card p-6 rounded-lg mt-8">
+
+<h3 class="mb-4">Recent Orders</h3>
+
+<ul class="space-y-2 text-gray-300">
+
+{% for order in recent_activity %}
+
+<li class="flex justify-between">
+<span>Order {{ order.id }}</span>
+<span>{{ order.status }}</span>
+</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
 
 <script>
 
@@ -187,39 +215,50 @@ backgroundColor:["#9333ea","#7c3aed","#60a5fa"]
 
 /* SALES BAR */
 
-new Chart(document.getElementById('salesChart'),{
+const labels = JSON.parse('{{ chart_labels|safe }}');
+const data = JSON.parse('{{ chart_values|safe }}');
 
-type:'bar',
-
-data:{
-labels:["Kannur","Malappuram","Wayanad","Kozhikode"],
-datasets:[{
-label:"This week",
-data:[120,150,80,200],
-backgroundColor:"#a855f7"
-}]
-}
-
-})
-
+new Chart(document.getElementById('salesChart'), {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Last 7 Days Sales",
+            data: data,
+            backgroundColor: "#a855f7"
+        }]
+    },
+    options:{
+        responsive:true,
+        plugins:{
+            legend:{
+                display:true
+            }
+        }
+    }
+});
 
 /* REVENUE LINE */
 
-new Chart(document.getElementById('revenueChart'),{
+const chartLabels = JSON.parse('{{ chart_labels|safe }}');
+const chartValues = JSON.parse('{{ chart_values|safe }}');
 
-type:'line',
+const ctx = document.getElementById('revenueChart');
 
-data:{
-labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-datasets:[{
-data:[20,30,35,45,60,40,30,35,50,70],
-borderColor:"#c084fc",
-backgroundColor:"rgba(192,132,252,0.2)",
-fill:true
-}]
-}
-
-})
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: chartLabels,
+        datasets: [{
+            label: "Revenue",
+            data: chartValues,
+            borderColor: "#c084fc",
+            backgroundColor: "rgba(192,132,252,0.2)",
+            fill: true,
+            tension: 0.4
+        }]
+    }
+});
 
 </script>
 

@@ -24,7 +24,7 @@ def login_view(request):
         username_or_email = request.POST['username']
         password = request.POST['password']
 
-        # Allow login via username or email
+        # allow login using email
         try:
             user_obj = User.objects.get(email=username_or_email)
             username = user_obj.username
@@ -32,9 +32,17 @@ def login_view(request):
             username = username_or_email
 
         user = authenticate(request, username=username, password=password)
+
         if user:
             login(request, user)
+
+            # if admin
+            if user.is_staff or user.is_superuser:
+                return redirect('admin_dashboard')
+
+            # normal user
             return redirect('home')
+
         else:
             messages.error(request, "Invalid username/email or password")
 
