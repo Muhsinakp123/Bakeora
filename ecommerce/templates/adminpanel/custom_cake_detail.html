@@ -1,0 +1,33 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Cake Request {{ cake.reference_number }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 rounded-lg space-y-4">
+
+<p><b>Customer:</b> {{ cake.user.username }}</p>
+
+<p><b>Cake Type:</b> {{ cake.cake_type }}</p>
+
+<p><b>Size:</b> {{ cake.size }}</p>
+
+<p><b>Flavor:</b> {{ cake.flavor }}</p>
+
+<p><b>Cream:</b> {{ cake.cream_type }}</p>
+
+<p><b>Message:</b> {{ cake.message_on_cake }}</p>
+
+<p><b>Delivery Time:</b> {{ cake.delivery_datetime }}</p>
+
+<p><b>Status:</b> {{ cake.get_status_display }}</p>
+
+{% if cake.reference_photo %}
+<img src="{{ cake.reference_photo.url }}" class="w-64 rounded">
+{% endif %}
+
+</div>
+
+{% endblock %}

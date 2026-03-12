@@ -1,0 +1,72 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 rounded-lg">
+
+<table class="w-full text-left">
+
+<thead class="border-b border-gray-700 text-gray-300">
+<tr>
+<th>Reference</th>
+<th>Customer</th>
+<th>Cake Type</th>
+<th>Flavor</th>
+<th>Delivery Time</th>
+<th>Status</th>
+<th>View</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-300">
+
+{% for cake in cakes %}
+
+<tr class="border-b border-gray-800">
+
+<td>#{{ cake.reference_number }}</td>
+
+<td>{{ cake.user.username }}</td>
+
+<td>{{ cake.cake_type }}</td>
+
+<td>{{ cake.flavor }}</td>
+
+<td>{{ cake.delivery_datetime|date:"M d, Y H:i" }}</td>
+
+<td>
+<span class="text-purple-400 font-semibold">
+{{ cake.get_status_display }}
+</span>
+</td>
+
+<td>
+<a href="{% url 'admin_custom_cake_detail' cake.id %}"
+class="text-purple-400 hover:text-purple-300">
+View
+</a>
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="7" class="text-center py-6 text-gray-400">
+No custom cake requests
+</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

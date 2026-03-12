@@ -1,5 +1,9 @@
 {% extends "adminpanel/base.html" %}
 
+{% block page_title %}
+Admin Panel
+{% endblock %}
+
 {% block content %}
 
 <!-- STAT CARDS -->
@@ -102,22 +106,28 @@
 
 <!-- TOP PRODUCTS -->
 
-<div class="card p-6 rounded-lg"
+<div class="card p-6 rounded-lg">
 
 <h3 class="mb-4">Top Selling Items</h3>
 
 <ul class="space-y-2 text-gray-300">
 
-<li class="flex justify-between"><span>Red Velvet Cake</span><span>136</span></li>
-<li class="flex justify-between"><span>Tiramisu Pudding</span><span>136</span></li>
-<li class="flex justify-between"><span>Chocolate Lava Cake</span><span>96</span></li>
-<li class="flex justify-between"><span>Chicken Cake</span><span>16</span></li>
-<li class="flex justify-between"><span>Hot Sauce</span><span>7</span></li>
+{% for product in top_products %}
+
+<li class="flex justify-between">
+<span>{{ product.product_name }}</span>
+<span>{{ product.total_sold }}</span>
+</li>
+
+{% empty %}
+
+<li>No sales yet</li>
+
+{% endfor %}
 
 </ul>
 
 </div>
-
 </div>
 
 
@@ -191,26 +201,40 @@ plugins:{legend:{display:false}}
 
 }
 
-circleChart("deliveryChart",25)
-circleChart("prepareChart",85)
-circleChart("cancelChart",7)
+circleChart("deliveryChart", JSON.parse('{{ delivery_percent }}'))
+circleChart("prepareChart", JSON.parse('{{ prepare_percent }}'))
+circleChart("cancelChart", JSON.parse('{{ cancel_percent }}'))
 
 
 /* DISTRICT CHART */
 
-new Chart(document.getElementById('districtChart'),{
+const districtLabels = JSON.parse('{{ district_labels|safe }}');
+const districtData = JSON.parse('{{ district_values|safe }}');
 
-type:'doughnut',
-
-data:{
-labels:["Kozhikode","Malappuram","Kannur"],
-datasets:[{
-data:[35,30,30],
-backgroundColor:["#9333ea","#7c3aed","#60a5fa"]
-}]
-}
-
-})
+new Chart(document.getElementById('districtChart'), {
+    type: 'doughnut',
+    data: {
+        labels: districtLabels,
+        datasets: [{
+            data: districtData,
+            backgroundColor: [
+                "#9333ea",
+                "#7c3aed",
+                "#60a5fa",
+                "#22c55e",
+                "#f59e0b"
+            ]
+        }]
+    },
+    options:{
+        responsive:true,
+        plugins:{
+            legend:{
+                position:'bottom'
+            }
+        }
+    }
+});
 
 
 /* SALES BAR */

@@ -1,0 +1,51 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Subscribers
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 rounded-lg">
+
+<table class="w-full text-left">
+
+<thead class="border-b border-gray-700 text-gray-300">
+<tr>
+<th class="py-3">ID</th>
+<th>Email</th>
+<th>Subscribed Date</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-300">
+
+{% for sub in subscribers %}
+
+<tr class="border-b border-gray-800">
+
+<td class="py-3">{{ sub.id }}</td>
+
+<td>{{ sub.email }}</td>
+
+<td>{{ sub.created_at|date:"M d, Y H:i" }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="3" class="text-center py-6 text-gray-400">
+No subscribers yet
+</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

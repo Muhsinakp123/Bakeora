@@ -87,6 +87,7 @@ TEMPLATES = [
                 # ADD THIS LINE
                 'ecommerce.context_processors.cart_count',
                 'accounts.context_processors.notification_count',
+                'adminpanel.context_processors.admin_counts',
             ],
         },
     },

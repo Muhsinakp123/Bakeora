@@ -45,7 +45,7 @@ background:#241734;
 <div class="sidebar w-64 h-screen fixed p-6 overflow-y-auto">
 
 <h2 class="text-purple-400 text-2xl font-bold mb-10 flex items-center gap-2">
-<i class="fa-solid fa-cake-candles"></i> BAKEORA
+BAKEORA
 </h2>
 
 <ul class="text-gray-300 space-y-1 text-[15px]">
@@ -54,7 +54,12 @@ background:#241734;
 
 <li>
 <a href="{% url 'admin_dashboard' %}" 
-class="flex items-center gap-3 px-4 py-3 rounded-md bg-purple-700/40 border-l-4 border-purple-400">
+class="flex items-center gap-3 px-4 py-3 rounded-md
+{% if request.path == '/adminpanel/dashboard/' %}
+bg-purple-700/40 border-l-4 border-purple-400
+{% else %}
+hover:bg-purple-700/30
+{% endif %}">
 
 <i class="fa-solid fa-house text-purple-400"></i>
 Dashboard
@@ -68,7 +73,12 @@ Dashboard
 <li>
 
 <button onclick="toggleMenu('ordersMenu',this)"
-class="w-full flex items-center justify-between px-4 py-3 rounded-md hover:bg-purple-700/30">
+class="w-full flex items-center justify-between px-4 py-3 rounded-md
+{% if '/adminpanel/orders/' in request.path %}
+bg-purple-700/40 border-l-4 border-purple-400
+{% else %}
+hover:bg-purple-700/30
+{% endif %}">
 
 <span class="flex items-center gap-3">
 <i class="fa-solid fa-receipt"></i>
@@ -81,10 +91,35 @@ Orders
 
 <ul id="ordersMenu" class="submenu">
 
-<li><a href="/adminpanel/orders/">All Orders</a></li>
-<li><a href="/adminpanel/orders/pending/">Pending</a></li>
-<li><a href="/adminpanel/orders/preparing/">Preparing</a></li>
-<li><a href="/adminpanel/orders/delivered/">Delivered</a></li>
+<li>
+<a href="{% url 'all_orders' %}">
+All Orders ({{ all_orders_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'pending_orders' %}">
+Pending ({{ pending_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'preparing_orders' %}">
+Preparing ({{ preparing_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'out_for_delivery_orders' %}">
+Out for Delivery ({{ out_delivery_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'delivered_orders' %}">
+Delivered ({{ delivered_count }})
+</a>
+</li>
 
 </ul>
 
@@ -96,7 +131,12 @@ Orders
 <li>
 
 <button onclick="toggleMenu('cakesMenu',this)"
-class="w-full flex items-center justify-between px-4 py-3 rounded-md hover:bg-purple-700/30">
+class="w-full flex items-center justify-between px-4 py-3 rounded-md
+{% if '/adminpanel/custom-cakes/' in request.path %}
+bg-purple-700/40 border-l-4 border-purple-400
+{% else %}
+hover:bg-purple-700/30
+{% endif %}">
 
 <span class="flex items-center gap-3">
 <i class="fa-solid fa-cake-candles"></i>
@@ -109,9 +149,41 @@ Custom Cakes
 
 <ul id="cakesMenu" class="submenu">
 
-<li><a href="/adminpanel/custom-cakes/">New requests</a></li>
-<li><a href="/adminpanel/custom-cakes/quoted/">Quoted</a></li>
-<li><a href="/adminpanel/custom-cakes/confirmed/">Confirmed</a></li>
+<li>
+<a href="{% url 'custom_cakes_pending' %}">
+New Requests ({{ cakes_pending_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'custom_cakes_quoted' %}">
+Quoted ({{ cakes_quoted_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'custom_cakes_confirmed' %}">
+Confirmed ({{ cakes_confirmed_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'custom_cakes_baking' %}">
+Baking ({{ cakes_baking_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'custom_cakes_delivery' %}">
+Out for Delivery ({{ cakes_delivery_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'custom_cakes_delivered' %}">
+Delivered ({{ cakes_delivered_count }})
+</a>
+</li>
 
 </ul>
 
@@ -148,28 +220,31 @@ Products
 <!-- OTHERS -->
 
 <li>
-<a href="/adminpanel/customers/" 
-class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
+<a href="{% url 'admin_customers' %}" 
+class="flex items-center gap-3 px-4 py-3 rounded-md
+{% if request.path == '/adminpanel/customers/' %}
+bg-purple-700/40 border-l-4 border-purple-400
+{% else %}
+hover:bg-purple-700/30
+{% endif %}">
 <i class="fa-solid fa-users"></i>
 Customers
 </a>
 </li>
 
 <li>
-<a href="/adminpanel/subscribers/" 
-class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
+<a href="{% url 'admin_subscribers' %}" 
+class="flex items-center gap-3 px-4 py-3 rounded-md
+{% if request.path == '/adminpanel/subscribers/' %}
+bg-purple-700/40 border-l-4 border-purple-400
+{% else %}
+hover:bg-purple-700/30
+{% endif %}">
 <i class="fa-solid fa-envelope"></i>
 Subscribers
 </a>
 </li>
 
-<li>
-<a href="/adminpanel/notifications/" 
-class="flex items-center gap-3 px-4 py-3 rounded-md hover:bg-purple-700/30">
-<i class="fa-solid fa-bell"></i>
-Notifications
-</a>
-</li>
 
 <li>
 <a href="/logout/" 
@@ -187,20 +262,20 @@ Logout
 <!-- MAIN -->
 
 <div class="ml-64 w-full p-8">
-
 <div class="flex justify-between items-center mb-10">
 
-<h1 class="text-2xl font-bold">Dashboard</h1>
+<h1 class="text-2xl font-bold">
+{% block page_title %}{% endblock %}
+</h1>
 
 <div class="flex gap-6 text-xl">
-
 <i class="fa-solid fa-bell"></i>
 <i class="fa-solid fa-comment"></i>
 <i class="fa-solid fa-circle-user"></i>
-
 </div>
 
 </div>
+
 
 {% block content %}
 

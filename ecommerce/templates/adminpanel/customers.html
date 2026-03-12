@@ -1,0 +1,57 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Customers
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 rounded-lg">
+
+<table class="w-full text-left">
+
+<thead class="border-b border-gray-700 text-gray-300">
+<tr>
+<th class="py-3">ID</th>
+<th>Username</th>
+<th>Email</th>
+<th>Date Joined</th>
+<th>Total Orders</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-300">
+
+{% for customer in customers %}
+
+<tr class="border-b border-gray-800">
+
+<td class="py-3">{{ customer.id }}</td>
+
+<td>{{ customer.username }}</td>
+
+<td>{{ customer.email }}</td>
+
+<td>{{ customer.date_joined|date:"M d, Y" }}</td>
+
+<td>{{ customer.total_orders }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="5" class="text-center py-6 text-gray-400">
+No customers found
+</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

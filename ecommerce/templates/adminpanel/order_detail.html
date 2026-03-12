@@ -1,0 +1,91 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Order #{{ order.id }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 rounded-lg">
+
+<h2 class="text-xl font-semibold mb-4">
+Customer: {{ order.user.username }}
+</h2>
+
+<p class="mb-2">
+<strong>Total:</strong> ₹ {{ order.total_amount }}
+</p>
+
+<p class="mb-6">
+<strong>Status:</strong> {{ order.get_status_display }}
+</p>
+
+</div>
+
+
+<!-- ORDER ITEMS -->
+
+<div class="card p-6 rounded-lg mt-6">
+
+<h2 class="text-lg font-semibold mb-4">
+Ordered Items
+</h2>
+
+<table class="w-full text-left">
+
+<thead class="border-b border-gray-700 text-gray-300">
+<tr>
+<th>Product</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-300">
+
+{% for item in items %}
+
+<tr class="border-b border-gray-800">
+
+<td>{{ item.product_name }}</td>
+<td>₹ {{ item.price }}</td>
+<td>{{ item.quantity }}</td>
+<td>₹ {{ item.get_total }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- DELIVERY ADDRESS -->
+
+<div class="card p-6 rounded-lg mt-6">
+
+<h2 class="text-lg font-semibold mb-4">
+Delivery Address
+</h2>
+
+{% if order.address %}
+
+<p>{{ order.address.name }}</p>
+<p>{{ order.address.street }}</p>
+<p>{{ order.address.city }}</p>
+<p>{{ order.address.state }}</p>
+<p>{{ order.address.pincode }}</p>
+
+{% else %}
+
+<p>No address available</p>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
