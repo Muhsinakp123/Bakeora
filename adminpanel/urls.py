@@ -20,9 +20,15 @@ urlpatterns = [
     path('custom-cakes/baking/', views.custom_cakes_baking, name='custom_cakes_baking'),
     path('custom-cakes/out-for-delivery/', views.custom_cakes_delivery, name='custom_cakes_delivery'),
     path('custom-cakes/delivered/', views.custom_cakes_delivered, name='custom_cakes_delivered'),
+    path('custom-cakes/update-status/<int:cake_id>/',views.update_custom_cake_status,name='update_custom_cake_status'),
 
     # Products
-    path("products/", views.products_list, name="admin_products"),
+    path('products/cakes/', views.admin_cakes, name='admin_cakes'),
+    path('products/desserts/', views.admin_desserts, name='admin_desserts'),
+    path('products/puddings/', views.admin_puddings, name='admin_puddings'),
+    path('products/add/<str:type>/', views.add_product, name='add_product'),
+    path('products/edit/<str:type>/<int:id>/', views.edit_product, name='edit_product'),
+    path('products/delete/<str:type>/<int:id>/', views.delete_product, name='delete_product'),
     
     path('customers/', views.customers_list, name='admin_customers'),
     path("subscribers/", views.subscribers_list, name="admin_subscribers"),

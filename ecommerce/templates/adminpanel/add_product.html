@@ -1,0 +1,101 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Add {{ type|title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 w-1/2">
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<label>Name</label>
+<input type="text" name="name"
+class="w-full p-2 bg-[#1d142c] border border-gray-700 rounded mb-4">
+
+<label>Price</label>
+<input type="number" name="price"
+class="w-full p-2 bg-[#1d142c] border border-gray-700 rounded mb-4">
+
+<label>Image</label>
+<input type="file" name="image"
+class="w-full mb-4">
+
+
+{% if type == "cake" %}
+
+<label>Category</label>
+<select name="category" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="wedding">Wedding</option>
+<option value="birthday">Birthday</option>
+<option value="bento">Bento</option>
+<option value="vegan">Vegan</option>
+<option value="kids">Kids</option>
+</select>
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="chocolate">Chocolate</option>
+<option value="vanilla">Vanilla</option>
+<option value="red-velvet">Red Velvet</option>
+<option value="butterscotch">Butterscotch</option>
+</select>
+
+<label>Structure</label>
+<select name="structure" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="single">Single Tier</option>
+<option value="double">Double Tier</option>
+<option value="trible">Triple Tier</option>
+</select>
+
+{% elif type == "dessert" %}
+
+<label>Category</label>
+<select name="category" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="pastries">Pastries</option>
+<option value="cookies_biscuits">Cookies & Biscuits</option>
+<option value="brownie">Brownie</option>
+<option value="pistachio">Pistachio</option>
+</select>
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="chocolate">Chocolate</option>
+<option value="vanilla">Vanilla</option>
+<option value="fruit">Fruit</option>
+<option value="nutty_caramel">Nutty & Caramel</option>
+</select>
+
+{% elif type == "pudding" %}
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="chocolate">Chocolate</option>
+<option value="vanilla">Vanilla</option>
+<option value="fruit">Fruit</option>
+<option value="pistachio">Pistachio</option>
+<option value="strawberry">Strawberry</option>
+<option value="mango">Mango</option>
+</select>
+
+<label>Style</label>
+<select name="style" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+<option value="warm">Warm</option>
+<option value="chilled">Chilled</option>
+<option value="vegan">Vegan</option>
+</select>
+
+
+{% endif %}
+
+<button class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-500">
+Save Product
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

@@ -28,7 +28,7 @@
 
 <tr class="border-b border-gray-800">
 
-<td>#{{ cake.reference_number }}</td>
+<td>{{ cake.reference_number }}</td>
 
 <td>{{ cake.user.username }}</td>
 
@@ -39,14 +39,65 @@
 <td>{{ cake.delivery_datetime|date:"M d, Y H:i" }}</td>
 
 <td>
-<span class="text-purple-400 font-semibold">
-{{ cake.get_status_display }}
-</span>
+
+{% if cake.status == "delivered" %}
+<span class="text-green-400 font-semibold">Delivered</span>
+
+{% elif cake.status == "cancelled" %}
+<span class="text-red-400 font-semibold">Cancelled</span>
+
+{% else %}
+
+<form method="POST" action="{% url 'update_custom_cake_status' cake.id %}">
+{% csrf_token %}
+
+<select name="status"
+class="bg-[#1d142c] border border-gray-700 rounded px-2 py-1 text-sm">
+
+<option value="pending" {% if cake.status == "pending" %}selected{% endif %}>
+Pending
+</option>
+
+<option value="quoted" {% if cake.status == "quoted" %}selected{% endif %}>
+Quoted
+</option>
+
+<option value="confirmed" {% if cake.status == "confirmed" %}selected{% endif %}>
+Confirmed
+</option>
+
+<option value="baking" {% if cake.status == "baking" %}selected{% endif %}>
+Baking
+</option>
+
+<option value="out_for_delivery" {% if cake.status == "out_for_delivery" %}selected{% endif %}>
+Out for Delivery
+</option>
+
+<option value="delivered">
+Delivered
+</option>
+
+<option value="cancelled">
+Cancelled
+</option>
+
+</select>
+
+<button type="submit"
+class="ml-2 px-2 py-1 text-xs bg-purple-600 rounded">
+Update
+</button>
+
+</form>
+
+{% endif %}
+
 </td>
 
 <td>
 <a href="{% url 'admin_custom_cake_detail' cake.id %}"
-class="text-purple-400 hover:text-purple-300">
+class="bg-purple-600 px-3 py-1 rounded text-sm hover:bg-purple-500">
 View
 </a>
 </td>

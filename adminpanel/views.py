@@ -9,8 +9,19 @@ from products.models import ProductSearch
 from orders.models import Order,CustomCake,OrderItem
 from products.models import Cake, Dessert, Pudding
 from accounts.models import Subscriber
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+def admin_check(user):
+    return user.is_superuser
 
+def admin_required(view_func):
+    @login_required(login_url='login')
+    @user_passes_test(admin_check, login_url='login')
+    def wrapper(request, *args, **kwargs):
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+@admin_required
 def admin_dashboard(request):
     
     customers = User.objects.filter(is_superuser=False).count()
@@ -110,7 +121,7 @@ def admin_dashboard(request):
 
     return render(request, 'adminpanel/dashboard.html', context)
 
-
+@admin_required
 def all_orders(request):
     orders = Order.objects.all().order_by('-created_at')
     return render(request,'adminpanel/orders.html',{
@@ -118,7 +129,7 @@ def all_orders(request):
         'title':'All Orders'
     })
     
-
+@admin_required
 def admin_order_detail(request, order_id):
 
     order = get_object_or_404(Order, id=order_id)
@@ -129,6 +140,7 @@ def admin_order_detail(request, order_id):
         "items": items
     })
     
+@admin_required   
 def update_order_status(request, order_id):
 
     order = get_object_or_404(Order, id=order_id)
@@ -140,6 +152,7 @@ def update_order_status(request, order_id):
 
     return redirect(request.META.get("HTTP_REFERER"))
 
+@admin_required
 def pending_orders(request):
     orders = Order.objects.filter(status='pending').order_by('-created_at')
 
@@ -148,7 +161,7 @@ def pending_orders(request):
         'title':'Pending Orders'
     })
 
-
+@admin_required
 def preparing_orders(request):
     orders = Order.objects.filter(status='preparing').order_by('-created_at')
 
@@ -157,6 +170,7 @@ def preparing_orders(request):
         'title':'Preparing Orders'
     })
     
+@admin_required    
 def out_for_delivery_orders(request):
     orders = Order.objects.filter(status='out_for_delivery').order_by('-created_at')
 
@@ -164,7 +178,8 @@ def out_for_delivery_orders(request):
         'orders':orders,
         'title':'Out for Delivery'
     })
-
+    
+@admin_required
 def delivered_orders(request):
     orders = Order.objects.filter(status='delivered').order_by('-created_at')
 
@@ -173,6 +188,7 @@ def delivered_orders(request):
         'title':'Delivered Orders'
     })
     
+@admin_required    
 def admin_custom_cake_detail(request, cake_id):
 
     cake = get_object_or_404(CustomCake, id=cake_id)
@@ -180,8 +196,9 @@ def admin_custom_cake_detail(request, cake_id):
     return render(request, "adminpanel/custom_cake_detail.html", {
         "cake": cake,
         "title": "Cake Request Details"
-    })    
-        
+    })  
+      
+@admin_required        
 def custom_cakes_pending(request):
     cakes = CustomCake.objects.filter(status='pending').order_by('-created_at')
 
@@ -190,7 +207,7 @@ def custom_cakes_pending(request):
         'title':'New Cake Requests'
     })
 
-
+@admin_required
 def custom_cakes_quoted(request):
     cakes = CustomCake.objects.filter(status='quoted').order_by('-created_at')
 
@@ -199,7 +216,7 @@ def custom_cakes_quoted(request):
         'title':'Quoted Cakes'
     })
 
-
+@admin_required
 def custom_cakes_confirmed(request):
     cakes = CustomCake.objects.filter(status='confirmed').order_by('-created_at')
 
@@ -208,7 +225,7 @@ def custom_cakes_confirmed(request):
         'title':'Confirmed Cakes'
     })
 
-
+@admin_required
 def custom_cakes_baking(request):
     cakes = CustomCake.objects.filter(status='baking').order_by('-created_at')
 
@@ -217,7 +234,7 @@ def custom_cakes_baking(request):
         'title':'Baking Cakes'
     })
 
-
+@admin_required
 def custom_cakes_delivery(request):
     cakes = CustomCake.objects.filter(status='out_for_delivery').order_by('-created_at')
 
@@ -226,30 +243,151 @@ def custom_cakes_delivery(request):
         'title':'Out for Delivery'
     })
 
-
+@admin_required
 def custom_cakes_delivered(request):
     cakes = CustomCake.objects.filter(status='delivered').order_by('-created_at')
 
     return render(request,'adminpanel/custom_cakes.html',{
         'cakes':cakes,
         'title':'Delivered Cakes'
-    })    
+    })   
+  
+@admin_required    
+def update_custom_cake_status(request, cake_id):
 
-def products_list(request):
+    cake = get_object_or_404(CustomCake, id=cake_id)
 
-    cakes = Cake.objects.all()
-    desserts = Dessert.objects.all()
-    puddings = Pudding.objects.all()
+    if request.method == "POST":
+        status = request.POST.get("status")
+        cake.status = status
+        cake.save()
 
-    context = {
-        "cakes": cakes,
-        "desserts": desserts,
-        "puddings": puddings,
-    }
+    return redirect(request.META.get("HTTP_REFERER"))
 
-    return render(request,"adminpanel/products.html",context)
+@admin_required 
+def admin_cakes(request):
 
+    products = Cake.objects.all().order_by('-id')
 
+    return render(request, "adminpanel/products.html", {
+        "products": products,
+        "title": "Cakes",
+        "type": "cake"
+    })
+
+@admin_required 
+def admin_desserts(request):
+
+    products = Dessert.objects.all().order_by('-id')
+
+    return render(request, "adminpanel/products.html", {
+        "products": products,
+        "title": "Desserts",
+        "type": "dessert"
+    })
+
+@admin_required 
+def admin_puddings(request):
+
+    products = Pudding.objects.all().order_by('-id')
+
+    return render(request, "adminpanel/products.html", {
+        "products": products,
+        "title": "Puddings",
+        "type": "pudding"
+    })
+    
+@admin_required    
+def add_product(request, type):
+
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        image = request.FILES.get("image")
+
+        if type == "cake":
+
+            Cake.objects.create(
+                name=name,
+                price=price,
+                image=image,
+                category=request.POST.get("category"),
+                flavor=request.POST.get("flavor"),
+                structure=request.POST.get("structure")
+            )
+
+        elif type == "dessert":
+
+            Dessert.objects.create(
+                name=name,
+                price=price,
+                image=image,
+                category=request.POST.get("category"),
+                flavor=request.POST.get("flavor")
+            )
+
+        elif type == "pudding":
+
+            Pudding.objects.create(
+                name=name,
+                price=price,
+                image=image,
+                flavor=request.POST.get("flavor"),
+                style=request.POST.get("style"),
+            )
+
+        return redirect(f"/adminpanel/products/{type}s/")
+
+    return render(request,"adminpanel/add_product.html",{
+        "type":type
+    }) 
+      
+@admin_required    
+def edit_product(request, type, id):
+
+    if type == "cake":
+        model = Cake
+    elif type == "dessert":
+        model = Dessert
+    else:
+        model = Pudding
+
+    product = get_object_or_404(model,id=id)
+
+    if request.method == "POST":
+
+        product.name = request.POST.get("name")
+        product.price = request.POST.get("price")
+
+        if request.FILES.get("image"):
+            product.image = request.FILES.get("image")
+
+        product.save()
+
+        return redirect(f"/adminpanel/products/{type}s/")
+
+    return render(request,"adminpanel/edit_product.html",{
+        "product":product,
+        "type":type
+    }) 
+      
+@admin_required    
+def delete_product(request,type,id):
+
+    if type == "cake":
+        model = Cake
+    elif type == "dessert":
+        model = Dessert
+    else:
+        model = Pudding
+
+    product = get_object_or_404(model,id=id)
+    product.delete()
+
+    return redirect(f"/adminpanel/products/{type}s/")     
+
+@admin_required
 def customers_list(request):
     customers = User.objects.filter(
         is_superuser=False
@@ -262,6 +400,7 @@ def customers_list(request):
         'title': 'Customers'
     })
     
+@admin_required    
 def subscribers_list(request):
     subscribers = Subscriber.objects.all().order_by('-created_at')
 

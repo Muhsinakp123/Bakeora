@@ -1,34 +1,90 @@
 {% extends "adminpanel/base.html" %}
 
 {% block page_title %}
-Products
+{{ title }}
 {% endblock %}
 
 {% block content %}
 
-<div class="card p-4">
+<div class="flex justify-between mb-6">
 
-<h5>Cakes</h5>
+<h2 class="text-lg font-semibold">{{ title }}</h2>
 
-<table class="table table-dark">
+<a href="{% url 'add_product' type %}"
+class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-500">
++ Add Product
+</a>
 
+</div> 
+
+<div class="card p-6 rounded-lg">   
+
+<table class="w-full text-left">
+
+<thead class="border-b border-gray-700 text-gray-300">
 <tr>
+<th>Image</th>
 <th>Name</th>
 <th>Price</th>
 <th>Category</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-300">
+
+{% for product in products %}
+
+<tr class="border-b border-gray-800">
+
+<td>
+<img src="{{ product.image.url }}" class="w-16 h-16 object-cover rounded">
+</td>
+
+<td>{{ product.name }}</td>
+
+<td>₹ {{ product.price }}</td>
+
+<td>
+{% if type == "cake" %}
+{{ product.category }}
+
+{% elif type == "dessert" %}
+{{ product.get_category_display }}
+
+{% elif type == "pudding" %}
+{{ product.style }}
+
+{% endif %}
+</td>
+
+<td class="flex gap-2 mt-5" >
+
+<a href="{% url 'edit_product' type product.id %}"
+class="bg-yellow-500 px-3 py-1 text-sm rounded hover:bg-yellow-400">
+Edit
+</a>
+
+<a href="{% url 'delete_product' type product.id %}"
+class="bg-red-600 px-3 py-1 text-sm rounded hover:bg-red-500">
+Delete
+</a>
+
+</td>
+
 </tr>
 
-{% for cake in cakes %}
+{% empty %}
 
 <tr>
-
-<td>{{cake.name}}</td>
-<td>₹ {{cake.price}}</td>
-<td>{{cake.category}}</td>
-
+<td colspan="4" class="text-center py-6 text-gray-400">
+No products found
+</td>
 </tr>
 
 {% endfor %}
+
+</tbody>
 
 </table>
 

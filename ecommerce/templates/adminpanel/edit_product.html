@@ -1,0 +1,128 @@
+{% extends "adminpanel/base.html" %}
+
+{% block page_title %}
+Edit {{ type|title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="card p-6 w-1/2">
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<label>Name</label>
+<input type="text" name="name"
+value="{{ product.name }}"
+class="w-full p-2 bg-[#1d142c] border border-gray-700 rounded mb-4">
+
+<label>Price</label>
+<input type="number" name="price"
+value="{{ product.price }}"
+class="w-full p-2 bg-[#1d142c] border border-gray-700 rounded mb-4">
+
+<label>Current Image</label><br>
+<img src="{{ product.image.url }}" class="w-24 mb-3">
+
+<label>Change Image</label>
+<input type="file" name="image" class="w-full mb-4">
+
+
+{% if type == "cake" %}
+
+<label>Category</label>
+<select name="category" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="wedding" {% if product.category == "wedding" %}selected{% endif %}>Wedding</option>
+<option value="birthday" {% if product.category == "birthday" %}selected{% endif %}>Birthday</option>
+<option value="bento" {% if product.category == "bento" %}selected{% endif %}>Bento</option>
+<option value="vegan" {% if product.category == "vegan" %}selected{% endif %}>Vegan</option>
+<option value="kids" {% if product.category == "kids" %}selected{% endif %}>Kids</option>
+
+</select>
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="chocolate" {% if product.flavor == "chocolate" %}selected{% endif %}>Chocolate</option>
+<option value="vanilla" {% if product.flavor == "vanilla" %}selected{% endif %}>Vanilla</option>
+<option value="red-velvet" {% if product.flavor == "red-velvet" %}selected{% endif %}>Red Velvet</option>
+<option value="butterscotch" {% if product.flavor == "butterscotch" %}selected{% endif %}>Butterscotch</option>
+
+</select>
+
+<label>Structure</label>
+<select name="structure" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="single" {% if product.structure == "single" %}selected{% endif %}>Single Tier</option>
+<option value="double" {% if product.structure == "double" %}selected{% endif %}>Double Tier</option>
+<option value="trible" {% if product.structure == "trible" %}selected{% endif %}>Triple Tier</option>
+
+</select>
+
+{% elif type == "dessert" %}
+
+<label>Category</label>
+<select name="category" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="pastries" {% if product.category == "pastries" %}selected{% endif %}>Pastries</option>
+<option value="cookies_biscuits" {% if product.category == "cookies_biscuits" %}selected{% endif %}>Cookies & Biscuits</option>
+<option value="brownie" {% if product.category == "brownie" %}selected{% endif %}>Brownie</option>
+<option value="pistachio" {% if product.category == "pistachio" %}selected{% endif %}>Pistachio</option>
+
+</select>
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="chocolate" {% if product.flavor == "chocolate" %}selected{% endif %}>Chocolate</option>
+<option value="vanilla" {% if product.flavor == "vanilla" %}selected{% endif %}>Vanilla</option>
+<option value="fruit" {% if product.flavor == "fruit" %}selected{% endif %}>Fruit</option>
+<option value="nutty_caramel" {% if product.flavor == "nutty_caramel" %}selected{% endif %}>Nutty & Caramel</option>
+
+</select>
+
+{% elif type == "pudding" %}
+
+<label>Category</label>
+<select name="style" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="warm" {% if product.style == "warm" %}selected{% endif %}>Warm</option>
+
+<option value="chilled" {% if product.style == "chilled" %}selected{% endif %}>Chilled</option>
+
+<option value="vegan" {% if product.style == "vegan" %}selected{% endif %}>Vegan</option>
+
+</select>
+
+
+<label>Flavor</label>
+<select name="flavor" class="w-full p-2 mb-4 bg-[#1d142c] border border-gray-700">
+
+<option value="chocolate" {% if product.flavor == "chocolate" %}selected{% endif %}>Chocolate</option>
+
+<option value="vanilla" {% if product.flavor == "vanilla" %}selected{% endif %}>Vanilla</option>
+
+<option value="fruit" {% if product.flavor == "fruit" %}selected{% endif %}>Fruit</option>
+
+<option value="pistachio" {% if product.flavor == "pistachio" %}selected{% endif %}>Pistachio</option>
+
+<option value="strawberry" {% if product.flavor == "strawberry" %}selected{% endif %}>Strawberry</option>
+
+<option value="mango" {% if product.flavor == "mango" %}selected{% endif %}>Mango</option>
+
+<option value="butter" {% if product.flavor == "butter" %}selected{% endif %}>Butter</option>
+
+</select>
+
+{% endif %}
+
+<button class="bg-purple-600 px-4 py-2 rounded hover:bg-purple-500">
+Update Product
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}
