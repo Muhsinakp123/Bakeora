@@ -53,7 +53,7 @@ def admin_dashboard(request):
 
     sales_data = (
         Order.objects
-        .filter(created_at__gte=last_week, status='delivered')
+        .filter(created_at__gte=last_week)    
         .annotate(date=TruncDate('created_at'))
         .values('date')
         .annotate(total=Sum('total_amount'))
@@ -61,7 +61,7 @@ def admin_dashboard(request):
     )
 
     chart_labels = [entry['date'].strftime('%b %d') for entry in sales_data]
-    chart_values = [entry['total'] for entry in sales_data]
+    chart_values = [float(entry['total'] or 0) for entry in sales_data]
     
     # District-wise orders
     
@@ -100,6 +100,9 @@ def admin_dashboard(request):
         }
         for item in top_products
     ]
+    
+    print("LABELS:", chart_labels)
+    print("VALUES:", chart_values)
     
     context = {
         'total_revenue': total_revenue,
@@ -408,3 +411,4 @@ def subscribers_list(request):
         'subscribers': subscribers,
         'title': 'Subscribers'
     })
+ 

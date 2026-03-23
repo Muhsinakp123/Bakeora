@@ -85,7 +85,7 @@ Admin Panel
 
 <div>
 <canvas id="cancelChart" width="100" height="100"></canvas>
-<p class="text-sm mt-2">Canceled</p>
+<p class="text-sm mt-2">Cancelled</p>
 </div>
 
 </div>
@@ -97,7 +97,7 @@ Admin Panel
 
 <div class="card p-6 rounded-lg">
 
-<h3 class="mb-4">Weekly Revenue</h3>
+<h3 class="mb-4">Weekly Revenue By District</h3>
 
 <canvas id="districtChart"></canvas>
 
@@ -115,8 +115,8 @@ Admin Panel
 {% for product in top_products %}
 
 <li class="flex justify-between">
-<span>{{ product.product_name }}</span>
-<span>{{ product.total_sold }}</span>
+<span>{{ product.name }}</span>
+<span>{{ product.count }}</span>
 </li>
 
 {% empty %}
@@ -201,9 +201,9 @@ plugins:{legend:{display:false}}
 
 }
 
-circleChart("deliveryChart", JSON.parse('{{ delivery_percent }}'))
-circleChart("prepareChart", JSON.parse('{{ prepare_percent }}'))
-circleChart("cancelChart", JSON.parse('{{ cancel_percent }}'))
+circleChart("deliveryChart", parseInt('{{ delivery_percent }}'))
+circleChart("prepareChart", parseInt('{{ prepare_percent }}'))
+circleChart("cancelChart", parseInt('{{ cancel_percent }}'))
 
 
 /* DISTRICT CHART */
@@ -242,21 +242,41 @@ new Chart(document.getElementById('districtChart'), {
 const labels = JSON.parse('{{ chart_labels|safe }}');
 const data = JSON.parse('{{ chart_values|safe }}');
 
-new Chart(document.getElementById('salesChart'), {
+const ctx1 = document.getElementById('salesChart').getContext('2d');
+
+// Gradient
+const gradient1 = ctx1.createLinearGradient(0, 0, 0, 300);
+gradient1.addColorStop(0, '#a855f7');
+gradient1.addColorStop(1, '#ec4899');
+
+new Chart(ctx1, {
     type: 'bar',
     data: {
         labels: labels,
-        datasets: [{
-            label: "Last 7 Days Sales",
-            data: data,
-            backgroundColor: "#a855f7"
-        }]
+        datasets: [
+            {
+                label: "This Week",
+                data: data,
+                backgroundColor: gradient1,
+                borderRadius: 8
+            }
+        ]
     },
-    options:{
-        responsive:true,
-        plugins:{
-            legend:{
-                display:true
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                ticks: { color: '#ccc' },
+                grid: { display: false }
+            },
+            y: {
+                ticks: { color: '#ccc' },
+                grid: { color: '#2e2243' }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: { color: '#fff' }
             }
         }
     }
@@ -264,27 +284,49 @@ new Chart(document.getElementById('salesChart'), {
 
 /* REVENUE LINE */
 
-const chartLabels = JSON.parse('{{ chart_labels|safe }}');
-const chartValues = JSON.parse('{{ chart_values|safe }}');
+const ctx2 = document.getElementById('revenueChart').getContext('2d');
 
-const ctx = document.getElementById('revenueChart');
+// Gradient fill
+const gradient2 = ctx2.createLinearGradient(0, 0, 0, 300);
+gradient2.addColorStop(0, 'rgba(168,85,247,0.8)');
+gradient2.addColorStop(1, 'rgba(168,85,247,0.05)');
 
-new Chart(ctx, {
+new Chart(ctx2, {
     type: 'line',
     data: {
-        labels: chartLabels,
+        labels: JSON.parse('{{ chart_labels|safe }}'),
         datasets: [{
             label: "Revenue",
-            data: chartValues,
-            borderColor: "#c084fc",
-            backgroundColor: "rgba(192,132,252,0.2)",
+            data: JSON.parse('{{ chart_values|safe }}'),
+            borderColor: '#c084fc',
+            backgroundColor: gradient2,
             fill: true,
-            tension: 0.4
+            tension: 0.4,   // 🔥 smooth curve
+            pointRadius: 4,
+            pointBackgroundColor: '#fff'
         }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                ticks: { color: '#ccc' },
+                grid: { display: false }
+            },
+            y: {
+                ticks: { color: '#ccc' },
+                grid: { color: '#2e2243' }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: { color: '#fff' }
+            }
+        }
     }
 });
-
 </script>
+
 
 
 {% endblock %}

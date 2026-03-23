@@ -89,7 +89,8 @@ Orders
 
 </button>
 
-<ul id="ordersMenu" class="submenu">
+<ul id="ordersMenu" class="submenu"
+{% if '/adminpanel/orders/' in request.path %}style="display:block"{% endif %}>
 
 <li>
 <a href="{% url 'all_orders' %}">
@@ -147,7 +148,8 @@ Custom Cakes
 
 </button>
 
-<ul id="cakesMenu" class="submenu">
+<ul id="cakesMenu" class="submenu"
+{% if '/adminpanel/custom-cakes/' in request.path %}style="display:block"{% endif %}>
 
 <li>
 <a href="{% url 'custom_cakes_pending' %}">
@@ -210,11 +212,26 @@ Products
 
 </button>
 
-<ul id="productsMenu" class="submenu">
+<ul id="productsMenu" class="submenu"
+{% if '/adminpanel/products/' in request.path %}style="display:block"{% endif %}>
 
-<li><a href="{% url 'admin_cakes' %}">Cakes</a></li>
-<li><a href="{% url 'admin_desserts' %}">Desserts</a></li>
-<li><a href="{% url 'admin_puddings' %}">Puddings</a></li>
+<li>
+<a href="{% url 'admin_cakes' %}">
+Cakes ({{ cakes_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'admin_desserts' %}">
+Desserts ({{ desserts_count }})
+</a>
+</li>
+
+<li>
+<a href="{% url 'admin_puddings' %}">
+Puddings ({{ puddings_count }})
+</a>
+</li>
 
 </ul>
 
@@ -274,7 +291,7 @@ Logout
 
 <div class="flex gap-6 text-xl">
 <i class="fa-solid fa-bell"></i>
-<i class="fa-solid fa-comment"></i>
+<!-- <i class="fa-solid fa-comment"></i> -->
 <i class="fa-solid fa-circle-user"></i>
 </div>
 
@@ -300,6 +317,11 @@ menu.style.display==="block" ? "none" : "block"
 
 icon.classList.toggle("rotate-180")
 
+}
+
+function toggleProfile(){
+let menu=document.getElementById("profileMenu")
+menu.classList.toggle("hidden")
 }
 
 </script>
