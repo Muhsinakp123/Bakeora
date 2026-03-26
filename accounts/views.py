@@ -165,7 +165,13 @@ def change_password(request):
 
 
 
-client = Groq(api_key=settings.GROQ_API_KEY)
+def get_groq_client():
+    api_key = getattr(settings, "GROQ_API_KEY", None)
+
+    if not api_key:
+        return None
+
+    return Groq(api_key=api_key)
 
 
 @csrf_exempt
@@ -290,7 +296,11 @@ Instructions:
 - If not, just chat normally.
 - Keep reply short and clean.
 """
-
+        client = get_groq_client()
+        if not client:
+            return JsonResponse({
+                "reply": "AI service not configured."
+            })
         chat = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
